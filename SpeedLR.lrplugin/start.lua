@@ -59,6 +59,8 @@ local develop_params = {"Temperature", "Tint", "Exposure", "Contrast", "Highligh
                         "local_Amount", "local_Maincurve", "local_Redcurve", "local_Greencurve", "local_Bluecurve",
                         "local_Grain", "local_RefineSaturation"}
 
+local string_replacements = {"LensProfile", "PostCrop", "Adjustment", "ColorGrade", "SplitToning", "GrayMixer"}
+
 local develop_param_set = {}
 for _, key in ipairs(develop_params) do
     develop_param_set[key] = true
@@ -89,6 +91,28 @@ local function debounce(key, value)
     end
 end
 
+local function formatKeyString(input)
+    -- Remove underscores
+    local modifiedString = string.gsub(input, "_", "")
+
+	for _, element in ipairs(string_replacements) do
+        modifiedString = string.gsub(modifiedString, element, "")
+    end
+
+    -- Capitalize the first letter
+    modifiedString = modifiedString:sub(1, 1):upper() .. modifiedString:sub(2)
+
+    local split = {}
+
+    -- Use gmatch to find all sequences of capital letters
+    for word in string.gmatch(modifiedString, "[A-Z][a-z]*") do
+        table.insert(split, word)
+    end
+
+    -- Merge the result with whitespace
+    return table.concat(split, " ")
+end
+
 --------------------------------------------------------------------------------
 -- Given a key/value pair that has been parsed from a receiver port message, calls
 -- the appropriate API to adjust a setting in Lr.
@@ -99,7 +123,7 @@ local function setValue(key, value)
     end
     if value == "reset" then -- ex: "Exposure = reset"
         LrDevelopController.resetToDefault(key)
-		LrDialogs.showBezel(key .. " reset", delay)
+        LrDialogs.showBezel(formatKeyString(key) .. " reset", delay)
         return true
     end
     if value:sub(-1) == "%" then
@@ -137,7 +161,7 @@ local function setValue(key, value)
                 end
 
                 LrDevelopController.setValue(key, newVal)
-                LrDialogs.showBezel(key .. " " .. newVal .. " (" .. delta .. ")", delay)
+                LrDialogs.showBezel(formatKeyString(key) .. " " .. newVal .. " (" .. delta .. ")", delay)
                 return true
             end
         end
@@ -159,7 +183,7 @@ local function setValue(key, value)
                 end
             end
             LrDevelopController.setValue(key, newVal)
-            LrDialogs.showBezel(key .. " " .. newVal .. " (" .. delta .. ")", delay)
+            LrDialogs.showBezel(formatKeyString(key) .. " " .. newVal .. " (" .. delta .. ")", delay)
             return true
         end
     end
