@@ -72,7 +72,7 @@ local currentSetting = {
 }
 
 local last_debounce_call = 0
-local delay = 1.5
+local delay = 2
 
 local function debounce(key, value)
     local now = os.clock()
