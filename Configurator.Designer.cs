@@ -28,25 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            portButton = new Button();
+            connectButton = new Button();
             SuspendLayout();
             // 
-            // button1
+            // portButton
             // 
-            button1.Location = new Point(21, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(112, 34);
-            button1.TabIndex = 0;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click_1;
+            portButton.Location = new Point(139, 404);
+            portButton.Name = "portButton";
+            portButton.Size = new Size(192, 34);
+            portButton.TabIndex = 0;
+            portButton.Text = "Change Port";
+            portButton.UseVisualStyleBackColor = true;
+            portButton.Click += button1_Click_1;
+            // 
+            // connectButton
+            // 
+            connectButton.BackColor = Color.IndianRed;
+            connectButton.Location = new Point(21, 404);
+            connectButton.Name = "connectButton";
+            connectButton.Size = new Size(112, 34);
+            connectButton.TabIndex = 1;
+            connectButton.Text = "Reconnect";
+            connectButton.UseVisualStyleBackColor = false;
+            connectButton.Click += ConnectButton_Click;
             // 
             // Configurator
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button1);
+            Controls.Add(connectButton);
+            Controls.Add(portButton);
             Name = "Configurator";
             Text = "Form1";
             ResumeLayout(false);
@@ -54,6 +67,7 @@
 
         #endregion
 
-        private Button button1;
+        private Button portButton;
+        private Button connectButton;
     }
 }
