@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Configurator));
             connectButton = new Button();
             portButton = new Button();
             SuspendLayout();
@@ -60,6 +61,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(portButton);
             Controls.Add(connectButton);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Configurator";
             Text = "SpeedLR";
             ResumeLayout(false);
