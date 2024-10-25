@@ -6,12 +6,11 @@ namespace SpeedLR
     public class Connector
     {
         private static string IP_ADDRESS = "localhost";
-        private static int PORT = 49000;
         private static Connector instance;
         private TcpClient client;
         private NetworkStream stream;
 
-        private Connector() { }
+        private Connector() {}
 
         public static Connector Instance
         {
@@ -45,14 +44,14 @@ namespace SpeedLR
             }
         }
 
-        public async Task Connect()
+        public async Task Connect(int port)
         {
             try
             {
                 CloseConnection();
                 await Task.Delay(2500);
 
-                client = new TcpClient(IP_ADDRESS, PORT);
+                client = new TcpClient(IP_ADDRESS, port);
                 stream = client.GetStream();
             }
             catch (Exception ex)

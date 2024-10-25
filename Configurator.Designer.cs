@@ -28,19 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            portButton = new Button();
             connectButton = new Button();
+            portButton = new Button();
             SuspendLayout();
-            // 
-            // portButton
-            // 
-            portButton.Location = new Point(139, 404);
-            portButton.Name = "portButton";
-            portButton.Size = new Size(192, 34);
-            portButton.TabIndex = 0;
-            portButton.Text = "Change Port";
-            portButton.UseVisualStyleBackColor = true;
-            portButton.Click += button1_Click_1;
             // 
             // connectButton
             // 
@@ -51,23 +41,32 @@
             connectButton.TabIndex = 1;
             connectButton.Text = "Reconnect";
             connectButton.UseVisualStyleBackColor = false;
-            connectButton.Click += ConnectButton_Click;
+            connectButton.Click += connectButton_Click;
+            // 
+            // portButton
+            // 
+            portButton.Location = new Point(139, 404);
+            portButton.Name = "portButton";
+            portButton.Size = new Size(112, 34);
+            portButton.TabIndex = 2;
+            portButton.Text = "Port";
+            portButton.UseVisualStyleBackColor = true;
+            portButton.Click += portButton_Click;
             // 
             // Configurator
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(connectButton);
             Controls.Add(portButton);
+            Controls.Add(connectButton);
             Name = "Configurator";
-            Text = "Form1";
+            Text = "SpeedLR";
             ResumeLayout(false);
         }
 
         #endregion
-
-        private Button portButton;
         private Button connectButton;
+        private Button portButton;
     }
 }
