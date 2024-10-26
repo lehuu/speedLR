@@ -61,6 +61,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(portButton);
             Controls.Add(connectButton);
+            FormClosing += Configurator_FormClosing;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Configurator";
             Text = "SpeedLR";
