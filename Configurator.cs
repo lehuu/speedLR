@@ -20,16 +20,21 @@ namespace SpeedLR
             // init context menu
             notifyIcon = new NotifyIcon();
             notifyIcon.Icon = new Icon("wheel.ico"); // Replace with your icon file
-            notifyIcon.Text = this.Text;
+            notifyIcon.Text = Text;
             notifyIcon.Visible = true;
 
             // Create a context menu for the NotifyIcon
             ContextMenuStrip contextMenu = new ContextMenuStrip();
             ToolStripMenuItem exitMenuItem = new ToolStripMenuItem("Exit");
             exitMenuItem.Click += exitMenuItem_Click;
+            ToolStripMenuItem openMenuItem = new ToolStripMenuItem("Open");
+            openMenuItem.Click += openMenuItem_Click;
+
             contextMenu.Items.Add(exitMenuItem);
+            contextMenu.Items.Add(openMenuItem);
 
             notifyIcon.ContextMenuStrip = contextMenu;
+            notifyIcon.MouseDoubleClick += openMenuItem_Click; 
         }
 
         private void CheckConnection(object sender, EventArgs e)
@@ -86,6 +91,11 @@ namespace SpeedLR
             // Close the application
             notifyIcon.Dispose(); // Release the notify icon resource
             Application.Exit();
+        }
+
+        private void openMenuItem_Click(object sender, EventArgs e)
+        {
+            Show();
         }
 
         private void Configurator_FormClosing(object sender, FormClosingEventArgs e)
