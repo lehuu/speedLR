@@ -36,9 +36,10 @@
             // connectButton
             // 
             connectButton.BackColor = Color.IndianRed;
-            connectButton.Location = new Point(21, 404);
+            connectButton.Location = new Point(17, 323);
+            connectButton.Margin = new Padding(2, 2, 2, 2);
             connectButton.Name = "connectButton";
-            connectButton.Size = new Size(112, 34);
+            connectButton.Size = new Size(90, 27);
             connectButton.TabIndex = 1;
             connectButton.Text = "Reconnect";
             connectButton.UseVisualStyleBackColor = false;
@@ -46,9 +47,10 @@
             // 
             // portButton
             // 
-            portButton.Location = new Point(139, 404);
+            portButton.Location = new Point(111, 323);
+            portButton.Margin = new Padding(2, 2, 2, 2);
             portButton.Name = "portButton";
-            portButton.Size = new Size(112, 34);
+            portButton.Size = new Size(90, 27);
             portButton.TabIndex = 2;
             portButton.Text = "Port";
             portButton.UseVisualStyleBackColor = true;
@@ -56,12 +58,14 @@
             // 
             // Configurator
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(640, 360);
             Controls.Add(portButton);
             Controls.Add(connectButton);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(2, 2, 2, 2);
             MaximizeBox = false;
             Name = "Configurator";
             Text = "SpeedLR";
