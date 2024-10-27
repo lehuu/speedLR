@@ -49,7 +49,7 @@ namespace SpeedLR
             try
             {
                 CloseConnection();
-                await Task.Delay(2500);
+                await Task.Delay(1000);
 
                 client = new TcpClient(IP_ADDRESS, port);
                 stream = client.GetStream();

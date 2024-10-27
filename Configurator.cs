@@ -1,3 +1,4 @@
+
 namespace SpeedLR
 {
     public partial class Configurator : Form
@@ -5,6 +6,9 @@ namespace SpeedLR
         private System.Windows.Forms.Timer connectionCheckTimer;
         private static int DEFAULT_PORT = 49000;
         private NotifyIcon notifyIcon;
+
+        private Controller controller;
+        private GlobalHotkey activatorHotkey;
 
         public Configurator()
         {
@@ -34,7 +38,12 @@ namespace SpeedLR
             contextMenu.Items.Add(openMenuItem);
 
             notifyIcon.ContextMenuStrip = contextMenu;
-            notifyIcon.MouseDoubleClick += openMenuItem_Click; 
+            notifyIcon.MouseDoubleClick += openMenuItem_Click;
+
+            controller = new Controller();
+            activatorHotkey = new GlobalHotkey(Handle, 1, GlobalHotkey.MOD_CONTROL);
+            activatorHotkey.Register();
+            activatorHotkey.HotKeyDoublePressed += Ctrl_DoublePressed;
         }
 
         private void CheckConnection(object sender, EventArgs e)
@@ -98,6 +107,27 @@ namespace SpeedLR
             Show();
         }
 
+        private void Ctrl_DoublePressed(object sender, EventArgs e)
+        {
+            if (controller.Visible)
+            {
+                controller.Hide();
+            }
+            else
+            {
+                controller.Show();
+            }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (activatorHotkey != null)
+            {
+                activatorHotkey.ProcessWindowMessage(ref m); // Pass the message to the GlobalHotkey class
+            }
+            base.WndProc(ref m);
+        }
+
         private void Configurator_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -110,6 +140,7 @@ namespace SpeedLR
             {
                 // Allow closing when the application is actually exiting
                 Connector.Instance.CloseConnection();
+                activatorHotkey.Unregister();
             }
         }
     }
