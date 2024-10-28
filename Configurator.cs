@@ -1,4 +1,6 @@
 
+using System.Runtime.InteropServices;
+
 namespace SpeedLR
 {
     public partial class Configurator : Form
@@ -109,12 +111,34 @@ namespace SpeedLR
 
         private void Ctrl_DoublePressed(object sender, EventArgs e)
         {
+
+
             if (controller.Visible)
             {
                 controller.Hide();
             }
             else
             {
+                // Get the current mouse position in screen coordinates
+                Point mousePosition = Cursor.Position;
+
+                // Find the screen that contains the mouse cursor
+                Screen screen = Screen.FromPoint(mousePosition);
+
+                // Get the size of the form (accounting for scaling if necessary)
+                int formWidth = controller.Width ;
+                int formHeight = controller.Height;
+
+                // Calculate the top-left corner to center the form on the mouse
+                int x = mousePosition.X - formWidth / 2;
+                int y = mousePosition.Y - formHeight / 2;
+
+                // Clamp the form position within the screen bounds to ensure visibility
+                x = Math.Max(screen.WorkingArea.Left, Math.Min(x, screen.WorkingArea.Right - formWidth));
+                y = Math.Max(screen.WorkingArea.Top, Math.Min(y, screen.WorkingArea.Bottom - formHeight));
+
+                controller.Location = new Point(x, y);
+
                 controller.Show();
             }
         }
