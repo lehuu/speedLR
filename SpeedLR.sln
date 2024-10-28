@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeedLR", "SpeedLR.csproj", "{15AEE01D-09E1-4B4D-B3AA-1BF3CA60E6EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeedLR", "SpeedLR.csproj", "{274BBFC8-C236-49F0-A9A8-2062DBD5514D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{15AEE01D-09E1-4B4D-B3AA-1BF3CA60E6EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15AEE01D-09E1-4B4D-B3AA-1BF3CA60E6EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15AEE01D-09E1-4B4D-B3AA-1BF3CA60E6EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15AEE01D-09E1-4B4D-B3AA-1BF3CA60E6EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{274BBFC8-C236-49F0-A9A8-2062DBD5514D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{274BBFC8-C236-49F0-A9A8-2062DBD5514D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{274BBFC8-C236-49F0-A9A8-2062DBD5514D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{274BBFC8-C236-49F0-A9A8-2062DBD5514D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9EF46992-C31A-479D-B8F7-5978F7F7F61F}
+		SolutionGuid = {AD0BDA87-3874-4222-A53D-AC54368EF521}
 	EndGlobalSection
 EndGlobal

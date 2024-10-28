@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace SpeedLR
 {
@@ -17,6 +18,7 @@ namespace SpeedLR
         private int key;
         private int modifier;
         private IntPtr hWnd;
+        private HwndSource _source;
 
         private DateTime lastClickTime = DateTime.MinValue;
         private const int DOUBLE_CLICK_INTERVAL = 500;
@@ -30,6 +32,7 @@ namespace SpeedLR
             this.id = id;
             this.modifier = modifier;
             this.key = key;
+            _source = HwndSource.FromHwnd(hWnd);
         }
 
         public GlobalHotkey(IntPtr hWnd, int id, int modifier)
@@ -38,21 +41,24 @@ namespace SpeedLR
             this.id = id;
             this.modifier = modifier;
             this.key = 0;
+            _source = HwndSource.FromHwnd(hWnd);
         }
 
-        public void Register()
+        public void Register(HwndSourceHook hook)
         {
+            _source.AddHook(hook);
             RegisterHotKey(hWnd, id, modifier, key);
         }
 
-        public void Unregister()
+        public void Unregister(HwndSourceHook hook)
         {
+            _source.RemoveHook(hook);
             UnregisterHotKey(hWnd, id);
         }
 
-        public void ProcessWindowMessage(ref Message m)
+        public void ProcessWindowMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (m.Msg == WM_HOTKEY && m.WParam.ToInt32() == id)
+            if (msg == WM_HOTKEY && wParam.ToInt32() == id)
             {
                 OnHotKeyPressed();
 

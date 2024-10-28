@@ -1,16 +1,17 @@
-﻿using System.Net.Sockets;
+﻿using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 
 namespace SpeedLR
 {
     public class Connector
     {
-        private static string IP_ADDRESS = "localhost";
         private static Connector instance;
-        private TcpClient client;
-        private NetworkStream stream;
+        private Socket clientSocket;
 
-        private Connector() {}
+        private Connector()
+        { }
 
         public static Connector Instance
         {
@@ -23,24 +24,22 @@ namespace SpeedLR
                 return instance;
             }
         }
-        public bool IsConnected
-        {
-            get
-            {
-                if (stream == null || client == null || !client.Connected)
-                {
-                    return false;
-                }
 
-                try
-                {
-                    SendCommand("Test");
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
+        public async Task<bool> IsConnected()
+        {
+            if (clientSocket == null || !clientSocket.Connected)
+            {
+                return false;
+            }
+
+            try
+            {
+                await SendCommandAsync("Test");
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -51,43 +50,51 @@ namespace SpeedLR
                 CloseConnection();
                 await Task.Delay(1000);
 
-                client = new TcpClient(IP_ADDRESS, port);
-                stream = client.GetStream();
+                IPHostEntry host = Dns.GetHostEntry("localhost");
+                IPAddress ipAddress = host.AddressList[0];
+                var endpoint = new IPEndPoint(ipAddress, port);
+
+                clientSocket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                endpoint.Port = port;
+
+                await clientSocket.ConnectAsync(endpoint);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error connecting to server: " + ex.Message);
+                throw new Exception($"Error connecting to server: {ex.Message}");
             }
         }
 
-        public void SendCommand(string command)
+        public async Task SendCommandAsync(string command)
         {
+            if (clientSocket == null || !clientSocket.Connected)
+            {
+                throw new Exception("Not connected to the server.");
+            }
+
             try
             {
-                if (client != null && client.Connected)
-                {
-                    command += "\n";
-
-                    byte[] data = Encoding.ASCII.GetBytes(command);
-                    stream.Write(data, 0, data.Length);
-                }
-                else
-                {
-                    throw new Exception("Not connected to server.");
-                }
+                command += "\n";
+                byte[] data = Encoding.ASCII.GetBytes(command);
+                await clientSocket.SendAsync(data, SocketFlags.None);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error sending command: " + ex.Message);
+                throw new Exception($"Error sending command: {ex.Message}");
             }
         }
 
         public void CloseConnection()
         {
-            if (stream != null)
-                stream.Close();
-            if (client != null)
-                client.Close();
+            if (clientSocket != null)
+            {
+                if (clientSocket.Connected)
+                {
+                    clientSocket.Shutdown(SocketShutdown.Both);
+                }
+                clientSocket.Close();
+                clientSocket = null;
+            }
         }
     }
 }
