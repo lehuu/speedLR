@@ -17,6 +17,12 @@ namespace SpeedLR
         public MainWindow()
         {
             InitializeComponent();
+            IsVisibleChanged += MainWindow_IsVisibleChanged;
+        }
+
+        private void MainWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            CheckConnection(sender, null);
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -44,8 +50,6 @@ namespace SpeedLR
             notifyIcon.MouseDoubleClick += OpenMenuItem_Click;
 
             controller = new ControllerWindow();
-            //controller.Show();
-            //controller.Hide();
 
             var helper = new WindowInteropHelper(this);
 
@@ -54,7 +58,7 @@ namespace SpeedLR
             activatorHotkey.HotKeyDoublePressed += Ctrl_DoublePressed;
         }
 
-        private async void CheckConnection(object sender, EventArgs e)
+        private async void CheckConnection(object sender, EventArgs? e)
         {
             var isConnected = await Connector.Instance.IsConnected();
             if (isConnected)
