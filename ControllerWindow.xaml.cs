@@ -12,7 +12,7 @@ namespace SpeedLR
         private string currentCommand = "";
         private int currentButtonIndex = -1;
         private int currentMenuIndex = 0;
-
+        
         public ControllerWindow()
         {
             InitializeComponent();

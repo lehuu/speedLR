@@ -43,25 +43,43 @@ namespace SpeedLR
             }
         }
 
-        public async Task Connect(int port)
+        public async Task Connect(string address, int port)
         {
             try
             {
                 CloseConnection();
                 await Task.Delay(1000);
 
-                IPHostEntry host = Dns.GetHostEntry("localhost");
+                IPHostEntry host = Dns.GetHostEntry(address);
                 IPAddress ipAddress = host.AddressList[0];
                 var endpoint = new IPEndPoint(ipAddress, port);
 
                 clientSocket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                endpoint.Port = port;
 
                 await clientSocket.ConnectAsync(endpoint);
             }
             catch (Exception ex)
             {
                 throw new Exception($"Error connecting to server: {ex.Message}");
+            }
+        }
+
+        public async Task Connect(int port)
+        {
+            try
+            {
+                await Connect("127.0.0.1", port);
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    await Connect("localhost", port);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error connecting to server: {ex.Message}");
+                }
             }
         }
 
