@@ -43,6 +43,7 @@ namespace SpeedLR
                 CreateHotkey(4, 0, GlobalHotkey.LEFT, Prev_Pressed),
                 CreateHotkey(5, 0, GlobalHotkey.UP, Inc_Pressed),
                 CreateHotkey(6, 0, GlobalHotkey.DOWN, Dec_Pressed),
+                CreateHotkey(7, 0, GlobalHotkey.SPACE, Reset_Pressed),
             };
 
         }
@@ -91,12 +92,27 @@ namespace SpeedLR
             ToggleButton(currentMenuIndex, (currentButtonIndex - 1 + menus[currentMenuIndex].Length) % menus[currentMenuIndex].Length);
         }
 
+        private void Reset_Pressed(object sender, EventArgs e)
+        {
+            if (!IsVisible)
+            {
+                return;
+            }
+            Connector.Instance.SendCommandAsync(currentCommand + "=reset");
+
+        }
+
         private void Inc_Pressed(object sender, EventArgs e)
         {
             if (!IsVisible)
             {
                 return;
             }
+            if (String.IsNullOrEmpty(currentCommand))
+            {
+                return;
+            }
+            Connector.Instance.SendCommandAsync(currentCommand + "=+1%");
         }
 
         private void Dec_Pressed(object sender, EventArgs e)
@@ -105,6 +121,11 @@ namespace SpeedLR
             {
                 return;
             }
+            if (String.IsNullOrEmpty(currentCommand))
+            {
+                return;
+            }
+            Connector.Instance.SendCommandAsync(currentCommand + "=-1%");
         }
 
         private void ControllerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -121,6 +142,7 @@ namespace SpeedLR
             item.IsActive = true;
             currentMenuIndex = menu;
             currentButtonIndex = key;
+            currentCommand = String.IsNullOrEmpty(item.LRCommand) ? "" : item.LRCommand;
         }
 
         private void ToggleButton(ControlButton? button)
@@ -137,6 +159,9 @@ namespace SpeedLR
                         currentButtonIndex = item.IsActive ? j : -1;
                         currentMenuIndex = item.IsActive ? i : 0;
                         continue;
+                    } else
+                    {
+                        currentCommand = "";
                     }
 
                     item.IsActive = false;
@@ -164,8 +189,6 @@ namespace SpeedLR
                 }
 
                 ToggleButton(clickedButton);
-
-                //Connector.Instance.SendCommandAsync(clickedButton.LRCommand + "=1%");
             }
         }
 
