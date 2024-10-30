@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Interop;
-using Timer = System.Windows.Forms.Timer;
 using Brushes = System.Windows.Media.Brushes;
 using Application = System.Windows.Application;
 using Point = System.Drawing.Point;
@@ -9,7 +8,6 @@ namespace SpeedLR
 {
     public partial class MainWindow : Window
     {
-        private Timer connectionCheckTimer;
         private static int DEFAULT_PORT = 49000;
         private NotifyIcon notifyIcon;
 
@@ -25,12 +23,6 @@ namespace SpeedLR
         {
             base.OnSourceInitialized(e);
             ConnectToServer();
-
-            // Check connection periodically
-            connectionCheckTimer = new Timer();
-            connectionCheckTimer.Interval = 5000; // 5 seconds
-            connectionCheckTimer.Tick += CheckConnection;
-            connectionCheckTimer.Start();
 
             // init context menu
             notifyIcon = new NotifyIcon();
@@ -52,8 +44,8 @@ namespace SpeedLR
             notifyIcon.MouseDoubleClick += OpenMenuItem_Click;
 
             controller = new ControllerWindow();
-            controller.Show();
-            controller.Hide();
+            //controller.Show();
+            //controller.Hide();
 
             var helper = new WindowInteropHelper(this);
 

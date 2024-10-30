@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SpeedLR"
         Closing="MainWindow_Closing"
         mc:Ignorable="d"
+        Activated="CheckConnection"
         Title="SpeedLr" Height="450" Width="800" ResizeMode="NoResize" Icon="/wheel.ico">
     <Grid Margin="0,0,0,2">
         <Button x:Name="connectButton" Content="Reconnect..." HorizontalAlignment="Left" Height="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="125" Click="ConnectButton_Click"/>

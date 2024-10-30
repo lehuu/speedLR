@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Interop;
-using Button = System.Windows.Controls.Button;
 
 namespace SpeedLR
 {
@@ -17,50 +16,58 @@ namespace SpeedLR
         public ControllerWindow()
         {
             InitializeComponent();
+            IsVisibleChanged += ControllerWindow_IsVisibleChanged;
         }
 
-        protected override void OnSourceInitialized(EventArgs e)
+        private void ControllerWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var firstMenu = new ControlButton[3];
-            firstMenu[0] = this.exposure;
-            firstMenu[1] = this.shadows;
-            firstMenu[2] = this.highlights;
-
-            var secondMenu = new ControlButton[3];
-            secondMenu[0] = this.blacks;
-            secondMenu[1] = this.whites;
-            secondMenu[2] = this.texture;
-
-            menus = new ControlButton[2][];
-            menus[0] = firstMenu;
-            menus[1] = secondMenu;
-
-
-            hotkeys = new GlobalHotkey[]
+            if (!(hotkeys?.Length > 0))
             {
+                var firstMenu = new ControlButton[3];
+                firstMenu[0] = this.exposure;
+                firstMenu[1] = this.shadows;
+                firstMenu[2] = this.highlights;
+
+                var secondMenu = new ControlButton[3];
+                secondMenu[0] = this.blacks;
+                secondMenu[1] = this.whites;
+                secondMenu[2] = this.texture;
+
+                menus = new ControlButton[2][];
+                menus[0] = firstMenu;
+                menus[1] = secondMenu;
+
+
+                hotkeys = new GlobalHotkey[]
+                {
                 CreateHotkey(2, 0, GlobalHotkey.ESCAPE, Escape_Pressed),
                 CreateHotkey(3, 0, GlobalHotkey.RIGHT, Next_Pressed),
                 CreateHotkey(4, 0, GlobalHotkey.LEFT, Prev_Pressed),
                 CreateHotkey(5, 0, GlobalHotkey.UP, Inc_Pressed),
                 CreateHotkey(6, 0, GlobalHotkey.DOWN, Dec_Pressed),
                 CreateHotkey(7, 0, GlobalHotkey.SPACE, Reset_Pressed),
-            };
+                };
+            }
 
+            foreach (var key in hotkeys)
+            {
+                if (IsVisible)
+                {
+                    key.Register(HwndHook);
+                }
+                else
+                {
+                    key.Unregister(HwndHook);
+                }
+            }
         }
 
         private GlobalHotkey CreateHotkey(int id, int modifier, int key, EventHandler clickEvent)
         {
             var helper = new WindowInteropHelper(this);
             var result = new GlobalHotkey(helper.Handle, id, modifier, key);
-            result.Register(HwndHook);
             result.HotKeyPressed += clickEvent;
-
             return result;
-        }
-
-        private void NavigateControls()
-        {
-
         }
 
         private void Escape_Pressed(object sender, EventArgs e)
@@ -99,7 +106,6 @@ namespace SpeedLR
                 return;
             }
             Connector.Instance.SendCommandAsync(currentCommand + "=reset");
-
         }
 
         private void Inc_Pressed(object sender, EventArgs e)
@@ -159,7 +165,8 @@ namespace SpeedLR
                         currentButtonIndex = item.IsActive ? j : -1;
                         currentMenuIndex = item.IsActive ? i : 0;
                         continue;
-                    } else
+                    }
+                    else
                     {
                         currentCommand = "";
                     }
