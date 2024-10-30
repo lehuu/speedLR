@@ -12,7 +12,7 @@ namespace SpeedLR
         private string currentCommand = "";
         private int currentButtonIndex = -1;
         private int currentMenuIndex = 0;
-        
+
         public ControllerWindow()
         {
             InitializeComponent();
@@ -77,7 +77,7 @@ namespace SpeedLR
                 return;
             }
 
-            ToggleButton(null);
+            ClearActiveButtons();
         }
 
         private void Next_Pressed(object sender, EventArgs e)
@@ -140,9 +140,22 @@ namespace SpeedLR
             Hide();
         }
 
+        private void ClearActiveButtons()
+        {
+            for (int i = 0; i < menus.Length; i++)
+            {
+                for (int j = 0; j < menus[i].Length; j++)
+                {
+                    var item = menus[i][j];
+                    item.IsActive = false;
+                }
+            }
+            currentCommand = "";
+        }
+
         private void ToggleButton(int menu, int key)
         {
-            ToggleButton(null);
+            ClearActiveButtons();
             var item = menus[menu][key];
 
             item.IsActive = true;
@@ -151,7 +164,7 @@ namespace SpeedLR
             currentCommand = String.IsNullOrEmpty(item.LRCommand) ? "" : item.LRCommand;
         }
 
-        private void ToggleButton(ControlButton? button)
+        private void ToggleButton(ControlButton button)
         {
             for (int i = 0; i < menus.Length; i++)
             {
@@ -162,19 +175,14 @@ namespace SpeedLR
                     {
                         item.IsActive = !item.IsActive;
                         currentCommand = item.IsActive ? item.LRCommand : "";
-                        currentButtonIndex = item.IsActive ? j : -1;
-                        currentMenuIndex = item.IsActive ? i : 0;
+                        currentButtonIndex = j;
+                        currentMenuIndex = i;
                         continue;
-                    }
-                    else
-                    {
-                        currentCommand = "";
                     }
 
                     item.IsActive = false;
                 }
             }
-
         }
 
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
