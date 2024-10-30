@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -9,7 +8,8 @@ namespace SpeedLR
     {
         private static Connector instance;
         private Socket clientSocket;
-
+        private DateTime lastSendTime = DateTime.MinValue;
+        private double maxRequestsPerSecond = 16;
         private Connector()
         { }
 
@@ -85,6 +85,14 @@ namespace SpeedLR
 
         public async Task SendCommandAsync(string command)
         {
+            var currentTime = DateTime.Now;
+            var elapsed = currentTime - lastSendTime;
+            if (elapsed < TimeSpan.FromMilliseconds(1000 / maxRequestsPerSecond)) // 1000 ms / 16 = 62.5 ms
+            {
+                return;
+            }
+            lastSendTime = DateTime.Now;
+
             if (clientSocket == null || !clientSocket.Connected)
             {
                 throw new Exception("Not connected to the server.");
