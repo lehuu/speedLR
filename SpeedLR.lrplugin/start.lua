@@ -95,7 +95,7 @@ local function formatKeyString(input)
     -- Remove underscores
     local modifiedString = string.gsub(input, "_", "")
 
-	for _, element in ipairs(string_replacements) do
+    for _, element in ipairs(string_replacements) do
         modifiedString = string.gsub(modifiedString, element, "")
     end
 
@@ -111,6 +111,16 @@ local function formatKeyString(input)
 
     -- Merge the result with whitespace
     return table.concat(split, " ")
+end
+
+function clamp(num, min, max)
+    if num < min then
+        return min
+    elseif num > max then
+        return max
+    else
+        return num
+    end
 end
 
 --------------------------------------------------------------------------------
@@ -148,20 +158,49 @@ local function setValue(key, value)
                 end
 
                 local increment = (numericValue * adjusted_max) / 100
-                local newVal = currentValue + increment;
+                if increment >= 0 then
+                    increment = math.floor(increment * 100 + 0.5) / 100
+                else
+                    increment = math.ceil(increment * 100 - 0.5) / 100
+                end
+
+                local newVal = clamp(currentValue + increment, min, max);
 
                 local prievousValue = currentSetting.value
-                local delta = "0"
+                local deltaString = "0"
+                local newValString = tostring(newVal)
 
                 if prievousValue then
-                    delta = newVal - prievousValue
+                    local delta = newVal - prievousValue
+
+                    if math.abs(delta) < 0.01 then
+                        delta = 0
+                    end
+
+                    if math.abs(newVal) < 0.01 then
+                        newVal = 0
+                        newValString = "0"
+                    end
+
+                    local decimal_part = string.format("%.2f", delta):match("%.(%d%d)")
+                    local firstDecimal = tonumber(decimal_part:sub(1, 1))
+                    local secondDecimal = tonumber(decimal_part:sub(2, 2))
+
+                    deltaString = tostring(delta)
+
+                    if firstDecimal > 0 or secondDecimal > 0 then
+                        deltaString = string.format("%.2f", delta)
+                        newValString = string.format("%.2f", newVal)
+                    end
+
                     if delta > 0 then
-                        delta = "+" .. delta
+                        deltaString = "+" .. deltaString
                     end
                 end
 
                 LrDevelopController.setValue(key, newVal)
-                LrDialogs.showBezel(formatKeyString(key) .. " " .. newVal .. " (" .. delta .. ")", delay)
+
+                LrDialogs.showBezel(formatKeyString(key) .. " " .. newValString .. " (" .. deltaString .. ")", delay)
                 return true
             end
         end
