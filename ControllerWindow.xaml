@@ -6,12 +6,16 @@
         xmlns:local="clr-namespace:SpeedLR"
         Closing="ControllerWindow_Closing"
         mc:Ignorable="d"
-        Topmost="True" ShowInTaskbar="False" WindowStyle="ToolWindow"
-        Title="Controller" Height="398" Width="400" ResizeMode="NoResize" Icon="/wheel.ico">
+        Topmost="True" ShowInTaskbar="False" WindowStyle="ToolWindow" Height="398" Width="400" ResizeMode="NoResize" Icon="/wheel.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-
+        <local:ControlButton x:Name="exposure" LRCommand="Exposure" Content="Exposure" HorizontalAlignment="Left" Margin="107,100,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton x:Name="shadows" LRCommand="Shadows" Content="Shadows" HorizontalAlignment="Left" Margin="107,134,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton x:Name="highlights" LRCommand="HighLights" Content="HighLights" HorizontalAlignment="Left" Margin="102,179,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton x:Name="blacks" LRCommand="Blacks" Content="Blacks" HorizontalAlignment="Left" Margin="209,105,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton x:Name="whites" LRCommand="Whites" Content="Whites" HorizontalAlignment="Left" Margin="209,144,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton x:Name="texture" LRCommand="Texture" Content="Texture" HorizontalAlignment="Left" Margin="209,191,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
     </Grid>
 </Window>
