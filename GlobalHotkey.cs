@@ -12,6 +12,8 @@ namespace SpeedLR
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         public static int MOD_CONTROL = 0x0002;
+        public const int MOD_SHIFT = 0x0004;
+        public const int MOD_ALT = 0x0001;
         public static int ESCAPE = 27;
         public static int LEFT = 37;
         public static int RIGHT = 39;

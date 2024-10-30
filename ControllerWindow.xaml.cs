@@ -23,15 +23,18 @@ namespace SpeedLR
         {
             if (!(hotkeys?.Length > 0))
             {
-                var firstMenu = new ControlButton[3];
-                firstMenu[0] = this.exposure;
-                firstMenu[1] = this.shadows;
-                firstMenu[2] = this.highlights;
+                var firstMenu = new ControlButton[]
+                {
+                    exposure,
+                    shadows,
+                    highlights
+                };
 
-                var secondMenu = new ControlButton[3];
-                secondMenu[0] = this.blacks;
-                secondMenu[1] = this.whites;
-                secondMenu[2] = this.texture;
+                var secondMenu = new ControlButton[]
+                {
+                    blacks,
+                    whites,
+                };
 
                 menus = new ControlButton[2][];
                 menus[0] = firstMenu;
@@ -46,6 +49,8 @@ namespace SpeedLR
                 CreateHotkey(5, 0, GlobalHotkey.UP, Inc_Pressed),
                 CreateHotkey(6, 0, GlobalHotkey.DOWN, Dec_Pressed),
                 CreateHotkey(7, 0, GlobalHotkey.SPACE, Reset_Pressed),
+                CreateHotkey(8, GlobalHotkey.MOD_ALT, GlobalHotkey.RIGHT, Next_Submenu),
+                CreateHotkey(9, GlobalHotkey.MOD_ALT, GlobalHotkey.LEFT, Prev_Submenu),
                 };
             }
 
@@ -88,6 +93,26 @@ namespace SpeedLR
             }
 
             ToggleButton(currentMenuIndex, (currentButtonIndex + 1) % menus[currentMenuIndex].Length);
+        }
+
+        private void Next_Submenu(object sender, EventArgs e)
+        {
+            if (!IsVisible)
+            {
+                return;
+            }
+            var nextSubmenu = (currentMenuIndex + 1) % menus.Length;
+            ToggleButton(nextSubmenu, Math.Clamp(currentButtonIndex, 0, menus[nextSubmenu].Length - 1));
+        }
+
+        private void Prev_Submenu(object sender, EventArgs e)
+        {
+            if (!IsVisible)
+            {
+                return;
+            }
+            var nextSubmenu = (currentMenuIndex - 1 + menus.Length) % menus.Length;
+            ToggleButton(nextSubmenu, Math.Clamp(currentButtonIndex, 0, menus[nextSubmenu].Length - 1));
         }
 
         private void Prev_Pressed(object sender, EventArgs e)
