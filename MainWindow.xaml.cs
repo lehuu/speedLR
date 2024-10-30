@@ -52,6 +52,8 @@ namespace SpeedLR
             notifyIcon.MouseDoubleClick += OpenMenuItem_Click;
 
             controller = new ControllerWindow();
+            controller.Show();
+            controller.Hide();
 
             var helper = new WindowInteropHelper(this);
 
@@ -99,8 +101,6 @@ namespace SpeedLR
 
         private void Ctrl_DoublePressed(object sender, EventArgs e)
         {
-
-
             if (controller.IsVisible)
             {
                 controller.Hide();

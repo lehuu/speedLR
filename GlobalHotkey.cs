@@ -12,6 +12,11 @@ namespace SpeedLR
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         public static int MOD_CONTROL = 0x0002;
+        public static int ESCAPE = 27;
+        public static int LEFT = 37;
+        public static int RIGHT = 39;
+        public static int UP = 38;
+        public static int DOWN = 40;
         private const int WM_HOTKEY = 0x0312;
 
         private int id;
@@ -60,7 +65,7 @@ namespace SpeedLR
         {
             if (msg == WM_HOTKEY && wParam.ToInt32() == id)
             {
-                OnHotKeyPressed();
+                handled = OnHotKeyPressed();
 
                 DateTime currentTime = DateTime.Now;
                 TimeSpan timeSinceLastClick = currentTime - lastClickTime;
@@ -68,21 +73,23 @@ namespace SpeedLR
 
                 if (timeSinceLastClick.TotalMilliseconds <= DOUBLE_CLICK_INTERVAL)
                 {
-                    OnHotKeyDoublePressed();
+                    handled = handled || OnHotKeyDoublePressed();
                 }
 
                 lastClickTime = currentTime;
             }
         }
 
-        protected virtual void OnHotKeyPressed()
+        protected virtual bool OnHotKeyPressed()
         {
             HotKeyPressed?.Invoke(this, EventArgs.Empty);
+            return HotKeyPressed?.GetInvocationList().Length > 0;
         }
 
-        protected virtual void OnHotKeyDoublePressed()
+        protected virtual bool OnHotKeyDoublePressed()
         {
             HotKeyDoublePressed?.Invoke(this, EventArgs.Empty);
+            return HotKeyDoublePressed?.GetInvocationList().Length > 0;
         }
     }
 }
