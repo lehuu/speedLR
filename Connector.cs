@@ -6,10 +6,10 @@ namespace SpeedLR
 {
     public class Connector
     {
-        private static Connector instance;
-        private Socket clientSocket;
-        private DateTime lastSendTime = DateTime.MinValue;
-        private double maxRequestsPerSecond = 16;
+        private static Connector _instance;
+        private Socket _clientSocket;
+        private DateTime _lastSendTime = DateTime.MinValue;
+        private double _maxRequestsPerSecond = 16;
         private Connector()
         { }
 
@@ -17,17 +17,17 @@ namespace SpeedLR
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new Connector();
+                    _instance = new Connector();
                 }
-                return instance;
+                return _instance;
             }
         }
 
         public async Task<bool> IsConnected()
         {
-            if (clientSocket == null || !clientSocket.Connected)
+            if (_clientSocket == null || !_clientSocket.Connected)
             {
                 return false;
             }
@@ -54,9 +54,9 @@ namespace SpeedLR
                 IPAddress ipAddress = host.AddressList[0];
                 var endpoint = new IPEndPoint(ipAddress, port);
 
-                clientSocket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                _clientSocket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-                await clientSocket.ConnectAsync(endpoint);
+                await _clientSocket.ConnectAsync(endpoint);
             }
             catch (Exception ex)
             {
@@ -86,14 +86,14 @@ namespace SpeedLR
         public async Task SendCommandAsync(string command)
         {
             var currentTime = DateTime.Now;
-            var elapsed = currentTime - lastSendTime;
-            if (elapsed < TimeSpan.FromMilliseconds(1000 / maxRequestsPerSecond)) // 1000 ms / 16 = 62.5 ms
+            var elapsed = currentTime - _lastSendTime;
+            if (elapsed < TimeSpan.FromMilliseconds(1000 / _maxRequestsPerSecond)) // 1000 ms / 16 = 62.5 ms
             {
                 return;
             }
-            lastSendTime = DateTime.Now;
+            _lastSendTime = DateTime.Now;
 
-            if (clientSocket == null || !clientSocket.Connected)
+            if (_clientSocket == null || !_clientSocket.Connected)
             {
                 throw new Exception("Not connected to the server.");
             }
@@ -102,7 +102,7 @@ namespace SpeedLR
             {
                 command += "\n";
                 byte[] data = Encoding.ASCII.GetBytes(command);
-                await clientSocket.SendAsync(data, SocketFlags.None);
+                await _clientSocket.SendAsync(data, SocketFlags.None);
             }
             catch (Exception ex)
             {
@@ -112,14 +112,14 @@ namespace SpeedLR
 
         public void CloseConnection()
         {
-            if (clientSocket != null)
+            if (_clientSocket != null)
             {
-                if (clientSocket.Connected)
+                if (_clientSocket.Connected)
                 {
-                    clientSocket.Shutdown(SocketShutdown.Both);
+                    _clientSocket.Shutdown(SocketShutdown.Both);
                 }
-                clientSocket.Close();
-                clientSocket = null;
+                _clientSocket.Close();
+                _clientSocket = null;
             }
         }
     }

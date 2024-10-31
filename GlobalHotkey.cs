@@ -22,13 +22,13 @@ namespace SpeedLR
         public static int SPACE = 32;
         private const int WM_HOTKEY = 0x0312;
 
-        private int id;
-        private int key;
-        private int modifier;
-        private IntPtr hWnd;
+        private int _id;
+        private int _key;
+        private int _modifier;
+        private IntPtr _hWnd;
         private HwndSource _source;
 
-        private DateTime lastClickTime = DateTime.MinValue;
+        private DateTime _lastClickTime = DateTime.MinValue;
         private const int DOUBLE_CLICK_INTERVAL = 500;
 
         public event EventHandler HotKeyPressed;
@@ -36,42 +36,42 @@ namespace SpeedLR
 
         public GlobalHotkey(IntPtr hWnd, int id, int modifier, int key)
         {
-            this.hWnd = hWnd;
-            this.id = id;
-            this.modifier = modifier;
-            this.key = key;
+            this._hWnd = hWnd;
+            this._id = id;
+            this._modifier = modifier;
+            this._key = key;
             _source = HwndSource.FromHwnd(hWnd);
         }
 
         public GlobalHotkey(IntPtr hWnd, int id, int modifier)
         {
-            this.hWnd = hWnd;
-            this.id = id;
-            this.modifier = modifier;
-            this.key = 0;
+            this._hWnd = hWnd;
+            this._id = id;
+            this._modifier = modifier;
+            this._key = 0;
             _source = HwndSource.FromHwnd(hWnd);
         }
 
         public void Register(HwndSourceHook hook)
         {
             _source.AddHook(hook);
-            RegisterHotKey(hWnd, id, modifier, key);
+            RegisterHotKey(_hWnd, _id, _modifier, _key);
         }
 
         public void Unregister(HwndSourceHook hook)
         {
             _source.RemoveHook(hook);
-            UnregisterHotKey(hWnd, id);
+            UnregisterHotKey(_hWnd, _id);
         }
 
         public void ProcessWindowMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == WM_HOTKEY && wParam.ToInt32() == id)
+            if (msg == WM_HOTKEY && wParam.ToInt32() == _id)
             {
                 handled = OnHotKeyPressed();
 
                 DateTime currentTime = DateTime.Now;
-                TimeSpan timeSinceLastClick = currentTime - lastClickTime;
+                TimeSpan timeSinceLastClick = currentTime - _lastClickTime;
 
 
                 if (timeSinceLastClick.TotalMilliseconds <= DOUBLE_CLICK_INTERVAL)
@@ -79,7 +79,7 @@ namespace SpeedLR
                     handled = handled || OnHotKeyDoublePressed();
                 }
 
-                lastClickTime = currentTime;
+                _lastClickTime = currentTime;
             }
         }
 

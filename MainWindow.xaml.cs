@@ -9,10 +9,10 @@ namespace SpeedLR
     public partial class MainWindow : Window
     {
         private static int DEFAULT_PORT = 49000;
-        private NotifyIcon notifyIcon;
+        private NotifyIcon _notifyIcon;
 
-        private ControllerWindow controller;
-        private GlobalHotkey activatorHotkey;
+        private ControllerWindow _controller;
+        private GlobalHotkey _activatorHotkey;
 
         public MainWindow()
         {
@@ -31,10 +31,10 @@ namespace SpeedLR
             ConnectToServer();
 
             // init context menu
-            notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = new Icon("wheel.ico"); // Replace with your icon file
-            notifyIcon.Text = Title;
-            notifyIcon.Visible = true;
+            _notifyIcon = new NotifyIcon();
+            _notifyIcon.Icon = new Icon("wheel.ico"); // Replace with your icon file
+            _notifyIcon.Text = Title;
+            _notifyIcon.Visible = true;
 
             // Create a context menu for the NotifyIcon
             ContextMenuStrip contextMenu = new ContextMenuStrip();
@@ -46,16 +46,16 @@ namespace SpeedLR
             contextMenu.Items.Add(exitMenuItem);
             contextMenu.Items.Add(openMenuItem);
 
-            notifyIcon.ContextMenuStrip = contextMenu;
-            notifyIcon.MouseDoubleClick += OpenMenuItem_Click;
+            _notifyIcon.ContextMenuStrip = contextMenu;
+            _notifyIcon.MouseDoubleClick += OpenMenuItem_Click;
 
-            controller = new ControllerWindow();
+            _controller = new ControllerWindow();
 
             var helper = new WindowInteropHelper(this);
 
-            activatorHotkey = new GlobalHotkey(helper.Handle, 1, GlobalHotkey.MOD_CONTROL);
-            activatorHotkey.Register(HwndHook);
-            activatorHotkey.HotKeyDoublePressed += Ctrl_DoublePressed;
+            _activatorHotkey = new GlobalHotkey(helper.Handle, 1, GlobalHotkey.MOD_CONTROL);
+            _activatorHotkey.Register(HwndHook);
+            _activatorHotkey.HotKeyDoublePressed += Ctrl_DoublePressed;
         }
 
         private async void CheckConnection(object sender, EventArgs? e)
@@ -97,9 +97,9 @@ namespace SpeedLR
 
         private void Ctrl_DoublePressed(object sender, EventArgs e)
         {
-            if (controller.IsVisible)
+            if (_controller.IsVisible)
             {
-                controller.Hide();
+                _controller.Hide();
             }
             else
             {
@@ -110,8 +110,8 @@ namespace SpeedLR
 
                 Screen screen = Screen.FromPoint(mousePosition);
 
-                var formWidth = controller.Width;
-                var formHeight = controller.Height;
+                var formWidth = _controller.Width;
+                var formHeight = _controller.Height;
 
                 double x = mouse.X - formWidth / 2;
                 double y = mouse.Y - formHeight / 2;
@@ -121,9 +121,9 @@ namespace SpeedLR
                 x = Math.Max(topLeft.X, Math.Min(x, bottomRight.X - formWidth));
                 y = Math.Max(topLeft.Y, Math.Min(y, bottomRight.Y - formHeight));
 
-                controller.Left = x;
-                controller.Top = y;
-                controller.Show();
+                _controller.Left = x;
+                _controller.Top = y;
+                _controller.Show();
             }
         }
 
@@ -144,7 +144,7 @@ namespace SpeedLR
         private void ExitMenuItem_Click(object sender, EventArgs e)
         {
             // Close the application
-            notifyIcon.Dispose(); // Release the notify icon resource
+            _notifyIcon.Dispose(); // Release the notify icon resource
             Application.Current.Shutdown();
         }
 
@@ -155,9 +155,9 @@ namespace SpeedLR
 
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (activatorHotkey != null)
+            if (_activatorHotkey != null)
             {
-                activatorHotkey.ProcessWindowMessage(hwnd, msg, wParam, lParam, ref handled); // Pass the message to the GlobalHotkey class
+                _activatorHotkey.ProcessWindowMessage(hwnd, msg, wParam, lParam, ref handled); // Pass the message to the GlobalHotkey class
             }
             return IntPtr.Zero;
         }
@@ -172,7 +172,7 @@ namespace SpeedLR
         protected override void OnClosed(EventArgs e)
         {
             Connector.Instance.CloseConnection();
-            activatorHotkey.Unregister(HwndHook);
+            _activatorHotkey.Unregister(HwndHook);
         }
     }
 }

@@ -6,13 +6,13 @@ namespace SpeedLR
 
     public partial class ControllerWindow : Window
     {
-        private ControlButton[][] menus;
-        private GlobalHotkey[] hotkeys;
-        private GlobalMouseHook mouseHook;
+        private ControlButton[][] _menus;
+        private GlobalHotkey[] _hotkeys;
+        private GlobalMouseHook _mouseHook;
 
-        private string currentCommand = "";
-        private int currentButtonIndex = -1;
-        private int currentMenuIndex = 0;
+        private string _currentCommand = "";
+        private int _currentButtonIndex = -1;
+        private int _currentMenuIndex = 0;
 
         private enum CommandType
         {
@@ -29,7 +29,7 @@ namespace SpeedLR
 
         private void ControllerWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (!(hotkeys?.Length > 0))
+            if (!(_hotkeys?.Length > 0))
             {
                 var firstMenu = new ControlButton[]
                 {
@@ -44,12 +44,12 @@ namespace SpeedLR
                     whites,
                 };
 
-                menus = new ControlButton[2][];
-                menus[0] = firstMenu;
-                menus[1] = secondMenu;
+                _menus = new ControlButton[2][];
+                _menus[0] = firstMenu;
+                _menus[1] = secondMenu;
 
 
-                hotkeys = new GlobalHotkey[]
+                _hotkeys = new GlobalHotkey[]
                 {
                 CreateHotkey(2, 0, GlobalHotkey.ESCAPE, Escape_Pressed),
                 CreateHotkey(3, 0, GlobalHotkey.RIGHT, Next_Pressed),
@@ -61,27 +61,27 @@ namespace SpeedLR
                 CreateHotkey(9, GlobalHotkey.MOD_ALT, GlobalHotkey.LEFT, Prev_Submenu),
                 };
 
-                mouseHook = new GlobalMouseHook();
-                mouseHook.OnMouseScrollUp += HandleGlobalScrollUp;
-                mouseHook.OnMouseScrollDown += HandleGlobalScrollDown;
-                mouseHook.OnMiddleMouseButtonClick += Reset_Pressed;
+                _mouseHook = new GlobalMouseHook();
+                _mouseHook.OnMouseScrollUp += HandleGlobalScrollUp;
+                _mouseHook.OnMouseScrollDown += HandleGlobalScrollDown;
+                _mouseHook.OnMiddleMouseButtonClick += Reset_Pressed;
             }
 
             if (IsVisible)
             {
-                foreach (var key in hotkeys)
+                foreach (var key in _hotkeys)
                 {
                     key.Register(HwndHook);
                 }
-                mouseHook.Register();
+                _mouseHook.Register();
             }
             else
             {
-                foreach (var key in hotkeys)
+                foreach (var key in _hotkeys)
                 {
                     key.Unregister(HwndHook);
                 }
-                mouseHook.Dispose();
+                _mouseHook.Dispose();
             }
         }
 
@@ -110,7 +110,7 @@ namespace SpeedLR
                 return;
             }
 
-            ToggleButton(currentMenuIndex, (currentButtonIndex + 1) % menus[currentMenuIndex].Length);
+            ToggleButton(_currentMenuIndex, (_currentButtonIndex + 1) % _menus[_currentMenuIndex].Length);
         }
 
         private void Next_Submenu(object sender, EventArgs e)
@@ -119,8 +119,8 @@ namespace SpeedLR
             {
                 return;
             }
-            var nextSubmenu = (currentMenuIndex + 1) % menus.Length;
-            ToggleButton(nextSubmenu, Math.Clamp(currentButtonIndex, 0, menus[nextSubmenu].Length - 1));
+            var nextSubmenu = (_currentMenuIndex + 1) % _menus.Length;
+            ToggleButton(nextSubmenu, Math.Clamp(_currentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
         }
 
         private void Prev_Submenu(object sender, EventArgs e)
@@ -129,8 +129,8 @@ namespace SpeedLR
             {
                 return;
             }
-            var nextSubmenu = (currentMenuIndex - 1 + menus.Length) % menus.Length;
-            ToggleButton(nextSubmenu, Math.Clamp(currentButtonIndex, 0, menus[nextSubmenu].Length - 1));
+            var nextSubmenu = (_currentMenuIndex - 1 + _menus.Length) % _menus.Length;
+            ToggleButton(nextSubmenu, Math.Clamp(_currentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
         }
 
         private void Prev_Pressed(object sender, EventArgs e)
@@ -139,7 +139,7 @@ namespace SpeedLR
             {
                 return;
             }
-            ToggleButton(currentMenuIndex, (currentButtonIndex - 1 + menus[currentMenuIndex].Length) % menus[currentMenuIndex].Length);
+            ToggleButton(_currentMenuIndex, (_currentButtonIndex - 1 + _menus[_currentMenuIndex].Length) % _menus[_currentMenuIndex].Length);
         }
 
         private void Reset_Pressed(object sender, EventArgs e)
@@ -168,7 +168,7 @@ namespace SpeedLR
             {
                 return;
             }
-            if (String.IsNullOrEmpty(currentCommand))
+            if (String.IsNullOrEmpty(_currentCommand))
             {
                 return;
             }
@@ -176,13 +176,13 @@ namespace SpeedLR
             switch (type)
             {
                 case CommandType.DOWN:
-                    Connector.Instance.SendCommandAsync(currentCommand + "=-1%");
+                    Connector.Instance.SendCommandAsync(_currentCommand + "=-1%");
                     break;
                 case CommandType.UP:
-                    Connector.Instance.SendCommandAsync(currentCommand + "=+1%");
+                    Connector.Instance.SendCommandAsync(_currentCommand + "=+1%");
                     break;
                 case CommandType.RESET:
-                    Connector.Instance.SendCommandAsync(currentCommand + "=reset");
+                    Connector.Instance.SendCommandAsync(_currentCommand + "=reset");
                     break;
             }
         }
@@ -195,26 +195,26 @@ namespace SpeedLR
 
         private void ClearActiveButtons()
         {
-            for (int i = 0; i < menus.Length; i++)
+            for (int i = 0; i < _menus.Length; i++)
             {
-                for (int j = 0; j < menus[i].Length; j++)
+                for (int j = 0; j < _menus[i].Length; j++)
                 {
-                    var item = menus[i][j];
+                    var item = _menus[i][j];
                     item.IsActive = false;
                 }
             }
-            currentCommand = "";
+            _currentCommand = "";
         }
 
         private void ToggleButton(int menu, int key)
         {
             ClearActiveButtons();
-            var item = menus[menu][key];
+            var item = _menus[menu][key];
 
             item.IsActive = true;
-            currentMenuIndex = menu;
-            currentButtonIndex = key;
-            currentCommand = String.IsNullOrEmpty(item.LRCommand) ? "" : item.LRCommand;
+            _currentMenuIndex = menu;
+            _currentButtonIndex = key;
+            _currentCommand = String.IsNullOrEmpty(item.LRCommand) ? "" : item.LRCommand;
         }
 
         private void HandleGlobalScrollUp()
@@ -237,17 +237,17 @@ namespace SpeedLR
 
         private void ToggleButton(ControlButton button)
         {
-            for (int i = 0; i < menus.Length; i++)
+            for (int i = 0; i < _menus.Length; i++)
             {
-                for (int j = 0; j < menus[i].Length; j++)
+                for (int j = 0; j < _menus[i].Length; j++)
                 {
-                    var item = menus[i][j];
+                    var item = _menus[i][j];
                     if (button != null && item.Name == button.Name)
                     {
                         item.IsActive = !item.IsActive;
-                        currentCommand = item.IsActive ? item.LRCommand : "";
-                        currentButtonIndex = j;
-                        currentMenuIndex = i;
+                        _currentCommand = item.IsActive ? item.LRCommand : "";
+                        _currentButtonIndex = j;
+                        _currentMenuIndex = i;
                         continue;
                     }
 
@@ -258,7 +258,7 @@ namespace SpeedLR
 
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            foreach (var key in hotkeys)
+            foreach (var key in _hotkeys)
             {
                 key.ProcessWindowMessage(hwnd, msg, wParam, lParam, ref handled);
             }
@@ -280,11 +280,11 @@ namespace SpeedLR
 
         protected override void OnClosed(EventArgs e)
         {
-            foreach (var key in hotkeys)
+            foreach (var key in _hotkeys)
             {
                 key.Unregister(HwndHook);
             }
-            mouseHook?.Dispose();
+            _mouseHook?.Dispose();
         }
     }
 }
