@@ -54,6 +54,7 @@ namespace SpeedLR
 
         public void Register(HwndSourceHook hook)
         {
+            Unregister(hook);
             _source.AddHook(hook);
             RegisterHotKey(_hWnd, _id, _modifier, _key);
         }

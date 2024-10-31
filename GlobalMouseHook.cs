@@ -10,7 +10,7 @@ namespace SpeedLR
         private const int WM_MOUSEWHEEL = 0x020A;
         private const int WM_MBUTTONDOWN = 0x0207;
 
-        private IntPtr _hookID = IntPtr.Zero;
+        private IntPtr _hookID = (IntPtr) 999;
         private LowLevelMouseProc _proc;
 
         public event Action OnMouseScrollUp;    // Event for scroll up
@@ -64,6 +64,7 @@ namespace SpeedLR
 
         public void Register()
         {
+            UnhookWindowsHookEx(_hookID);
             _hookID = SetHook(_proc);
         }
 
