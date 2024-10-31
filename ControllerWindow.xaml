@@ -4,9 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpeedLR"
-        Closing="ControllerWindow_Closing"
-        mc:Ignorable="d"
-        Topmost="True" ShowInTaskbar="False" WindowStyle="ToolWindow" Height="398" Width="400" ResizeMode="NoResize" Icon="/wheel.ico">
+        Closing="ControllerWindow_Closing" WindowStyle="None" AllowsTransparency="True" mc:Ignorable="d"
+        Topmost="True" ShowInTaskbar="False" Height="398" Width="400" ResizeMode="NoResize" Icon="/wheel.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace SpeedLR
 {
@@ -26,6 +27,8 @@ namespace SpeedLR
         {
             InitializeComponent();
             IsVisibleChanged += ControllerWindow_IsVisibleChanged;
+            DpiHelper.AdjustScaleForDpi(this);
+            SourceInitialized += (s, e) => this.DpiChanged += Window_DpiChanged;
         }
 
         private string CurrentCommand
@@ -110,6 +113,10 @@ namespace SpeedLR
                 DeactivateCommandKeys();
                 _mouseHook.Dispose();
             }
+        }
+        private void Window_DpiChanged(object sender, System.Windows.DpiChangedEventArgs e)
+        {
+            DpiHelper.AdjustScaleForDpi(this);
         }
 
         private GlobalHotkey CreateHotkey(int id, int modifier, int key, EventHandler clickEvent)
