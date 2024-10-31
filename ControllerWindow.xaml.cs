@@ -8,10 +8,18 @@ namespace SpeedLR
     {
         private ControlButton[][] menus;
         private GlobalHotkey[] hotkeys;
+        private GlobalMouseHook mouseHook;
 
         private string currentCommand = "";
         private int currentButtonIndex = -1;
         private int currentMenuIndex = 0;
+
+        private enum CommandType
+        {
+            UP,
+            DOWN,
+            RESET
+        }
 
         public ControllerWindow()
         {
@@ -52,18 +60,28 @@ namespace SpeedLR
                 CreateHotkey(8, GlobalHotkey.MOD_ALT, GlobalHotkey.RIGHT, Next_Submenu),
                 CreateHotkey(9, GlobalHotkey.MOD_ALT, GlobalHotkey.LEFT, Prev_Submenu),
                 };
+
+                mouseHook = new GlobalMouseHook();
+                mouseHook.OnMouseScrollUp += HandleGlobalScrollUp;
+                mouseHook.OnMouseScrollDown += HandleGlobalScrollDown;
+                mouseHook.OnMiddleMouseButtonClick += Reset_Pressed;
             }
 
-            foreach (var key in hotkeys)
+            if (IsVisible)
             {
-                if (IsVisible)
+                foreach (var key in hotkeys)
                 {
                     key.Register(HwndHook);
                 }
-                else
+                mouseHook.Register();
+            }
+            else
+            {
+                foreach (var key in hotkeys)
                 {
                     key.Unregister(HwndHook);
                 }
+                mouseHook.Dispose();
             }
         }
 
@@ -126,27 +144,25 @@ namespace SpeedLR
 
         private void Reset_Pressed(object sender, EventArgs e)
         {
-            if (!IsVisible)
-            {
-                return;
-            }
-            Connector.Instance.SendCommandAsync(currentCommand + "=reset");
+            SendCommand(CommandType.RESET);
+        }
+
+        private void Reset_Pressed()
+        {
+            SendCommand(CommandType.RESET);
         }
 
         private void Inc_Pressed(object sender, EventArgs e)
         {
-            if (!IsVisible)
-            {
-                return;
-            }
-            if (String.IsNullOrEmpty(currentCommand))
-            {
-                return;
-            }
-            Connector.Instance.SendCommandAsync(currentCommand + "=+1%");
+            SendCommand(CommandType.UP);
         }
 
         private void Dec_Pressed(object sender, EventArgs e)
+        {
+            SendCommand(CommandType.DOWN);
+        }
+
+        private void SendCommand(CommandType type)
         {
             if (!IsVisible)
             {
@@ -156,7 +172,19 @@ namespace SpeedLR
             {
                 return;
             }
-            Connector.Instance.SendCommandAsync(currentCommand + "=-1%");
+
+            switch (type)
+            {
+                case CommandType.DOWN:
+                    Connector.Instance.SendCommandAsync(currentCommand + "=-1%");
+                    break;
+                case CommandType.UP:
+                    Connector.Instance.SendCommandAsync(currentCommand + "=+1%");
+                    break;
+                case CommandType.RESET:
+                    Connector.Instance.SendCommandAsync(currentCommand + "=reset");
+                    break;
+            }
         }
 
         private void ControllerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -187,6 +215,24 @@ namespace SpeedLR
             currentMenuIndex = menu;
             currentButtonIndex = key;
             currentCommand = String.IsNullOrEmpty(item.LRCommand) ? "" : item.LRCommand;
+        }
+
+        private void HandleGlobalScrollUp()
+        {
+            // This will be invoked on any upward scroll globally
+            Dispatcher.Invoke(() =>
+            {
+                SendCommand(CommandType.UP);
+            });
+        }
+
+        private void HandleGlobalScrollDown()
+        {
+            // This will be invoked on any downward scroll globally
+            Dispatcher.Invoke(() =>
+            {
+                SendCommand(CommandType.DOWN);
+            });
         }
 
         private void ToggleButton(ControlButton button)
@@ -238,6 +284,7 @@ namespace SpeedLR
             {
                 key.Unregister(HwndHook);
             }
+            mouseHook?.Dispose();
         }
     }
 }
