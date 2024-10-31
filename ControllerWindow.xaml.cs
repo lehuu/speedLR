@@ -8,6 +8,7 @@ namespace SpeedLR
     {
         private ControlButton[][] _menus;
         private GlobalHotkey[] _hotkeys;
+        private GlobalHotkey[] _commandHotkeys;
         private GlobalMouseHook _mouseHook;
 
         private string _currentCommand = "";
@@ -25,6 +26,29 @@ namespace SpeedLR
         {
             InitializeComponent();
             IsVisibleChanged += ControllerWindow_IsVisibleChanged;
+        }
+
+        private string CurrentCommand
+        {
+            get => _currentCommand;
+            set
+            {
+                if (_currentCommand != value)
+                {
+                    _currentCommand = value;
+
+                    if (String.IsNullOrEmpty(value))
+                    {
+                        _mouseHook.Dispose();
+                        DeactivateCommandKeys();
+                    }
+                    else
+                    {
+                        _mouseHook.Register();
+                        ActivateCommandKeys();
+                    }
+                }
+            }
         }
 
         private void ControllerWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -51,14 +75,18 @@ namespace SpeedLR
 
                 _hotkeys = new GlobalHotkey[]
                 {
-                CreateHotkey(2, 0, GlobalHotkey.ESCAPE, Escape_Pressed),
-                CreateHotkey(3, 0, GlobalHotkey.RIGHT, Next_Pressed),
-                CreateHotkey(4, 0, GlobalHotkey.LEFT, Prev_Pressed),
-                CreateHotkey(5, 0, GlobalHotkey.UP, Inc_Pressed),
-                CreateHotkey(6, 0, GlobalHotkey.DOWN, Dec_Pressed),
-                CreateHotkey(7, 0, GlobalHotkey.SPACE, Reset_Pressed),
-                CreateHotkey(8, GlobalHotkey.MOD_ALT, GlobalHotkey.RIGHT, Next_Submenu),
-                CreateHotkey(9, GlobalHotkey.MOD_ALT, GlobalHotkey.LEFT, Prev_Submenu),
+                    CreateHotkey(3, 0, GlobalHotkey.RIGHT, Next_Pressed),
+                    CreateHotkey(4, 0, GlobalHotkey.LEFT, Prev_Pressed),
+                    CreateHotkey(8, GlobalHotkey.MOD_ALT, GlobalHotkey.RIGHT, Next_Submenu),
+                    CreateHotkey(9, GlobalHotkey.MOD_ALT, GlobalHotkey.LEFT, Prev_Submenu),
+                };
+
+                _commandHotkeys = new GlobalHotkey[]
+                {
+                    CreateHotkey(2, 0, GlobalHotkey.ESCAPE, Escape_Pressed),
+                    CreateHotkey(5, 0, GlobalHotkey.UP, Inc_Pressed),
+                    CreateHotkey(6, 0, GlobalHotkey.DOWN, Dec_Pressed),
+                    CreateHotkey(7, 0, GlobalHotkey.SPACE, Reset_Pressed),
                 };
 
                 _mouseHook = new GlobalMouseHook();
@@ -69,18 +97,17 @@ namespace SpeedLR
 
             if (IsVisible)
             {
-                foreach (var key in _hotkeys)
+                ActivateHotkeys();
+                if (!String.IsNullOrWhiteSpace(CurrentCommand))
                 {
-                    key.Register(HwndHook);
+                    ActivateCommandKeys();
+                    _mouseHook.Register();
                 }
-                _mouseHook.Register();
             }
             else
             {
-                foreach (var key in _hotkeys)
-                {
-                    key.Unregister(HwndHook);
-                }
+                DeactivateHotkeys();
+                DeactivateCommandKeys();
                 _mouseHook.Dispose();
             }
         }
@@ -168,7 +195,7 @@ namespace SpeedLR
             {
                 return;
             }
-            if (String.IsNullOrEmpty(_currentCommand))
+            if (String.IsNullOrEmpty(CurrentCommand))
             {
                 return;
             }
@@ -176,13 +203,13 @@ namespace SpeedLR
             switch (type)
             {
                 case CommandType.DOWN:
-                    Connector.Instance.SendCommandAsync(_currentCommand + "=-1%");
+                    Connector.Instance.SendCommandAsync(CurrentCommand + "=-1%");
                     break;
                 case CommandType.UP:
-                    Connector.Instance.SendCommandAsync(_currentCommand + "=+1%");
+                    Connector.Instance.SendCommandAsync(CurrentCommand + "=+1%");
                     break;
                 case CommandType.RESET:
-                    Connector.Instance.SendCommandAsync(_currentCommand + "=reset");
+                    Connector.Instance.SendCommandAsync(CurrentCommand + "=reset");
                     break;
             }
         }
@@ -203,7 +230,7 @@ namespace SpeedLR
                     item.IsActive = false;
                 }
             }
-            _currentCommand = "";
+            CurrentCommand = "";
         }
 
         private void ToggleButton(int menu, int key)
@@ -214,7 +241,7 @@ namespace SpeedLR
             item.IsActive = true;
             _currentMenuIndex = menu;
             _currentButtonIndex = key;
-            _currentCommand = String.IsNullOrEmpty(item.LRCommand) ? "" : item.LRCommand;
+            CurrentCommand = String.IsNullOrEmpty(item.LRCommand) ? "" : item.LRCommand;
         }
 
         private void HandleGlobalScrollUp()
@@ -245,7 +272,7 @@ namespace SpeedLR
                     if (button != null && item.Name == button.Name)
                     {
                         item.IsActive = !item.IsActive;
-                        _currentCommand = item.IsActive ? item.LRCommand : "";
+                        CurrentCommand = item.IsActive ? item.LRCommand : "";
                         _currentButtonIndex = j;
                         _currentMenuIndex = i;
                         continue;
@@ -259,6 +286,10 @@ namespace SpeedLR
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             foreach (var key in _hotkeys)
+            {
+                key.ProcessWindowMessage(hwnd, msg, wParam, lParam, ref handled);
+            }
+            foreach (var key in _commandHotkeys)
             {
                 key.ProcessWindowMessage(hwnd, msg, wParam, lParam, ref handled);
             }
@@ -280,11 +311,41 @@ namespace SpeedLR
 
         protected override void OnClosed(EventArgs e)
         {
+            DeactivateHotkeys();
+            DeactivateCommandKeys();
+            _mouseHook?.Dispose();
+        }
+
+        private void ActivateCommandKeys()
+        {
+            foreach (var key in _commandHotkeys)
+            {
+                key.Register(HwndHook);
+            }
+        }
+
+        private void DeactivateCommandKeys()
+        {
+            foreach (var key in _commandHotkeys)
+            {
+                key.Unregister(HwndHook);
+            }
+        }
+
+        private void ActivateHotkeys()
+        {
+            foreach (var key in _hotkeys)
+            {
+                key.Register(HwndHook);
+            }
+        }
+
+        private void DeactivateHotkeys()
+        {
             foreach (var key in _hotkeys)
             {
                 key.Unregister(HwndHook);
             }
-            _mouseHook?.Dispose();
         }
     }
 }
