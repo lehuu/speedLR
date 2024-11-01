@@ -316,6 +316,11 @@ namespace SpeedLR
             }
         }
 
+        private void HideButton_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             DeactivateHotkeys();
