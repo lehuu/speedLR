@@ -1,6 +1,7 @@
-﻿using System.Windows;
+﻿using System.Timers;
+using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Media;
+using Timer = System.Timers.Timer;
 
 namespace SpeedLR
 {
@@ -11,6 +12,7 @@ namespace SpeedLR
         private GlobalHotkey[] _hotkeys;
         private GlobalHotkey[] _commandHotkeys;
         private GlobalMouseHook _mouseHook;
+        private readonly Timer _hideTimer;
 
         private string _currentCommand = "";
         private int _currentButtonIndex = -1;
@@ -29,6 +31,9 @@ namespace SpeedLR
             IsVisibleChanged += ControllerWindow_IsVisibleChanged;
             DpiHelper.AdjustScaleForDpi(this);
             SourceInitialized += (s, e) => this.DpiChanged += Window_DpiChanged;
+            _hideTimer = new Timer(500);
+            _hideTimer.AutoReset = false;
+            _hideTimer.Elapsed += OnHideElapsed;
         }
 
         private string CurrentCommand
@@ -218,6 +223,8 @@ namespace SpeedLR
                 return;
             }
 
+            Opacity = 0;
+
             switch (type)
             {
                 case CommandType.DOWN:
@@ -230,6 +237,17 @@ namespace SpeedLR
                     Connector.Instance.SendCommandAsync(CurrentCommand + "=reset");
                     break;
             }
+
+            _hideTimer.Stop();
+            _hideTimer.Start();
+        }
+
+        private void OnHideElapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                Opacity = 1;
+            });
         }
 
         private void ControllerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
