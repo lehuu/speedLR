@@ -42,6 +42,15 @@ namespace SpeedLR
             };
         }
 
+        public bool IsPinned
+        {
+            get { return pinButton.IsActive; }
+            set
+            {
+                pinButton.IsActive = value;
+            }
+        }
+
         private string CurrentCommand
         {
             get => _currentCommand;

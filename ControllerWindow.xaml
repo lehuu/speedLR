@@ -71,5 +71,6 @@
         <local:ControlButton x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="5pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="0,110,0,0"/>
         <local:ControlButton x:Name="highStepButton" LRCommand="5%" Content="+++" TextElement.FontSize="5pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="165,121,0,0"/>
         <local:ControlButton x:Name="dragButton" Content="≡" TextElement.FontSize="5pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Margin="0,170,0,0" Cursor="Hand" PreviewMouseDown="DragButton_MouseDown"/>
+        <local:ControlButton x:Name="pinButton" Content="▼" TextElement.FontSize="5pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="165,159,0,0" Cursor="Hand" Click="PinButton_Click"/>
     </Grid>
 </Window>

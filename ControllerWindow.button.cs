@@ -161,5 +161,9 @@ namespace SpeedLR
                 this.DragMove();
             }
         }
+        private void PinButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsPinned = !IsPinned;
+        }
     }
 }

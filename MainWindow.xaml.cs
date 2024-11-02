@@ -103,6 +103,11 @@ namespace SpeedLR
             }
             else
             {
+                if (_controller.IsPinned)
+                {
+                    _controller.Show();
+                    return;
+                }
                 var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
                 Point mousePosition = Control.MousePosition;
 
