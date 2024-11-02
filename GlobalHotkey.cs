@@ -27,6 +27,7 @@ namespace SpeedLR
         private int _modifier;
         private IntPtr _hWnd;
         private HwndSource _source;
+        private bool _isRegistered = false;
 
         private DateTime _lastClickTime = DateTime.MinValue;
         private const int DOUBLE_CLICK_INTERVAL = 500;
@@ -54,15 +55,20 @@ namespace SpeedLR
 
         public void Register(HwndSourceHook hook)
         {
-            Unregister(hook);
+            if (_isRegistered)
+                return;
+
             _source.AddHook(hook);
-            RegisterHotKey(_hWnd, _id, _modifier, _key);
+            _isRegistered = RegisterHotKey(_hWnd, _id, _modifier, _key);
         }
 
         public void Unregister(HwndSourceHook hook)
         {
+            if (!_isRegistered)
+                return;
+
             _source.RemoveHook(hook);
-            UnregisterHotKey(_hWnd, _id);
+            _isRegistered = !UnregisterHotKey(_hWnd, _id);
         }
 
         public void ProcessWindowMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
