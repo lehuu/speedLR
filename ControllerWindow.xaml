@@ -70,6 +70,6 @@
         <local:ControlButton IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="5pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="115,120,0,0"/>
         <local:ControlButton x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="5pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="0,110,0,0"/>
         <local:ControlButton x:Name="highStepButton" LRCommand="5%" Content="+++" TextElement.FontSize="5pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="165,121,0,0"/>
-
+        <local:ControlButton x:Name="dragButton" Content="≡" TextElement.FontSize="5pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Margin="0,170,0,0" Cursor="Hand" PreviewMouseDown="DragButton_MouseDown"/>
     </Grid>
 </Window>

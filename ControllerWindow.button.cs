@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Linq;
+using System.Windows.Input;
 
 namespace SpeedLR
 {
@@ -151,6 +152,14 @@ namespace SpeedLR
         private void HideButton_Click(object sender, RoutedEventArgs e)
         {
             Hide();
+        }
+
+        private void DragButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
     }
 }
