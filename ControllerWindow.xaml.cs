@@ -8,6 +8,7 @@ namespace SpeedLR
 
     public partial class ControllerWindow : Window
     {
+        private ControlButton[] _stepButtons;
         private ControlButton[][] _menus;
         private GlobalHotkey[] _hotkeys;
         private GlobalHotkey[] _commandHotkeys;
@@ -34,6 +35,11 @@ namespace SpeedLR
             _hideTimer = new Timer(500);
             _hideTimer.AutoReset = false;
             _hideTimer.Elapsed += OnHideElapsed;
+            _stepButtons = new ControlButton[] {
+                lowStepButton,
+                midStepButton,
+                highStepButton
+            };
         }
 
         private string CurrentCommand
@@ -88,6 +94,8 @@ namespace SpeedLR
                     CreateHotkey(4, 0, GlobalHotkey.LEFT, Prev_Pressed),
                     CreateHotkey(8, GlobalHotkey.MOD_ALT, GlobalHotkey.RIGHT, Next_Submenu),
                     CreateHotkey(9, GlobalHotkey.MOD_ALT, GlobalHotkey.LEFT, Prev_Submenu),
+                    CreateHotkey(10, GlobalHotkey.MOD_ALT, GlobalHotkey.UP, Increase_Step),
+                    CreateHotkey(11, GlobalHotkey.MOD_ALT, GlobalHotkey.DOWN, Decrease_Step),
                 };
 
                 _commandHotkeys = new GlobalHotkey[]
@@ -143,75 +151,6 @@ namespace SpeedLR
             return result;
         }
 
-        private void Escape_Pressed(object sender, EventArgs e)
-        {
-            if (!IsVisible)
-            {
-                return;
-            }
-
-            ClearActiveButtons();
-        }
-
-        private void Next_Pressed(object sender, EventArgs e)
-        {
-            if (!IsVisible)
-            {
-                return;
-            }
-
-            ToggleButton(_currentMenuIndex, (_currentButtonIndex + 1) % _menus[_currentMenuIndex].Length);
-        }
-
-        private void Next_Submenu(object sender, EventArgs e)
-        {
-            if (!IsVisible)
-            {
-                return;
-            }
-            var nextSubmenu = (_currentMenuIndex + 1) % _menus.Length;
-            ToggleButton(nextSubmenu, Math.Clamp(_currentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
-        }
-
-        private void Prev_Submenu(object sender, EventArgs e)
-        {
-            if (!IsVisible)
-            {
-                return;
-            }
-            var nextSubmenu = (_currentMenuIndex - 1 + _menus.Length) % _menus.Length;
-            ToggleButton(nextSubmenu, Math.Clamp(_currentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
-        }
-
-        private void Prev_Pressed(object sender, EventArgs e)
-        {
-            if (!IsVisible)
-            {
-                return;
-            }
-            ToggleButton(_currentMenuIndex, (_currentButtonIndex - 1 + _menus[_currentMenuIndex].Length) % _menus[_currentMenuIndex].Length);
-        }
-
-        private void Reset_Pressed(object sender, EventArgs e)
-        {
-            SendCommand(CommandType.RESET);
-        }
-
-        private void Reset_Pressed()
-        {
-            SendCommand(CommandType.RESET);
-        }
-
-        private void Inc_Pressed(object sender, EventArgs e)
-        {
-            SendCommand(CommandType.UP);
-        }
-
-        private void Dec_Pressed(object sender, EventArgs e)
-        {
-            SendCommand(CommandType.DOWN);
-        }
-
         private void SendCommand(CommandType type)
         {
             if (!IsVisible)
@@ -225,13 +164,16 @@ namespace SpeedLR
 
             Opacity = 0;
 
+            var stepSize = _stepButtons.First(item => item.IsActive)?.LRCommand;
+            stepSize = String.IsNullOrEmpty(stepSize) ? "1%" : stepSize;
+
             switch (type)
             {
                 case CommandType.DOWN:
-                    Connector.Instance.SendCommandAsync(CurrentCommand + "=-1%");
+                    Connector.Instance.SendCommandAsync(CurrentCommand + "=-" + stepSize);
                     break;
                 case CommandType.UP:
-                    Connector.Instance.SendCommandAsync(CurrentCommand + "=+1%");
+                    Connector.Instance.SendCommandAsync(CurrentCommand + "=+" + stepSize);
                     break;
                 case CommandType.RESET:
                     Connector.Instance.SendCommandAsync(CurrentCommand + "=reset");
@@ -280,24 +222,6 @@ namespace SpeedLR
             CurrentCommand = String.IsNullOrEmpty(item.LRCommand) ? "" : item.LRCommand;
         }
 
-        private void HandleGlobalScrollUp()
-        {
-            // This will be invoked on any upward scroll globally
-            Dispatcher.Invoke(() =>
-            {
-                SendCommand(CommandType.UP);
-            });
-        }
-
-        private void HandleGlobalScrollDown()
-        {
-            // This will be invoked on any downward scroll globally
-            Dispatcher.Invoke(() =>
-            {
-                SendCommand(CommandType.DOWN);
-            });
-        }
-
         private void ToggleButton(ControlButton button)
         {
             for (int i = 0; i < _menus.Length; i++)
@@ -330,24 +254,6 @@ namespace SpeedLR
                 key.ProcessWindowMessage(hwnd, msg, wParam, lParam, ref handled);
             }
             return IntPtr.Zero;
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is ControlButton clickedButton)
-            {
-                if (String.IsNullOrEmpty(clickedButton.LRCommand))
-                {
-                    return;
-                }
-
-                ToggleButton(clickedButton);
-            }
-        }
-
-        private void HideButton_Click(object sender, RoutedEventArgs e)
-        {
-            Hide();
         }
 
         protected override void OnClosed(EventArgs e)

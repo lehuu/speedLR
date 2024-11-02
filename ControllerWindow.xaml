@@ -18,8 +18,8 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4"
-                                Padding="5">
+                                CornerRadius="15"
+                                Padding="0">
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"/>
                         </Border>
@@ -31,7 +31,21 @@
                             <!-- Trigger to change Background when IsActive is true -->
                             <Trigger Property="IsActive" Value="True">
                                 <Setter TargetName="Border" Property="Background" 
-                                        Value="Green"/>
+                                        Value="Bisque"/>
+                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -46,18 +60,16 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <local:ControlButton IsHitTestVisible="True" x:Name="exposure" LRCommand="Exposure" Content="Exposure" HorizontalAlignment="Left" Margin="42,112,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton IsHitTestVisible="True" x:Name="shadows" LRCommand="Shadows" Content="Shadows" HorizontalAlignment="Left" Margin="42,146,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton IsHitTestVisible="True" x:Name="highlights" LRCommand="HighLights" Content="HighLights" HorizontalAlignment="Left" Margin="37,191,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton IsHitTestVisible="True" x:Name="blacks" LRCommand="Blacks" Content="Blacks" HorizontalAlignment="Left" Margin="209,105,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton IsHitTestVisible="True" x:Name="whites" LRCommand="Whites" Content="Whites" HorizontalAlignment="Left" Margin="209,144,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton IsHitTestVisible="True" x:Name="texture" LRCommand="Texture" Content="Texture" HorizontalAlignment="Left" Margin="209,191,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton x:Name="hideButton" Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="30" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5">
-            <Button.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="15"/>
-                </Style>
-            </Button.Resources>
-        </local:ControlButton>
+        <local:ControlButton IsHitTestVisible="True" x:Name="exposure" LRCommand="Exposure" Content="Exposure" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton IsHitTestVisible="True" x:Name="shadows" LRCommand="Shadows" Content="Shadows" HorizontalAlignment="Left" Margin="13,150,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton IsHitTestVisible="True" x:Name="highlights" LRCommand="HighLights" Content="HighLights" HorizontalAlignment="Left" Margin="3,191,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton IsHitTestVisible="True" x:Name="blacks" LRCommand="Blacks" Content="Blacks" HorizontalAlignment="Left" Margin="234,105,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton IsHitTestVisible="True" x:Name="whites" LRCommand="Whites" Content="Whites" HorizontalAlignment="Left" Margin="234,145,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton IsHitTestVisible="True" x:Name="texture" LRCommand="Texture" Content="Texture" HorizontalAlignment="Left" Margin="228,191,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
+        <local:ControlButton x:Name="hideButton" Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="30" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5"/>
+        <local:ControlButton IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="5pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="115,120,0,0"/>
+        <local:ControlButton x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="5pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="0,110,0,0"/>
+        <local:ControlButton x:Name="highStepButton" LRCommand="5%" Content="+++" TextElement.FontSize="5pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="165,121,0,0"/>
+
     </Grid>
 </Window>
