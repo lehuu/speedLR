@@ -69,6 +69,7 @@ namespace SpeedLR
                 {
                     blacks,
                     whites,
+                    texture
                 };
 
                 _menus = new ControlButton[2][];
@@ -105,6 +106,16 @@ namespace SpeedLR
                 {
                     ActivateCommandKeys();
                     _mouseHook.Register();
+                }
+
+                var isConnected = Connector.Instance.IsConnected().Result;
+
+                foreach (var submenu in _menus)
+                {
+                    foreach (var item in submenu)
+                    {
+                        item.IsEnabled = isConnected;
+                    }
                 }
             }
             else
