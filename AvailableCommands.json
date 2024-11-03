@@ -1,0 +1,842 @@
+{
+  "categories": [
+    {
+      "title": "Adjust Panel",
+      "commands": [
+        {
+          "title": "Temperature",
+          "short": "T",
+          "command": "Temperature"
+        },
+        {
+          "title": "Tint",
+          "short": "T",
+          "command": "Tint"
+        },
+        {
+          "title": "Exposure",
+          "short": "E",
+          "command": "Exposure"
+        },
+        {
+          "title": "Highlights",
+          "short": "H",
+          "command": "Highlights"
+        },
+        {
+          "title": "Shadows",
+          "short": "S",
+          "command": "Shadows"
+        },
+        {
+          "title": "Brightness",
+          "short": "B",
+          "command": "Brightness"
+        },
+        {
+          "title": "Contrast",
+          "short": "C",
+          "command": "Contrast"
+        },
+        {
+          "title": "Whites",
+          "short": "W",
+          "command": "Whites"
+        },
+        {
+          "title": "Blacks",
+          "short": "B",
+          "command": "Blacks"
+        },
+        {
+          "title": "Texture",
+          "short": "T",
+          "command": "Texture"
+        },
+        {
+          "title": "Clarity",
+          "short": "C",
+          "command": "Clarity"
+        },
+        {
+          "title": "Dehaze",
+          "short": "D",
+          "command": "Dehaze"
+        },
+        {
+          "title": "Vibrance",
+          "short": "V",
+          "command": "Vibrance"
+        },
+        {
+          "title": "Saturation",
+          "short": "S",
+          "command": "Saturation"
+        },
+        {
+          "title": "Preset Amount",
+          "short": "P",
+          "command": "PresetAmount"
+        },
+        {
+          "title": "Profile Amount",
+          "short": "P",
+          "command": "ProfileAmount"
+        }
+      ]
+    },
+    {
+      "title": "Tone Panel",
+      "commands": [
+        {
+          "title": "Parametric Darks",
+          "short": "P",
+          "command": "ParametricDarks"
+        },
+        {
+          "title": "Parametric Lights",
+          "short": "P",
+          "command": "ParametricLights"
+        },
+        {
+          "title": "Parametric Shadows",
+          "short": "P",
+          "command": "ParametricShadows"
+        },
+        {
+          "title": "Parametric Highlights",
+          "short": "P",
+          "command": "ParametricHighlights"
+        },
+        {
+          "title": "Parametric Shadow Split",
+          "short": "P",
+          "command": "ParametricShadowSplit"
+        },
+        {
+          "title": "Parametric Midtone Split",
+          "short": "P",
+          "command": "ParametricMidtoneSplit"
+        },
+        {
+          "title": "Parametric Highlight Split",
+          "short": "P",
+          "command": "ParametricHighlightSplit"
+        },
+        {
+          "title": "Tone Curve",
+          "short": "T",
+          "command": "ToneCurve"
+        },
+        {
+          "title": "Tone Curve PV2012",
+          "short": "T",
+          "command": "ToneCurvePV2012"
+        },
+        {
+          "title": "Tone Curve PV2012 Red",
+          "short": "T",
+          "command": "ToneCurvePV2012Red"
+        },
+        {
+          "title": "Tone Curve PV2012 Blue",
+          "short": "T",
+          "command": "ToneCurvePV2012Blue"
+        },
+        {
+          "title": "Tone Curve PV2012 Green",
+          "short": "T",
+          "command": "ToneCurvePV2012Green"
+        },
+        {
+          "title": "Curve Refine Saturation",
+          "short": "C",
+          "command": "CurveRefineSaturation"
+        }
+      ]
+    },
+    {
+      "title": "Color Mixer Panel",
+      "commands": [
+        {
+          "title": "Saturation Red",
+          "short": "R",
+          "command": "SaturationAdjustmentRed"
+        },
+        {
+          "title": "Saturation Orange",
+          "short": "O",
+          "command": "SaturationAdjustmentOrange"
+        },
+        {
+          "title": "Saturation Yellow",
+          "short": "Y",
+          "command": "SaturationAdjustmentYellow"
+        },
+        {
+          "title": "Saturation Green",
+          "short": "G",
+          "command": "SaturationAdjustmentGreen"
+        },
+        {
+          "title": "Saturation Aqua",
+          "short": "A",
+          "command": "SaturationAdjustmentAqua"
+        },
+        {
+          "title": "Saturation Blue",
+          "short": "B",
+          "command": "SaturationAdjustmentBlue"
+        },
+        {
+          "title": "Saturation Purple",
+          "short": "P",
+          "command": "SaturationAdjustmentPurple"
+        },
+        {
+          "title": "Saturation Magenta",
+          "short": "M",
+          "command": "SaturationAdjustmentMagenta"
+        },
+        {
+          "title": "Hue Red",
+          "short": "R",
+          "command": "HueAdjustmentRed"
+        },
+        {
+          "title": "Hue Orange",
+          "short": "O",
+          "command": "HueAdjustmentOrange"
+        },
+        {
+          "title": "Hue Yellow",
+          "short": "Y",
+          "command": "HueAdjustmentYellow"
+        },
+        {
+          "title": "Hue Green",
+          "short": "G",
+          "command": "HueAdjustmentGreen"
+        },
+        {
+          "title": "Hue Aqua",
+          "short": "A",
+          "command": "HueAdjustmentAqua"
+        },
+        {
+          "title": "Hue Blue",
+          "short": "B",
+          "command": "HueAdjustmentBlue"
+        },
+        {
+          "title": "Hue Purple",
+          "short": "P",
+          "command": "HueAdjustmentPurple"
+        },
+        {
+          "title": "Hue Magenta",
+          "short": "M",
+          "command": "HueAdjustmentMagenta"
+        },
+        {
+          "title": "Luminance Red",
+          "short": "R",
+          "command": "LuminanceAdjustmentRed"
+        },
+        {
+          "title": "Luminance Orange",
+          "short": "O",
+          "command": "LuminanceAdjustmentOrange"
+        },
+        {
+          "title": "Luminance Yellow",
+          "short": "Y",
+          "command": "LuminanceAdjustmentYellow"
+        },
+        {
+          "title": "Luminance Green",
+          "short": "G",
+          "command": "LuminanceAdjustmentGreen"
+        },
+        {
+          "title": "Luminance Aqua",
+          "short": "A",
+          "command": "LuminanceAdjustmentAqua"
+        },
+        {
+          "title": "Luminance Blue",
+          "short": "B",
+          "command": "LuminanceAdjustmentBlue"
+        },
+        {
+          "title": "Luminance Purple",
+          "short": "P",
+          "command": "LuminanceAdjustmentPurple"
+        },
+        {
+          "title": "Luminance Magenta",
+          "short": "M",
+          "command": "LuminanceAdjustmentMagenta"
+        },
+        {
+          "title": "Point Colors",
+          "short": "P",
+          "command": "PointColors"
+        }
+      ]
+    },
+    {
+      "title": "B&W Mixer Panel",
+      "commands": [
+        {
+          "title": "Mixer Red",
+          "short": "R",
+          "command": "GrayMixerRed"
+        },
+        {
+          "title": "Mixer Orange",
+          "short": "O",
+          "command": "GrayMixerOrange"
+        },
+        {
+          "title": "Mixer Yellow",
+          "short": "Y",
+          "command": "GrayMixerYellow"
+        },
+        {
+          "title": "Mixer Green",
+          "short": "G",
+          "command": "GrayMixerGreen"
+        },
+        {
+          "title": "Mixer Aqua",
+          "short": "A",
+          "command": "GrayMixerAqua"
+        },
+        {
+          "title": "Mixer Blue",
+          "short": "B",
+          "command": "GrayMixerBlue"
+        },
+        {
+          "title": "Mixer Purple",
+          "short": "P",
+          "command": "GrayMixerPurple"
+        },
+        {
+          "title": "Mixer Magenta",
+          "short": "M",
+          "command": "GrayMixerMagenta"
+        }
+      ]
+    },
+    {
+      "title": "Color Grading Panel",
+      "commands": [
+        {
+          "title": "Split Toning Shadow Hue",
+          "short": "S",
+          "command": "SplitToningShadowHue"
+        },
+        {
+          "title": "Split Toning Shadow Saturation",
+          "short": "S",
+          "command": "SplitToningShadowSaturation"
+        },
+        {
+          "title": "Color Grade Shadow Lum",
+          "short": "C",
+          "command": "ColorGradeShadowLum"
+        },
+        {
+          "title": "Split Toning Highlight Hue",
+          "short": "S",
+          "command": "SplitToningHighlightHue"
+        },
+        {
+          "title": "Split Toning Highlight Saturation",
+          "short": "S",
+          "command": "SplitToningHighlightSaturation"
+        },
+        {
+          "title": "Color Grade Highlight Lum",
+          "short": "C",
+          "command": "ColorGradeHighlightLum"
+        },
+        {
+          "title": "Color Grade Midtone Hue",
+          "short": "C",
+          "command": "ColorGradeMidtoneHue"
+        },
+        {
+          "title": "Color Grade Midtone Sat",
+          "short": "C",
+          "command": "ColorGradeMidtoneSat"
+        },
+        {
+          "title": "Color Grade Midtone Lum",
+          "short": "C",
+          "command": "ColorGradeMidtoneLum"
+        },
+        {
+          "title": "Color Grade Global Hue",
+          "short": "C",
+          "command": "ColorGradeGlobalHue"
+        },
+        {
+          "title": "Color Grade Global Sat",
+          "short": "C",
+          "command": "ColorGradeGlobalSat"
+        },
+        {
+          "title": "Color Grade Global Lum",
+          "short": "C",
+          "command": "ColorGradeGlobalLum"
+        },
+        {
+          "title": "Split Toning Balance",
+          "short": "S",
+          "command": "SplitToningBalance"
+        },
+        {
+          "title": "Color Grade Blending",
+          "short": "C",
+          "command": "ColorGradeBlending"
+        }
+      ]
+    },
+    {
+      "title": "Detail Panel",
+      "commands": [
+        {
+          "title": "Sharpness",
+          "short": "S",
+          "command": "Sharpness"
+        },
+        {
+          "title": "Sharpen Radius",
+          "short": "S",
+          "command": "SharpenRadius"
+        },
+        {
+          "title": "Sharpen Detail",
+          "short": "S",
+          "command": "SharpenDetail"
+        },
+        {
+          "title": "Sharpen Edge Masking",
+          "short": "S",
+          "command": "SharpenEdgeMasking"
+        },
+        {
+          "title": "Luminance Smoothing",
+          "short": "L",
+          "command": "LuminanceSmoothing"
+        },
+        {
+          "title": "Luminance Noise Reduction Detail",
+          "short": "L",
+          "command": "LuminanceNoiseReductionDetail"
+        },
+        {
+          "title": "Luminance Noise Reduction Contrast",
+          "short": "L",
+          "command": "LuminanceNoiseReductionContrast"
+        },
+        {
+          "title": "Color Noise Reduction",
+          "short": "C",
+          "command": "ColorNoiseReduction"
+        },
+        {
+          "title": "Color Noise Reduction Detail",
+          "short": "C",
+          "command": "ColorNoiseReductionDetail"
+        },
+        {
+          "title": "Color Noise Reduction Smoothness",
+          "short": "C",
+          "command": "ColorNoiseReductionSmoothness"
+        }
+      ]
+
+    },
+    {
+      "title": "Effects Panel",
+      "commands": [
+        {
+          "title": "Post-Crop Vignette Amount",
+          "short": "P",
+          "command": "PostCropVignetteAmount"
+        },
+        {
+          "title": "Post-Crop Vignette Midpoint",
+          "short": "P",
+          "command": "PostCropVignetteMidpoint"
+        },
+        {
+          "title": "Post-Crop Vignette Feather",
+          "short": "P",
+          "command": "PostCropVignetteFeather"
+        },
+        {
+          "title": "Post-Crop Vignette Roundness",
+          "short": "P",
+          "command": "PostCropVignetteRoundness"
+        },
+        {
+          "title": "Post-Crop Vignette Style",
+          "short": "P",
+          "command": "PostCropVignetteStyle"
+        },
+        {
+          "title": "Post-Crop Vignette Highlight Contrast",
+          "short": "P",
+          "command": "PostCropVignetteHighlightContrast"
+        },
+        {
+          "title": "Grain Amount",
+          "short": "G",
+          "command": "GrainAmount"
+        },
+        {
+          "title": "Grain Size",
+          "short": "G",
+          "command": "GrainSize"
+        },
+        {
+          "title": "Grain Frequency",
+          "short": "G",
+          "command": "GrainFrequency"
+        }
+      ]
+
+    },
+    {
+      "title": "Lens Corrections Panel",
+      "commands": [
+        {
+          "title": "Auto Lateral CA",
+          "short": "A",
+          "command": "AutoLateralCA"
+        },
+        {
+          "title": "Lens Profile Enable",
+          "short": "L",
+          "command": "LensProfileEnable"
+        },
+        {
+          "title": "Lens Profile Distortion Scale",
+          "short": "L",
+          "command": "LensProfileDistortionScale"
+        },
+        {
+          "title": "Lens Profile Vignetting Scale",
+          "short": "L",
+          "command": "LensProfileVignettingScale"
+        },
+        {
+          "title": "Lens Manual Distortion Amount",
+          "short": "L",
+          "command": "LensManualDistortionAmount"
+        },
+        {
+          "title": "Defringe Purple Amount",
+          "short": "D",
+          "command": "DefringePurpleAmount"
+        },
+        {
+          "title": "Defringe Purple Hue Lo",
+          "short": "D",
+          "command": "DefringePurpleHueLo"
+        },
+        {
+          "title": "Defringe Purple Hue Hi",
+          "short": "D",
+          "command": "DefringePurpleHueHi"
+        },
+        {
+          "title": "Defringe Green Amount",
+          "short": "D",
+          "command": "DefringeGreenAmount"
+        },
+        {
+          "title": "Defringe Green Hue Lo",
+          "short": "D",
+          "command": "DefringeGreenHueLo"
+        },
+        {
+          "title": "Defringe Green Hue Hi",
+          "short": "D",
+          "command": "DefringeGreenHueHi"
+        },
+        {
+          "title": "Vignette Amount",
+          "short": "V",
+          "command": "VignetteAmount"
+        },
+        {
+          "title": "Vignette Midpoint",
+          "short": "V",
+          "command": "VignetteMidpoint"
+        },
+        {
+          "title": "Perspective Vertical",
+          "short": "P",
+          "command": "PerspectiveVertical"
+        },
+        {
+          "title": "Perspective Horizontal",
+          "short": "P",
+          "command": "PerspectiveHorizontal"
+        },
+        {
+          "title": "Perspective Rotate",
+          "short": "P",
+          "command": "PerspectiveRotate"
+        },
+        {
+          "title": "Perspective Scale",
+          "short": "P",
+          "command": "PerspectiveScale"
+        },
+        {
+          "title": "Perspective Aspect",
+          "short": "P",
+          "command": "PerspectiveAspect"
+        },
+        {
+          "title": "Perspective X",
+          "short": "P",
+          "command": "PerspectiveX"
+        },
+        {
+          "title": "Perspective Y",
+          "short": "P",
+          "command": "PerspectiveY"
+        },
+        {
+          "title": "Perspective Upright",
+          "short": "P",
+          "command": "PerspectiveUpright"
+        }
+      ]
+    },
+    {
+      "title": "Calibrate Panel",
+      "commands": [
+        {
+          "title": "Shadow Tint",
+          "short": "S",
+          "command": "ShadowTint"
+        },
+        {
+          "title": "Red Hue",
+          "short": "R",
+          "command": "RedHue"
+        },
+        {
+          "title": "Red Saturation",
+          "short": "R",
+          "command": "RedSaturation"
+        },
+        {
+          "title": "Green Hue",
+          "short": "G",
+          "command": "GreenHue"
+        },
+        {
+          "title": "Green Saturation",
+          "short": "G",
+          "command": "GreenSaturation"
+        },
+        {
+          "title": "Blue Hue",
+          "short": "B",
+          "command": "BlueHue"
+        },
+        {
+          "title": "Blue Saturation",
+          "short": "B",
+          "command": "BlueSaturation"
+        }
+      ]
+    },
+    {
+      "title": "Lens Blur Panel",
+      "commands": [
+        {
+          "title": "Lens Blur Active",
+          "short": "L",
+          "command": "LensBlurActive"
+        },
+        {
+          "title": "Lens Blur Amount",
+          "short": "L",
+          "command": "LensBlurAmount"
+        },
+        {
+          "title": "Lens Blur Highlights Boost",
+          "short": "L",
+          "command": "LensBlurHighlightsBoost"
+        },
+        {
+          "title": "Lens Blur Focal Range",
+          "short": "L",
+          "command": "LensBlurFocalRange"
+        }
+      ]
+    },
+    {
+      "title": "Crop Angle",
+      "commands": [
+        {
+          "title": "Straighten Angle",
+          "short": "S",
+          "command": "straightenAngle"
+        }
+      ]
+
+    },
+    {
+      "title": "Localized Adjustments",
+      "commands": [
+        {
+          "title": "Local Temperature",
+          "short": "T",
+          "command": "local_Temperature"
+        },
+        {
+          "title": "Local Tint",
+          "short": "T",
+          "command": "local_Tint"
+        },
+        {
+          "title": "Local Exposure",
+          "short": "E",
+          "command": "local_Exposure"
+        },
+        {
+          "title": "Local Contrast",
+          "short": "C",
+          "command": "local_Contrast"
+        },
+        {
+          "title": "Local Highlights",
+          "short": "H",
+          "command": "local_Highlights"
+        },
+        {
+          "title": "Local Shadows",
+          "short": "S",
+          "command": "local_Shadows"
+        },
+        {
+          "title": "Local Clarity",
+          "short": "C",
+          "command": "local_Clarity"
+        },
+        {
+          "title": "Local Saturation",
+          "short": "S",
+          "command": "local_Saturation"
+        },
+        {
+          "title": "Local Toning Hue",
+          "short": "T",
+          "command": "local_ToningHue"
+        },
+        {
+          "title": "Local Toning Saturation",
+          "short": "T",
+          "command": "local_ToningSaturation"
+        },
+        {
+          "title": "Local Sharpness",
+          "short": "S",
+          "command": "local_Sharpness"
+        },
+        {
+          "title": "Local Luminance Noise",
+          "short": "L",
+          "command": "local_LuminanceNoise"
+        },
+        {
+          "title": "Local Moire",
+          "short": "M",
+          "command": "local_Moire"
+        },
+        {
+          "title": "Local Defringe",
+          "short": "D",
+          "command": "local_Defringe"
+        },
+        {
+          "title": "Local Blacks",
+          "short": "B",
+          "command": "local_Blacks"
+        },
+        {
+          "title": "Local Whites",
+          "short": "W",
+          "command": "local_Whites"
+        },
+        {
+          "title": "Local Dehaze",
+          "short": "D",
+          "command": "local_Dehaze"
+        },
+        {
+          "title": "Local Point Colors",
+          "short": "P",
+          "command": "local_PointColors"
+        },
+        {
+          "title": "Local Texture",
+          "short": "T",
+          "command": "local_Texture"
+        },
+        {
+          "title": "Local Hue",
+          "short": "H",
+          "command": "local_Hue"
+        },
+        {
+          "title": "Local Amount",
+          "short": "A",
+          "command": "local_Amount"
+        },
+        {
+          "title": "Local Maincurve",
+          "short": "M",
+          "command": "local_Maincurve"
+        },
+        {
+          "title": "Local Redcurve",
+          "short": "R",
+          "command": "local_Redcurve"
+        },
+        {
+          "title": "Local Greencurve",
+          "short": "G",
+          "command": "local_Greencurve"
+        },
+        {
+          "title": "Local Bluecurve",
+          "short": "B",
+          "command": "local_Bluecurve"
+        },
+        {
+          "title": "Local Grain",
+          "short": "G",
+          "command": "local_Grain"
+        },
+        {
+          "title": "Local Refine Saturation",
+          "short": "R",
+          "command": "local_RefineSaturation"
+        }
+      ]
+    }
+  ]
+}
