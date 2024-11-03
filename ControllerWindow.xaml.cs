@@ -80,16 +80,10 @@ namespace SpeedLR
             {
                 var firstMenu = new ControlButton[]
                 {
-                    exposure,
-                    shadows,
-                    highlights
                 };
 
                 var secondMenu = new ControlButton[]
                 {
-                    blacks,
-                    whites,
-                    texture
                 };
 
                 _menus = new ControlButton[2][];

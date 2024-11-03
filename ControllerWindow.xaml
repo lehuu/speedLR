@@ -7,7 +7,7 @@
         Background="Transparent"
         Focusable="False"
         Closing="ControllerWindow_Closing" WindowStyle="None" AllowsTransparency="True" mc:Ignorable="d"
-        Topmost="True" ShowInTaskbar="False" Height="398" Width="400" ResizeMode="NoResize" Icon="/wheel.ico">
+        Topmost="True" ShowInTaskbar="False" Height="300" Width="300" ResizeMode="NoResize" Icon="/wheel.ico">
     <Window.Resources>
         <!-- Define the ControlTemplate for ControlButton -->
         <Style TargetType="{x:Type local:ControlButton}">
@@ -57,17 +57,8 @@
     </Window.Resources>
 
     <Grid Width="300" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <local:ControlButton IsHitTestVisible="True" x:Name="exposure" LRCommand="Exposure" Content="Exposure" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton IsHitTestVisible="True" x:Name="shadows" LRCommand="Shadows" Content="Shadows" HorizontalAlignment="Left" Margin="13,150,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton IsHitTestVisible="True" x:Name="highlights" LRCommand="HighLights" Content="HighLights" HorizontalAlignment="Left" Margin="3,191,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton IsHitTestVisible="True" x:Name="blacks" LRCommand="Blacks" Content="Blacks" HorizontalAlignment="Left" Margin="234,105,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton IsHitTestVisible="True" x:Name="whites" LRCommand="Whites" Content="Whites" HorizontalAlignment="Left" Margin="234,145,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
-        <local:ControlButton IsHitTestVisible="True" x:Name="texture" LRCommand="Texture" Content="Texture" HorizontalAlignment="Left" Margin="228,191,0,0" VerticalAlignment="Top" Click="MenuItem_Click"/>
         <local:ControlButton x:Name="hideButton" Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="30" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5"/>
-        
+
         <local:ControlButton IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="115,120,0,0"/>
         <local:ControlButton x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="0,110,0,0"/>
         <local:ControlButton x:Name="highStepButton" LRCommand="5%" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="165,121,0,0">
