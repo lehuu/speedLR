@@ -9,7 +9,7 @@
         Activated="CheckConnection"
         Title="SpeedLr" Height="450" Width="300
         " ResizeMode="NoResize" Icon="/wheel.ico">
-    
+
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Template">
@@ -27,12 +27,12 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
+
     <Grid Margin="0,0,0,2">
         <Button x:Name="connectButton" Content="Reconnect..." HorizontalAlignment="Left" Height="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="125" Click="ConnectButton_Click"/>
         <Button x:Name="portButton" Content="Port:" HorizontalAlignment="Left" Height="20" Margin="140,10,0,0" VerticalAlignment="Top" Width="125" Click="PortButton_Click"/>
 
-        <Grid Width="300" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid x:Name="buttonGrid" Width="300" Height="300" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <Button Opacity="0.5" IsEnabled="False" Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="30"/>
             <Button Opacity="0.5" IsEnabled="False" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="115,120,0,0"/>
             <Button Opacity="0.5" IsEnabled="False" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Margin="0,110,0,0"/>

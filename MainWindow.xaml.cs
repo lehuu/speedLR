@@ -3,6 +3,7 @@ using System.Windows.Interop;
 using Brushes = System.Windows.Media.Brushes;
 using Application = System.Windows.Application;
 using Point = System.Drawing.Point;
+using System.Windows.Controls;
 
 namespace SpeedLR
 {
@@ -17,8 +18,53 @@ namespace SpeedLR
         public MainWindow()
         {
             InitializeComponent();
+            CreateMenu();
 
             IsVisibleChanged += MainWindow_IsVisibleChanged;
+        }
+
+        private void CreateMenu()
+        {
+            int numberOfMenus = 3;
+            int numberOfButtons = 8;
+
+            for (int i = 0; i < numberOfMenus; i++)
+            {
+                for (int j = 0; j < numberOfButtons; j++)
+                {
+                    EmptyButton button = new EmptyButton();
+                    button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, i, (float) j / (float) numberOfButtons);
+                    buttonGrid.Children.Add(button);
+                }
+            }
+        }
+
+        private void CreateButtonsInCircle(Grid centerGrid, double distance, int buttonCount, float offset)
+        {
+            // Get the center position of buttonGrid
+            double centerX = centerGrid.Margin.Left + centerGrid.ActualWidth / 2;
+            double centerY = centerGrid.Margin.Top + centerGrid.ActualHeight / 2;
+            double angleStep = 2 * Math.PI / buttonCount;
+
+            for (int i = 0; i < buttonCount; i++)
+            {
+                // Calculate the current angle
+                double angle = i * angleStep + offset * angleStep;
+
+                // Calculate x and y offsets based on the angle and distance
+                double offsetX = distance * Math.Cos(angle);
+                double offsetY = distance * Math.Sin(angle);
+
+                // Create a new button
+                EmptyButton button = new EmptyButton();
+
+                // Set the position of the button
+                button.Margin = new Thickness(centerX + offsetX ,
+                                              centerY + offsetY, 0, 0);
+
+                // Add button to the main grid (assuming the main Grid is named "MainGrid")
+                centerGrid.Children.Add(button);
+            }
         }
 
         private void MainWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -110,7 +156,7 @@ namespace SpeedLR
                     return;
                 }
                 var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-                Point mousePosition = Control.MousePosition;
+                Point mousePosition = System.Windows.Forms.Control.MousePosition;
 
                 var mouse = transform.Transform(new System.Windows.Point(mousePosition.X, mousePosition.Y));
 
