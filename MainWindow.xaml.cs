@@ -17,6 +17,7 @@ namespace SpeedLR
         public MainWindow()
         {
             InitializeComponent();
+
             IsVisibleChanged += MainWindow_IsVisibleChanged;
         }
 
