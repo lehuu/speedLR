@@ -2,6 +2,7 @@
 using Button = System.Windows.Controls.Button;
 using Brushes = System.Windows.Media.Brushes;
 using System.Windows.Controls;
+using SpeedLR.Model;
 
 namespace SpeedLR
 {
@@ -40,6 +41,33 @@ namespace SpeedLR
             Style = roundedButtonStyle;
 
             Background = Brushes.LightGray;
+
+            Click += OnButtonClick;
+        }
+
+        private void OnButtonClick(object sender, RoutedEventArgs e)
+        {
+            // Create a new ContextMenu
+            ContextMenu contextMenu = new ContextMenu();
+
+            // Populate the ContextMenu with categories and commands
+            foreach (var category in LocalData.Instance.AvailableCommands.Categories)
+            {
+                MenuItem categoryItem = new MenuItem { Header = category.Title };
+
+                foreach (var command in category.Commands)
+                {
+                    MenuItem commandItem = new MenuItem { Header = command.Title };
+                    commandItem.Click += (s, args) => System.Windows.MessageBox.Show($"Executing command: {command.Title}");
+                    categoryItem.Items.Add(commandItem);
+                }
+
+                contextMenu.Items.Add(categoryItem);
+            }
+
+            // Show the ContextMenu
+            contextMenu.PlacementTarget = this;
+            contextMenu.IsOpen = true;
         }
     }
 }
