@@ -1,0 +1,13 @@
+﻿<Window x:Class="SpeedLR.PortWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpeedLR"
+        mc:Ignorable="d"
+        Title="PortWindow" Height="120" Width="200">
+    <Grid VerticalAlignment="Top" Margin="10">
+        <TextBox x:Name="portTextBox" TextWrapping="Wrap" Height="20"/>
+        <Button x:Name="confirmButton" Content="OK" Margin="0,25,0,-25" Click="ConfirmButton_Click"/>
+    </Grid>
+</Window>

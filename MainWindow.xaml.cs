@@ -9,11 +9,11 @@ namespace SpeedLR
 {
     public partial class MainWindow : Window
     {
-        private static int DEFAULT_PORT = 49000;
         private NotifyIcon _notifyIcon;
 
         private ControllerWindow _controller;
         private GlobalHotkey _activatorHotkey;
+        private PortWindow? _portWindow;
 
         private EmptyButton[,] _menuButtons;
 
@@ -146,14 +146,14 @@ namespace SpeedLR
 
         private async void ConnectToServer()
         {
-            this.portButton.Content = "Port: " + DEFAULT_PORT;
+            this.portButton.Content = "Port: " + LocalData.Instance.Port;
 
             try
             {
                 this.connectButton.Content = "Connecting...";
                 this.connectButton.Background = Brushes.Blue;
 
-                await Connector.Instance.Connect(DEFAULT_PORT);
+                await Connector.Instance.Connect(LocalData.Instance.Port);
 
                 this.connectButton.Background = Brushes.Green;
                 this.connectButton.Content = "Connected";
@@ -214,7 +214,22 @@ namespace SpeedLR
 
         private void PortButton_Click(object sender, RoutedEventArgs e)
         {
+            if(_portWindow != null)
+            {
+                _portWindow.Close();
+                _portWindow = null;
+            }
 
+            _portWindow = new PortWindow();
+            _portWindow.Left = Left;
+            _portWindow.Top = Top;
+            _portWindow.Confirm += (s, args) =>
+            {
+                Connector.Instance.CloseConnection();
+                ConnectToServer();
+            };
+
+            _portWindow.Show();
         }
 
         private void ExitMenuItem_Click(object sender, EventArgs e)

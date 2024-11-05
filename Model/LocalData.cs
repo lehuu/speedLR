@@ -8,14 +8,17 @@ public class LocalData
 
     private string COMMAND_PATH = "AvailableCommands.json";
     private string MENU_PATH = "MyMenus.json";
+    private string PORT_PATH = "Port.txt";
     public AvailableCommands AvailableCommands { get; private set; }
 
     public AvailableMenus AvailableMenus { get; set; }
+    public int Port { get; set; }
 
     private LocalData()
     {
         AvailableCommands = LoadAvailableCommands();
         AvailableMenus = LoadAvailableMenus();
+        Port = LoadPort();
     }
 
     public static LocalData Instance
@@ -36,6 +39,23 @@ public class LocalData
         return new AvailableCommands();
     }
 
+    private int LoadPort()
+    {
+        if (File.Exists(PORT_PATH))
+        {
+            try
+            {
+                int result = int.Parse(File.ReadAllText(PORT_PATH));
+                return result;
+            }
+            catch
+            {
+                return 49000;
+            }
+        }
+        return 49000;
+    }
+
     private AvailableMenus LoadAvailableMenus()
     {
         if (File.Exists(MENU_PATH))
@@ -46,6 +66,17 @@ public class LocalData
         return new AvailableMenus();
     }
 
+    public void SavePort()
+    {
+        try
+        {
+            File.WriteAllText(PORT_PATH, Port.ToString());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error writing {PORT_PATH}: {ex.Message}");
+        }
+    }
     public void SaveAvailableMenus()
     {
         try
