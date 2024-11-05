@@ -31,6 +31,8 @@ namespace SpeedLR
             {
                 _command = value;
                 Content = value.Short;
+                ToolTip = new System.Windows.Controls.ToolTip { Content = value.Title };
+
             }
         }
 
@@ -69,10 +71,10 @@ namespace SpeedLR
 
             // Add the ControlTemplate to the style
             roundedButtonStyle.Setters.Add(new Setter(Button.TemplateProperty, template));
-
             Style = roundedButtonStyle;
 
-            Background = Brushes.LightGray;
+            ToolTipService.SetInitialShowDelay(this, 0); // Show immediately
+            ToolTipService.SetShowDuration(this, int.MaxValue);
 
             Click += OnButtonClick;
         }
