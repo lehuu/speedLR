@@ -6,8 +6,20 @@ using SpeedLR.Model;
 
 namespace SpeedLR
 {
-    class EmptyButton: Button
+    class EmptyButton : Button
     {
+        public class MenuItemEventArg : EventArgs
+        {
+            public Command Value { get; set; }
+
+            public MenuItemEventArg(Command value)
+            {
+                Value = value;
+            }
+        }
+
+        public event EventHandler<MenuItemEventArg> MenuItemClick;
+
         public EmptyButton()
         {
             Width = 30;
@@ -58,7 +70,10 @@ namespace SpeedLR
                 foreach (var command in category.Commands)
                 {
                     MenuItem commandItem = new MenuItem { Header = command.Title };
-                    commandItem.Click += (s, args) => System.Windows.MessageBox.Show($"Executing command: {command.Title}");
+                    commandItem.Click += (s, args) => {
+                        var currentCommand = command;
+                        MenuItemClick?.Invoke(this, new MenuItemEventArg(currentCommand));
+                    };
                     categoryItem.Items.Add(commandItem);
                 }
 

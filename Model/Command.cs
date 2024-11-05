@@ -8,7 +8,7 @@ namespace SpeedLR.Model
         public string Title { get; set; }
         [JsonPropertyName("short")]
         public string Short { get; set; }
-        [JsonPropertyName("commandName")]
+        [JsonPropertyName("command")]
         public string CommandName { get; set; }
     }
 }

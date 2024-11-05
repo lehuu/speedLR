@@ -35,8 +35,13 @@ namespace SpeedLR
             {
                 for (int j = 0; j < numberOfButtons; j++)
                 {
+                    var currentMenu = i;
+                    var currentButton = j;
                     EmptyButton button = new EmptyButton();
                     button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, i, (float)j / (float)numberOfButtons);
+                    button.MenuItemClick += (s, args) => {
+                        System.Windows.MessageBox.Show($"Executing command: {args.Value.CommandName} {currentMenu} {currentButton}");
+                    };
 
                     _menuButtons[i, j] = button;
                     buttonGrid.Children.Add(button);
