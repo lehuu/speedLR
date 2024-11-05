@@ -5,6 +5,7 @@ using Brushes = System.Windows.Media.Brushes;
 using Application = System.Windows.Application;
 using Point = System.Drawing.Point;
 using System.Windows.Controls;
+using SpeedLR.Model;
 
 namespace SpeedLR
 {
@@ -56,14 +57,16 @@ namespace SpeedLR
                         var menu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
                         var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
 
-                        var backgroundColor = "#D3D3D3";
-                        var fontColor = "#000000";
+                        var backgroundColor = ColorData.DEFAULT_BACKGROUND;
+                        var fontColor = ColorData.DEFAULT_FONT;
 
                         if (existingIndex.HasValue && existingIndex.Value != -1)
                         {
+                            backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
+                            fontColor = menu?.Buttons[existingIndex.Value].FontColor;
                             menu?.Buttons.RemoveAt(existingIndex.Value);
                         }
-                        menu?.Buttons.Add(new Model.CommandButton(args.Value, currentMenu, currentButton, backgroundColor, fontColor));
+                        menu?.Buttons.Add(new CommandButton(args.Value, currentMenu, currentButton, backgroundColor, fontColor));
 
                         if (menu != null)
                         {
@@ -79,6 +82,42 @@ namespace SpeedLR
                         if (existingIndex.HasValue && existingIndex.Value != -1 && menu != null)
                         {
                             menu.Buttons.RemoveAt(existingIndex.Value);
+                            LocalData.Instance.AvailableMenus.UpdateMenu(menu);
+                            LocalData.Instance.SaveAvailableMenus();
+                        }
+                    };
+
+                    button.ColorItemClick += (s, args) =>
+                    {
+                        var menu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
+                        var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+
+                        var backgroundColor = ColorData.DEFAULT_BACKGROUND;
+                        var fontColor = ColorData.DEFAULT_FONT;
+                        Model.Command command = null;
+
+                        if (existingIndex.HasValue && existingIndex.Value != -1)
+                        {
+                            command = menu?.Buttons[existingIndex.Value].Command;
+                            backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
+                            fontColor = menu?.Buttons[existingIndex.Value].FontColor;
+                            menu?.Buttons.RemoveAt(existingIndex.Value);
+                        }
+
+                        switch(args.Type)
+                        {
+                            case EmptyButton.ColorType.Background:
+                                backgroundColor = args.Value;
+                                break;
+                            case EmptyButton.ColorType.Font:
+                                fontColor = args.Value;
+                                break;
+                        }
+
+                        menu?.Buttons.Add(new CommandButton(command, currentMenu, currentButton, backgroundColor, fontColor));
+
+                        if (menu != null)
+                        {
                             LocalData.Instance.AvailableMenus.UpdateMenu(menu);
                             LocalData.Instance.SaveAvailableMenus();
                         }
