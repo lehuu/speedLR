@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Interop;
+using System.Linq;
 using Brushes = System.Windows.Media.Brushes;
 using Application = System.Windows.Application;
 using Point = System.Drawing.Point;
@@ -19,17 +20,25 @@ namespace SpeedLR
         public MainWindow()
         {
             InitializeComponent();
-            CreateMenu();
+            CreateMenu("Start");
 
             IsVisibleChanged += MainWindow_IsVisibleChanged;
         }
 
-        private void CreateMenu()
+        private void CreateMenu(string menuName)
         {
             int numberOfMenus = 3;
             int numberOfButtons = 8;
 
             _menuButtons = new EmptyButton[numberOfMenus, numberOfButtons];
+
+            var startMenu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
+
+            if (startMenu == null)
+            {
+                startMenu = new Model.Menu(menuName);
+                LocalData.Instance.AvailableMenus.Menus.Add(startMenu);
+            }
 
             for (int i = 0; i < numberOfMenus; i++)
             {
@@ -37,12 +46,34 @@ namespace SpeedLR
                 {
                     var currentMenu = i;
                     var currentButton = j;
+
                     EmptyButton button = new EmptyButton();
-                    button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, i, (float)j / (float)numberOfButtons);
-                    button.MenuItemClick += (s, args) => {
+
+                    button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, currentMenu, (float)currentButton / (float)numberOfButtons);
+                    button.MenuItemClick += (s, args) =>
+                    {
+                        var menu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
+                        var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+                        if (existingIndex.HasValue && existingIndex.Value != -1)
+                        {
+                            menu?.Buttons.RemoveAt(existingIndex.Value);
+                        }
+                        menu?.Buttons.Add(new Model.CommandButton(args.Value, currentMenu, currentButton));
+
+                        if (menu != null)
+                        {
+                            LocalData.Instance.AvailableMenus.UpdateMenu(menu);
+                            LocalData.Instance.SaveAvailableMenus();
+                        }
                     };
 
-                    _menuButtons[i, j] = button;
+                    var existingButton = startMenu.Buttons.FirstOrDefault(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+                    if (existingButton != null)
+                    {
+                        button.Command = existingButton.Command;
+                    }
+
+                    _menuButtons[currentMenu, currentButton] = button;
                     buttonGrid.Children.Add(button);
                 }
             }
