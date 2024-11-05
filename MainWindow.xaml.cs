@@ -67,6 +67,18 @@ namespace SpeedLR
                         }
                     };
 
+                    button.ClearClick += (s, args) =>
+                    {
+                        var menu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
+                        var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+                        if (existingIndex.HasValue && existingIndex.Value != -1 && menu != null)
+                        {
+                            menu.Buttons.RemoveAt(existingIndex.Value);
+                            LocalData.Instance.AvailableMenus.UpdateMenu(menu);
+                            LocalData.Instance.SaveAvailableMenus();
+                        }
+                    };
+
                     var existingButton = startMenu.Buttons.FirstOrDefault(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
                     if (existingButton != null)
                     {

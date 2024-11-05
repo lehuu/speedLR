@@ -19,9 +19,10 @@ namespace SpeedLR
         }
 
         public event EventHandler<MenuItemEventArg> MenuItemClick;
+        public event EventHandler ClearClick;
 
-        private Command _command;
-        public Command Command
+        private Command? _command;
+        public Command? Command
         {
             get
             {
@@ -30,9 +31,16 @@ namespace SpeedLR
             set
             {
                 _command = value;
+
+                if(value == null)
+                {
+                    ToolTip = null;
+                    Content = null;
+                    return;
+                }
+
                 Content = value.Short;
                 ToolTip = new System.Windows.Controls.ToolTip { Content = value.Title };
-
             }
         }
 
@@ -103,6 +111,15 @@ namespace SpeedLR
 
                 contextMenu.Items.Add(categoryItem);
             }
+
+            MenuItem deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
+            deleteItem.Click += (s, args) =>
+            {
+                Command = null;
+                ClearClick?.Invoke(this, EventArgs.Empty);
+            };
+
+            contextMenu.Items.Add(deleteItem);
 
             // Show the ContextMenu
             contextMenu.PlacementTarget = this;
