@@ -46,40 +46,9 @@ namespace SpeedLR
 
         public EmptyButton()
         {
-            Width = 30;
-            Height = 30;
+            Style style = (Style)FindResource("EmptyButtonStyle");
+            Style = style;
 
-            Style roundedButtonStyle = new Style(typeof(Button));
-
-            ControlTemplate template = new ControlTemplate(typeof(Button));
-            FrameworkElementFactory border = new FrameworkElementFactory(typeof(Border));
-            border.Name = "border";
-            border.SetValue(Border.CornerRadiusProperty, new CornerRadius(15)); // Set the desired CornerRadius here
-            border.SetValue(Border.BackgroundProperty, Brushes.LightGray); // Example background color
-            border.SetValue(OpacityProperty, 0.6); // Default opacity
-
-            FrameworkElementFactory contentPresenter = new FrameworkElementFactory(typeof(ContentPresenter));
-            contentPresenter.SetValue(HorizontalAlignmentProperty, System.Windows.HorizontalAlignment.Center);
-            contentPresenter.SetValue(VerticalAlignmentProperty, VerticalAlignment.Center);
-            contentPresenter.SetValue(ForegroundProperty, Brushes.Black); // Set the desired font color here
-            border.AppendChild(contentPresenter);
-
-            template.VisualTree = border;
-
-            // Add a trigger for mouse over
-            Trigger mouseOverTrigger = new Trigger
-            {
-                Property = IsMouseOverProperty,
-                Value = true
-            };
-            mouseOverTrigger.Setters.Add(new Setter(Border.OpacityProperty, 1.0, "border"));
-
-            // Add triggers to the template
-            template.Triggers.Add(mouseOverTrigger);
-
-            // Add the ControlTemplate to the style
-            roundedButtonStyle.Setters.Add(new Setter(Button.TemplateProperty, template));
-            Style = roundedButtonStyle;
 
             ToolTipService.SetInitialShowDelay(this, 0); // Show immediately
             ToolTipService.SetShowDuration(this, int.MaxValue);

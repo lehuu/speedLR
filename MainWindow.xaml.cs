@@ -4,6 +4,7 @@ using System.Linq;
 using Brushes = System.Windows.Media.Brushes;
 using Application = System.Windows.Application;
 using Point = System.Drawing.Point;
+using System.Windows.Controls;
 
 namespace SpeedLR
 {
@@ -54,11 +55,15 @@ namespace SpeedLR
                     {
                         var menu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
                         var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+
+                        var backgroundColor = "#D3D3D3";
+                        var fontColor = "#000000";
+
                         if (existingIndex.HasValue && existingIndex.Value != -1)
                         {
                             menu?.Buttons.RemoveAt(existingIndex.Value);
                         }
-                        menu?.Buttons.Add(new Model.CommandButton(args.Value, currentMenu, currentButton));
+                        menu?.Buttons.Add(new Model.CommandButton(args.Value, currentMenu, currentButton, backgroundColor, fontColor));
 
                         if (menu != null)
                         {
@@ -83,6 +88,8 @@ namespace SpeedLR
                     if (existingButton != null)
                     {
                         button.Command = existingButton.Command;
+                        button.Background = BrushHelper.GetBrushFromHex(existingButton.BackgroundColor);
+                        button.Foreground = BrushHelper.GetBrushFromHex(existingButton.FontColor);
                     }
 
                     _menuButtons[currentMenu, currentButton] = button;
@@ -214,7 +221,7 @@ namespace SpeedLR
 
         private void PortButton_Click(object sender, RoutedEventArgs e)
         {
-            if(_portWindow != null)
+            if (_portWindow != null)
             {
                 _portWindow.Close();
                 _portWindow = null;
