@@ -20,6 +20,20 @@ namespace SpeedLR
 
         public event EventHandler<MenuItemEventArg> MenuItemClick;
 
+        private Command _command;
+        public Command Command
+        {
+            get
+            {
+                return _command;
+            }
+            set
+            {
+                _command = value;
+                Content = value.Short;
+            }
+        }
+
         public EmptyButton()
         {
             Width = 30;
@@ -33,6 +47,12 @@ namespace SpeedLR
             border.SetValue(Border.CornerRadiusProperty, new CornerRadius(15)); // Set the desired CornerRadius here
             border.SetValue(Border.BackgroundProperty, Brushes.LightGray); // Example background color
             border.SetValue(OpacityProperty, 0.6); // Default opacity
+
+            FrameworkElementFactory contentPresenter = new FrameworkElementFactory(typeof(ContentPresenter));
+            contentPresenter.SetValue(HorizontalAlignmentProperty, System.Windows.HorizontalAlignment.Center);
+            contentPresenter.SetValue(VerticalAlignmentProperty, VerticalAlignment.Center);
+            contentPresenter.SetValue(ForegroundProperty, Brushes.Black); // Set the desired font color here
+            border.AppendChild(contentPresenter);
 
             template.VisualTree = border;
 
@@ -70,8 +90,10 @@ namespace SpeedLR
                 foreach (var command in category.Commands)
                 {
                     MenuItem commandItem = new MenuItem { Header = command.Title };
-                    commandItem.Click += (s, args) => {
+                    commandItem.Click += (s, args) =>
+                    {
                         var currentCommand = command;
+                        Command = command;
                         MenuItemClick?.Invoke(this, new MenuItemEventArg(currentCommand));
                     };
                     categoryItem.Items.Add(commandItem);
