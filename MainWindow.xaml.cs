@@ -29,6 +29,7 @@ namespace SpeedLR
 
         private void CreateMenu(string menuName)
         {
+            menuTextbox.Text = menuName;
             int numberOfMenus = 3;
             int numberOfButtons = 8;
 
@@ -310,6 +311,21 @@ namespace SpeedLR
         {
             Connector.Instance.CloseConnection();
             _activatorHotkey.Unregister(HwndHook);
+        }
+
+        private void MenuDropdown_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuAddButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
