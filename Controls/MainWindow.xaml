@@ -7,7 +7,7 @@
         Closing="MainWindow_Closing"
         mc:Ignorable="d"
         Activated="CheckConnection"
-        Title="SpeedLr" Height="450" Width="300
+        Title="SpeedLr" Height="450" Width="320
         " ResizeMode="NoResize" Icon="/wheel.ico">
 
     <Window.Resources>
@@ -48,5 +48,6 @@
             <Button Opacity="0.5" IsEnabled="False" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Margin="0,170,0,0"/>
             <Button Opacity="0.5" IsEnabled="False" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="165,159,0,0"/>
         </Grid>
+        <CheckBox x:Name="defaultCheckBox" Content="StartMenu" HorizontalAlignment="Left" Margin="210,37,0,0" VerticalAlignment="Top" Checked="DefaultCheckBox_Checked"/>
     </Grid>
 </Window>

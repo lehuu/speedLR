@@ -23,7 +23,9 @@ namespace SpeedLR
         public MainWindow()
         {
             InitializeComponent();
-            SwitchToMenu(0);
+
+            var startMenuIndex = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == LocalData.Instance.AvailableMenus.DefaultMenu);
+            SwitchToMenu(startMenuIndex == -1 ? 0 : startMenuIndex);
 
             IsVisibleChanged += MainWindow_IsVisibleChanged;
             menuTextbox.DebouncedTextChanged += TextBoxChanged;
@@ -39,6 +41,7 @@ namespace SpeedLR
             var selectedMenu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
             _currentMenuId = selectedMenu.Id;
 
+            defaultCheckBox.IsChecked = LocalData.Instance.AvailableMenus.DefaultMenu == selectedMenu.Id;
             menuTextbox.Text = selectedMenu.Name;
             int numberOfMenus = 3;
             int numberOfButtons = 8;
@@ -398,6 +401,12 @@ namespace SpeedLR
             LocalData.Instance.AvailableMenus.UpdateMenu(newMenu);
             LocalData.Instance.SaveAvailableMenus();
             SwitchToMenu(newMenu.Id);
+        }
+
+        private void DefaultCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            LocalData.Instance.AvailableMenus.DefaultMenu = (defaultCheckBox.IsChecked.HasValue && defaultCheckBox.IsChecked.Value) ? _currentMenuId : "";
+            LocalData.Instance.SaveAvailableMenus();
         }
     }
 }

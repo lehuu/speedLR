@@ -6,6 +6,9 @@ namespace SpeedLR.Model
     {
         private List<Menu> _menus = new List<Menu>();
 
+        [JsonPropertyName("defaultMenu")]
+        public string DefaultMenu { get; set; }
+
         [JsonPropertyName("menus")]
         public List<Menu> Menus
         {
@@ -13,7 +16,9 @@ namespace SpeedLR.Model
             {
                 if (_menus == null || _menus.Count == 0)
                 {
-                    _menus = new List<Menu>() { new Model.Menu("Start") };
+                    var defaultMenu = new Model.Menu("Start");
+                    _menus = new List<Menu>() { defaultMenu };
+                    DefaultMenu = defaultMenu.Id;
                 }
 
                 return _menus;
