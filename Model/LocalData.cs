@@ -34,7 +34,14 @@ public class LocalData
         if (File.Exists(COMMAND_PATH))
         {
             string json = File.ReadAllText(COMMAND_PATH);
-            return JsonSerializer.Deserialize<AvailableCommands>(json) ?? new AvailableCommands();
+            try
+            {
+                return JsonSerializer.Deserialize<AvailableCommands>(json) ?? new AvailableCommands();
+            }
+            catch
+            {
+                return new AvailableCommands();
+            }
         }
         return new AvailableCommands();
     }
@@ -61,7 +68,14 @@ public class LocalData
         if (File.Exists(MENU_PATH))
         {
             string json = File.ReadAllText(MENU_PATH);
-            return JsonSerializer.Deserialize<AvailableMenus>(json) ?? new AvailableMenus();
+            try
+            {
+                return JsonSerializer.Deserialize<AvailableMenus>(json) ?? new AvailableMenus();
+            }
+            catch
+            {
+                return new AvailableMenus();
+            }
         }
         return new AvailableMenus();
     }

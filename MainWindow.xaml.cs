@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Linq;
 using System.Windows.Interop;
 using Brushes = System.Windows.Media.Brushes;
 using Application = System.Windows.Application;
@@ -18,18 +17,27 @@ namespace SpeedLR
         private PortWindow? _portWindow;
 
         private EmptyButton[,] _menuButtons;
+        private string _currentMenuId = "";
 
         public MainWindow()
         {
             InitializeComponent();
-            SwitchToMenu("Start");
+            SwitchToMenu(0);
 
             IsVisibleChanged += MainWindow_IsVisibleChanged;
         }
 
-        private void SwitchToMenu(string menuName)
+        private void SwitchToMenu(int menuIndex)
         {
-            menuTextbox.Text = menuName;
+            if (menuIndex < 0 || menuIndex >= LocalData.Instance.AvailableMenus.Menus.Count)
+            {
+                return;
+            }
+
+            var selectedMenu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
+            _currentMenuId = selectedMenu.Id;
+
+            menuTextbox.Text = selectedMenu.Name;
             int numberOfMenus = 3;
             int numberOfButtons = 8;
 
@@ -51,15 +59,6 @@ namespace SpeedLR
                 }
             }
 
-
-            var selectedMenu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
-
-            if (selectedMenu == null)
-            {
-                selectedMenu = new Model.Menu(menuName);
-                LocalData.Instance.AvailableMenus.Menus.Add(selectedMenu);
-            }
-
             for (int i = 0; i < numberOfMenus; i++)
             {
                 for (int j = 0; j < numberOfButtons; j++)
@@ -72,7 +71,7 @@ namespace SpeedLR
 
                     button.MenuItemClick += (s, args) =>
                     {
-                        var menu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
+                        var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
                         var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
 
                         var backgroundColor = ColorData.DEFAULT_BACKGROUND;
@@ -95,7 +94,7 @@ namespace SpeedLR
 
                     button.ClearClick += (s, args) =>
                     {
-                        var menu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
+                        var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
                         var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
                         if (existingIndex.HasValue && existingIndex.Value != -1 && menu != null)
                         {
@@ -107,7 +106,7 @@ namespace SpeedLR
 
                     button.ColorItemClick += (s, args) =>
                     {
-                        var menu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
+                        var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
                         var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
 
                         var backgroundColor = ColorData.DEFAULT_BACKGROUND;
@@ -147,7 +146,8 @@ namespace SpeedLR
                         button.Command = existingButton.Command;
                         button.Background = BrushHelper.GetBrushFromHex(existingButton.BackgroundColor);
                         button.Foreground = BrushHelper.GetBrushFromHex(existingButton.FontColor);
-                    } else
+                    }
+                    else
                     {
                         button.Command = null;
                         button.Background = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_BACKGROUND);
@@ -155,6 +155,18 @@ namespace SpeedLR
                     }
                 }
             }
+        }
+
+        private void SwitchToMenu(string menuId)
+        {
+            var index = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == menuId);
+
+            if (index == -1)
+            {
+                return;
+            }
+
+            SwitchToMenu(index);
         }
 
         private void MainWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -342,7 +354,7 @@ namespace SpeedLR
 
                 menuItem.Click += (s, args) =>
                 {
-                    SwitchToMenu(m.Name);
+                    SwitchToMenu(m.Id);
                 };
                 contextMenu.Items.Add(menuItem);
             });
@@ -353,15 +365,23 @@ namespace SpeedLR
 
         private void MenuDeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            var indexToDelete = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == _currentMenuId);
 
+            if (indexToDelete != -1)
+            {
+                LocalData.Instance.AvailableMenus.Menus.RemoveAt(indexToDelete);
+                LocalData.Instance.SaveAvailableMenus();
+                SwitchToMenu(0);
+            }
         }
 
         private void MenuAddButton_Click(object sender, RoutedEventArgs e)
         {
             var menuName = $"Menu_{LocalData.Instance.AvailableMenus.Menus.Count}";
-            LocalData.Instance.AvailableMenus.UpdateMenu(new Model.Menu(menuName));
+            var newMenu = new Model.Menu(menuName);
+            LocalData.Instance.AvailableMenus.UpdateMenu(newMenu);
             LocalData.Instance.SaveAvailableMenus();
-            SwitchToMenu(menuName);
+            SwitchToMenu(newMenu.Id);
         }
     }
 }

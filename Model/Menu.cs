@@ -6,7 +6,11 @@ namespace SpeedLR.Model
     {
         public Menu(string name) { 
             Name = name;
+            Id = Guid.NewGuid().ToString();
         }
+
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
