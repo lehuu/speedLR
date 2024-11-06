@@ -1,11 +1,11 @@
 ﻿using System.Windows;
-using System.Windows.Interop;
 using System.Linq;
+using System.Windows.Interop;
 using Brushes = System.Windows.Media.Brushes;
 using Application = System.Windows.Application;
 using Point = System.Drawing.Point;
-using System.Windows.Controls;
 using SpeedLR.Model;
+using System.Windows.Controls;
 
 namespace SpeedLR
 {
@@ -315,7 +315,15 @@ namespace SpeedLR
 
         private void MenuDropdown_Click(object sender, RoutedEventArgs e)
         {
+            ContextMenu contextMenu = new ContextMenu();
 
+            LocalData.Instance.AvailableMenus.Menus.ForEach(m => {
+                MenuItem menuItem = new MenuItem { Header = m.Name };
+                contextMenu.Items.Add(menuItem);
+            });
+
+            contextMenu.PlacementTarget = menuDropdown;
+            contextMenu.IsOpen = true;
         }
 
         private void MenuDeleteButton_Click(object sender, RoutedEventArgs e)
