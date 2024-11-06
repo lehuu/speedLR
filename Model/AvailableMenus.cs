@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using System.Linq;
 
 namespace SpeedLR.Model
 {
@@ -14,10 +13,11 @@ namespace SpeedLR.Model
 
             if(existingMenuIndex != -1)
             {
-                Menus.RemoveAt(existingMenuIndex);
+                Menus[existingMenuIndex] = menu;
+            } else
+            {
+                Menus.Add(menu);
             }
-
-            Menus.Add(menu);
-        }
+        }   
     }
 }

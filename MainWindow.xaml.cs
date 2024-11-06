@@ -22,25 +22,42 @@ namespace SpeedLR
         public MainWindow()
         {
             InitializeComponent();
-            CreateMenu("Start");
+            SwitchToMenu("Start");
 
             IsVisibleChanged += MainWindow_IsVisibleChanged;
         }
 
-        private void CreateMenu(string menuName)
+        private void SwitchToMenu(string menuName)
         {
             menuTextbox.Text = menuName;
             int numberOfMenus = 3;
             int numberOfButtons = 8;
 
-            _menuButtons = new EmptyButton[numberOfMenus, numberOfButtons];
-
-            var startMenu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
-
-            if (startMenu == null)
+            if (_menuButtons == null)
             {
-                startMenu = new Model.Menu(menuName);
-                LocalData.Instance.AvailableMenus.Menus.Add(startMenu);
+                _menuButtons = new EmptyButton[numberOfMenus, numberOfButtons];
+                for (int i = 0; i < numberOfMenus; i++)
+                {
+                    for (int j = 0; j < numberOfButtons; j++)
+                    {
+                        var currentMenu = i;
+                        var currentButton = j;
+
+                        EmptyButton button = new EmptyButton();
+                        button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, currentMenu, (float)currentButton / (float)numberOfButtons);
+                        _menuButtons[currentMenu, currentButton] = button;
+                        buttonGrid.Children.Add(button);
+                    }
+                }
+            }
+
+
+            var selectedMenu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
+
+            if (selectedMenu == null)
+            {
+                selectedMenu = new Model.Menu(menuName);
+                LocalData.Instance.AvailableMenus.Menus.Add(selectedMenu);
             }
 
             for (int i = 0; i < numberOfMenus; i++)
@@ -50,9 +67,9 @@ namespace SpeedLR
                     var currentMenu = i;
                     var currentButton = j;
 
-                    EmptyButton button = new EmptyButton();
+                    EmptyButton button = _menuButtons[currentMenu, currentButton];
+                    button.ResetEventsHandlers();
 
-                    button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, currentMenu, (float)currentButton / (float)numberOfButtons);
                     button.MenuItemClick += (s, args) =>
                     {
                         var menu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Name == menuName);
@@ -105,7 +122,7 @@ namespace SpeedLR
                             menu?.Buttons.RemoveAt(existingIndex.Value);
                         }
 
-                        switch(args.Type)
+                        switch (args.Type)
                         {
                             case EmptyButton.ColorType.Background:
                                 backgroundColor = args.Value;
@@ -124,16 +141,18 @@ namespace SpeedLR
                         }
                     };
 
-                    var existingButton = startMenu.Buttons.FirstOrDefault(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+                    var existingButton = selectedMenu.Buttons.FirstOrDefault(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
                     if (existingButton != null)
                     {
                         button.Command = existingButton.Command;
                         button.Background = BrushHelper.GetBrushFromHex(existingButton.BackgroundColor);
                         button.Foreground = BrushHelper.GetBrushFromHex(existingButton.FontColor);
+                    } else
+                    {
+                        button.Command = null;
+                        button.Background = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_BACKGROUND);
+                        button.Foreground = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_FONT);
                     }
-
-                    _menuButtons[currentMenu, currentButton] = button;
-                    buttonGrid.Children.Add(button);
                 }
             }
         }
@@ -317,7 +336,8 @@ namespace SpeedLR
         {
             ContextMenu contextMenu = new ContextMenu();
 
-            LocalData.Instance.AvailableMenus.Menus.ForEach(m => {
+            LocalData.Instance.AvailableMenus.Menus.ForEach(m =>
+            {
                 MenuItem menuItem = new MenuItem { Header = m.Name };
                 contextMenu.Items.Add(menuItem);
             });
@@ -333,7 +353,10 @@ namespace SpeedLR
 
         private void MenuAddButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var menuName = $"Menu_{LocalData.Instance.AvailableMenus.Menus.Count}";
+            LocalData.Instance.AvailableMenus.UpdateMenu(new Model.Menu(menuName));
+            LocalData.Instance.SaveAvailableMenus();
+            SwitchToMenu(menuName);
         }
     }
 }

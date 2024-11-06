@@ -76,6 +76,13 @@ namespace SpeedLR
             Click += OnButtonClick;
         }
 
+        public void ResetEventsHandlers()
+        {
+            MenuItemClick = null;
+            ColorItemClick = null;
+            ClearClick = null;
+        }
+
         private void OnButtonClick(object sender, RoutedEventArgs e)
         {
             // Create a new ContextMenu
