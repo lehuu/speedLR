@@ -1,15 +1,15 @@
 ﻿using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
-namespace SpeedLR
+namespace SpeedLR.Controls
 {
     public class GlobalHotkey
     {
         [DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+        private static extern bool RegisterHotKey(nint hWnd, int id, int fsModifiers, int vk);
 
         [DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        private static extern bool UnregisterHotKey(nint hWnd, int id);
 
         public static int MOD_CONTROL = 0x0002;
         public const int MOD_SHIFT = 0x0004;
@@ -25,7 +25,7 @@ namespace SpeedLR
         private int _id;
         private int _key;
         private int _modifier;
-        private IntPtr _hWnd;
+        private nint _hWnd;
         private HwndSource _source;
         private bool _isRegistered = false;
 
@@ -35,21 +35,21 @@ namespace SpeedLR
         public event EventHandler HotKeyPressed;
         public event EventHandler HotKeyDoublePressed;
 
-        public GlobalHotkey(IntPtr hWnd, int id, int modifier, int key)
+        public GlobalHotkey(nint hWnd, int id, int modifier, int key)
         {
-            this._hWnd = hWnd;
-            this._id = id;
-            this._modifier = modifier;
-            this._key = key;
+            _hWnd = hWnd;
+            _id = id;
+            _modifier = modifier;
+            _key = key;
             _source = HwndSource.FromHwnd(hWnd);
         }
 
-        public GlobalHotkey(IntPtr hWnd, int id, int modifier)
+        public GlobalHotkey(nint hWnd, int id, int modifier)
         {
-            this._hWnd = hWnd;
-            this._id = id;
-            this._modifier = modifier;
-            this._key = 0;
+            _hWnd = hWnd;
+            _id = id;
+            _modifier = modifier;
+            _key = 0;
             _source = HwndSource.FromHwnd(hWnd);
         }
 
@@ -71,7 +71,7 @@ namespace SpeedLR
             _isRegistered = !UnregisterHotKey(_hWnd, _id);
         }
 
-        public void ProcessWindowMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        public void ProcessWindowMessage(nint hwnd, int msg, nint wParam, nint lParam, ref bool handled)
         {
             if (msg == WM_HOTKEY && wParam.ToInt32() == _id)
             {

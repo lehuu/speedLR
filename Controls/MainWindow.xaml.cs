@@ -5,6 +5,7 @@ using Application = System.Windows.Application;
 using Point = System.Drawing.Point;
 using SpeedLR.Model;
 using System.Windows.Controls;
+using SpeedLR.Controls;
 
 namespace SpeedLR
 {
@@ -25,6 +26,7 @@ namespace SpeedLR
             SwitchToMenu(0);
 
             IsVisibleChanged += MainWindow_IsVisibleChanged;
+            menuTextbox.DebouncedTextChanged += TextBoxChanged;
         }
 
         private void SwitchToMenu(int menuIndex)
@@ -308,6 +310,20 @@ namespace SpeedLR
             };
 
             _portWindow.Show();
+        }
+
+        private void TextBoxChanged(object sender, EventArgs e)
+        {
+            var item = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(m => m.Id == _currentMenuId);
+
+            if (item == null || item.Name == menuTextbox.Text)
+            {
+                return;
+            }
+
+            item.Name = menuTextbox.Text;
+            LocalData.Instance.AvailableMenus.UpdateMenu(item);
+            LocalData.Instance.SaveAvailableMenus();
         }
 
         private void ExitMenuItem_Click(object sender, EventArgs e)

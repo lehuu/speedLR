@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ControllerWindow.button.cs">
+    <Compile Update="Controls\ControllerWindow.button.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

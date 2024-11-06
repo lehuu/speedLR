@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Linq;
 using System.Windows.Input;
+using SpeedLR.Controls;
 
 namespace SpeedLR
 {

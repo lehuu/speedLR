@@ -2,7 +2,7 @@
 using Button = System.Windows.Controls.Button;
 
 
-namespace SpeedLR
+namespace SpeedLR.Controls
 {
     public class ControlButton : Button
     {
@@ -22,13 +22,13 @@ namespace SpeedLR
 
         public bool IsActive
         {
-            get => (bool)base.GetValue(IsActiveProperty);
+            get => (bool)GetValue(IsActiveProperty);
             set => SetValue(IsActiveProperty, value);
         }
 
         public string LRCommand
         {
-            get => (string)base.GetValue(LRCommandProperty);
+            get => (string)GetValue(LRCommandProperty);
             set => SetValue(LRCommandProperty, value);
         }
     }

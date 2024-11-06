@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SpeedLR"
+        xmlns:local="clr-namespace:SpeedLR.Controls"
         Closing="MainWindow_Closing"
         mc:Ignorable="d"
         Activated="CheckConnection"
@@ -32,7 +32,7 @@
         <Button x:Name="connectButton" Content="Reconnect..." HorizontalAlignment="Left" Height="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="125" Click="ConnectButton_Click"/>
         <Button x:Name="portButton" Content="Port:" HorizontalAlignment="Left" Height="20" Margin="140,10,0,0" VerticalAlignment="Top" Width="125" Click="PortButton_Click"/>
 
-        <TextBox x:Name="menuTextbox" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Text="TextBox" Width="120" Height="20" Margin="10,35,0,0"/>
+        <local:DebouncedTextBox x:Name="menuTextbox" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Text="TextBox" Width="120" Height="20" Margin="10,35,0,0"/>
         <Button x:Name="menuDropdown" HorizontalAlignment="Left" VerticalAlignment="Top"  Content="⯆" Width="20" Height="20" Margin="135,35,0,0" Click="MenuDropdown_Click" />
         <Button x:Name="menuDeleteButton" HorizontalAlignment="Left" VerticalAlignment="Top"  Content="🗑" Width="20" Height="20" Margin="160,35,0,0" Click="MenuDeleteButton_Click" />
         <Button x:Name="menuAddButton" HorizontalAlignment="Left" VerticalAlignment="Top"  Content="+" Width="20" Height="20" Margin="185,35,0,0" Click="MenuAddButton_Click" />

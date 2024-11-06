@@ -26,7 +26,7 @@ namespace SpeedLR.Model
 
         public void UpdateMenu(Menu menu)
         {
-            var existingMenuIndex = Menus.FindIndex(item => item.Name == menu.Name);
+            var existingMenuIndex = Menus.FindIndex(item => item.Id == menu.Id);
 
             if (existingMenuIndex != -1)
             {

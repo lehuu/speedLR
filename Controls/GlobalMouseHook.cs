@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace SpeedLR
+namespace SpeedLR.Controls
 {
     public class GlobalMouseHook : IDisposable
     {
@@ -10,7 +10,7 @@ namespace SpeedLR
         private const int WM_MOUSEWHEEL = 0x020A;
         private const int WM_MBUTTONDOWN = 0x0207;
 
-        private IntPtr _hookID = (IntPtr) 999;
+        private nint _hookID = 999;
         private LowLevelMouseProc _proc;
 
         public event Action OnMouseScrollUp;    // Event for scroll up
@@ -22,7 +22,7 @@ namespace SpeedLR
             _proc = HookCallback;
         }
 
-        private IntPtr SetHook(LowLevelMouseProc proc)
+        private nint SetHook(LowLevelMouseProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
@@ -31,31 +31,31 @@ namespace SpeedLR
             }
         }
 
-        private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+        private nint HookCallback(int nCode, nint wParam, nint lParam)
         {
             if (nCode >= 0)
             {
-                if (wParam == (IntPtr)WM_MOUSEWHEEL)
+                if (wParam == WM_MOUSEWHEEL)
                 {
-                    int scrollDelta = ((int)Marshal.ReadInt32(lParam + 8)) >> 16;
+                    int scrollDelta = Marshal.ReadInt32(lParam + 8) >> 16;
 
                     if (scrollDelta > 0 && OnMouseScrollUp?.GetInvocationList().Length > 0)
                     {
                         OnMouseScrollUp?.Invoke();
-                        return (IntPtr)1;
+                        return 1;
 
                     }
                     else if (scrollDelta < 0 && OnMouseScrollDown?.GetInvocationList().Length > 0)
                     {
                         OnMouseScrollDown?.Invoke();
-                        return (IntPtr)1;
+                        return 1;
 
                     }
                 }
-                else if (wParam == (IntPtr)WM_MBUTTONDOWN && OnMiddleMouseButtonClick?.GetInvocationList().Length > 0)
+                else if (wParam == WM_MBUTTONDOWN && OnMiddleMouseButtonClick?.GetInvocationList().Length > 0)
                 {
                     OnMiddleMouseButtonClick?.Invoke(); // Trigger middle mouse button event
-                    return (IntPtr)1;
+                    return 1;
                 }
             }
 
@@ -74,19 +74,19 @@ namespace SpeedLR
         }
 
         // Delegate for the hook procedure
-        private delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
+        private delegate nint LowLevelMouseProc(int nCode, nint wParam, nint lParam);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelMouseProc lpfn, IntPtr hMod, uint dwThreadId);
+        private static extern nint SetWindowsHookEx(int idHook, LowLevelMouseProc lpfn, nint hMod, uint dwThreadId);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
+        private static extern bool UnhookWindowsHookEx(nint hhk);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+        private static extern nint CallNextHookEx(nint hhk, int nCode, nint wParam, nint lParam);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr GetModuleHandle(string lpModuleName);
+        private static extern nint GetModuleHandle(string lpModuleName);
     }
 }

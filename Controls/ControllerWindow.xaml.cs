@@ -1,6 +1,7 @@
 ﻿using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
+using SpeedLR.Controls;
 using Timer = System.Timers.Timer;
 
 namespace SpeedLR

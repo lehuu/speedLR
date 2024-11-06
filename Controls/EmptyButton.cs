@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using SpeedLR.Model;
 using System.Windows.Media;
 
-namespace SpeedLR
+namespace SpeedLR.Controls
 {
     class EmptyButton : Button
     {
