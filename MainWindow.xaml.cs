@@ -339,6 +339,11 @@ namespace SpeedLR
             LocalData.Instance.AvailableMenus.Menus.ForEach(m =>
             {
                 MenuItem menuItem = new MenuItem { Header = m.Name };
+
+                menuItem.Click += (s, args) =>
+                {
+                    SwitchToMenu(m.Name);
+                };
                 contextMenu.Items.Add(menuItem);
             });
 
