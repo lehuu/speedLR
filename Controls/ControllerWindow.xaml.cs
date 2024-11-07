@@ -1,7 +1,9 @@
 ﻿using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
 using SpeedLR.Controls;
+using SpeedLR.Model;
 using Timer = System.Timers.Timer;
 
 namespace SpeedLR
@@ -19,6 +21,8 @@ namespace SpeedLR
         private string _currentCommand = "";
         private int _currentButtonIndex = -1;
         private int _currentMenuIndex = 0;
+
+        private string _currentMenuId = "";
 
         private enum CommandType
         {
@@ -75,8 +79,67 @@ namespace SpeedLR
             }
         }
 
+        private void SwitchToMenu(int menuIndex)
+        {
+            if (menuIndex < 0 || menuIndex >= LocalData.Instance.AvailableMenus.Menus.Count || !IsVisible)
+            {
+                return;
+            }
+
+            int maxNumberOfButtons = 8;
+
+            buttonGrid.Children.Clear();
+
+            var selectedMenu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
+            _currentMenuId = selectedMenu.Id;
+
+            var distinctMenus = selectedMenu.Buttons.Select(button => button.MenuIndex).Distinct().OrderBy(index => index).ToArray();
+            int menuNumbers = distinctMenus.Count();
+
+            _menus = new LRControlButton[menuNumbers][];
+            for (int i = 0; i < menuNumbers; i++)
+            {
+                var menuButtons = selectedMenu.Buttons.Where(button => button.MenuIndex == distinctMenus[i]).ToArray();
+                if (menuButtons.Count() == 0)
+                { continue; }
+
+                _menus[i] = new LRControlButton[menuButtons.Count()];
+                for (int j = 0; j < menuButtons.Count(); j++)
+                {
+                    var menuButton = menuButtons[j];
+                    var button = new LRControlButton();
+                    button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, distinctMenus[i], (float)menuButton.ButtonIndex / (float)maxNumberOfButtons);
+                    _menus[i][j] = new LRControlButton();
+                    buttonGrid.Children.Add(button);
+                }
+
+            }
+        }
+
+        private void SwitchToMenu(string menuId)
+        {
+            var index = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == menuId);
+
+            if (index == -1)
+            {
+                return;
+            }
+
+            SwitchToMenu(index);
+        }
+
         private void ControllerWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (String.IsNullOrEmpty(_currentMenuId))
+            {
+                var startMenuIndex = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == LocalData.Instance.AvailableMenus.DefaultMenu);
+                SwitchToMenu(startMenuIndex == -1 ? 0 : startMenuIndex);
+            }
+            else
+            {
+                SwitchToMenu(_currentMenuId);
+            }
+
             if (!(_hotkeys?.Length > 0))
             {
                 var firstMenu = new LRControlButton[]

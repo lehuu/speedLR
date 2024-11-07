@@ -10,9 +10,6 @@ namespace SpeedLR
 
         public static Thickness CreateButtonsInCircle(Grid centerGrid, int menuNumber, float circleFraction)
         {
-            // Get the center position of buttonGrid
-            double centerX = centerGrid.Margin.Left + centerGrid.ActualWidth / 2;
-            double centerY = centerGrid.Margin.Top + centerGrid.ActualHeight / 2;
             double angle = 2 * Math.PI * circleFraction;
 
             var distanceDelta = (menuNumber * MENU_DISTANCE);
@@ -26,7 +23,7 @@ namespace SpeedLR
             double offsetX = distance * Math.Cos(angle);
             double offsetY = distance * Math.Sin(angle);
 
-            return new Thickness(centerX + offsetX, centerY + offsetY, 0, 0);
+            return new Thickness(offsetX, offsetY, 0, 0);
 
         }
     }
