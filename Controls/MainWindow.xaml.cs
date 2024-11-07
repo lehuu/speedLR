@@ -19,6 +19,7 @@ namespace SpeedLR
 
         private EmptyButton[,] _menuButtons;
         private string _currentMenuId = "";
+        private bool _isSwitching = false;
 
         public MainWindow()
         {
@@ -33,6 +34,7 @@ namespace SpeedLR
 
         private void SwitchToMenu(int menuIndex)
         {
+            _isSwitching = true;
             if (menuIndex < 0 || menuIndex >= LocalData.Instance.AvailableMenus.Menus.Count)
             {
                 return;
@@ -109,6 +111,29 @@ namespace SpeedLR
                         }
                     };
 
+                    button.SubmenuItemClick += (s, args) =>
+                    {
+                        var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
+                        var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+
+                        var backgroundColor = ColorData.DEFAULT_BACKGROUND;
+                        var fontColor = ColorData.DEFAULT_FONT;
+
+                        if (existingIndex.HasValue && existingIndex.Value != -1)
+                        {
+                            backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
+                            fontColor = menu?.Buttons[existingIndex.Value].FontColor;
+                            menu?.Buttons.RemoveAt(existingIndex.Value);
+                        }
+                        menu?.Buttons.Add(new MenuButton(args, currentMenu, currentButton, backgroundColor, fontColor));
+
+                        if (menu != null)
+                        {
+                            LocalData.Instance.AvailableMenus.UpdateMenu(menu);
+                            LocalData.Instance.SaveAvailableMenus();
+                        }
+                    };
+
                     button.ColorItemClick += (s, args) =>
                     {
                         var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
@@ -117,10 +142,22 @@ namespace SpeedLR
                         var backgroundColor = ColorData.DEFAULT_BACKGROUND;
                         var fontColor = ColorData.DEFAULT_FONT;
                         Model.Command command = null;
+                        string submenu = "";
+                        bool isCommandButton = true;
 
                         if (existingIndex.HasValue && existingIndex.Value != -1)
                         {
-                            command = menu?.Buttons[existingIndex.Value].Command;
+                            var existingButton = menu?.Buttons[existingIndex.Value];
+
+                            if (existingButton is CommandButton)
+                            {
+                                command = ((CommandButton)existingButton).Command;
+                            }
+                            else if (existingButton is MenuButton)
+                            {
+                                submenu = ((MenuButton)existingButton).Submenu;
+                                isCommandButton = false;
+                            }
                             backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
                             fontColor = menu?.Buttons[existingIndex.Value].FontColor;
                             menu?.Buttons.RemoveAt(existingIndex.Value);
@@ -136,7 +173,14 @@ namespace SpeedLR
                                 break;
                         }
 
-                        menu?.Buttons.Add(new CommandButton(command, currentMenu, currentButton, backgroundColor, fontColor));
+                        if (isCommandButton)
+                        {
+                            menu?.Buttons.Add(new CommandButton(command, currentMenu, currentButton, backgroundColor, fontColor));
+                        }
+                        else
+                        {
+                            menu?.Buttons.Add(new MenuButton(submenu, currentMenu, currentButton, backgroundColor, fontColor));
+                        }
 
                         if (menu != null)
                         {
@@ -148,7 +192,19 @@ namespace SpeedLR
                     var existingButton = selectedMenu.Buttons.FirstOrDefault(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
                     if (existingButton != null)
                     {
-                        button.Command = existingButton.Command;
+                        if (existingButton is CommandButton)
+                        {
+                            button.Command = ((CommandButton)existingButton).Command;
+                        }
+                        else if (existingButton is MenuButton)
+                        {
+                            var submenuId = ((MenuButton)existingButton).Submenu;
+                            var existingSubmenu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Id == submenuId);
+                            if (existingSubmenu != null)
+                            {
+                                button.Submenu = existingSubmenu;
+                            }
+                        }
                         button.Background = BrushHelper.GetBrushFromHex(existingButton.BackgroundColor);
                         button.Foreground = BrushHelper.GetBrushFromHex(existingButton.FontColor);
                     }
@@ -160,6 +216,7 @@ namespace SpeedLR
                     }
                 }
             }
+            _isSwitching = false;
         }
 
         private void SwitchToMenu(string menuId)
@@ -405,6 +462,11 @@ namespace SpeedLR
 
         private void DefaultCheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            if (_isSwitching)
+            {
+                return;
+            }
+
             LocalData.Instance.AvailableMenus.DefaultMenu = (defaultCheckBox.IsChecked.HasValue && defaultCheckBox.IsChecked.Value) ? _currentMenuId : "";
             LocalData.Instance.SaveAvailableMenus();
         }

@@ -39,6 +39,7 @@ namespace SpeedLR.Controls
 
         public event EventHandler<MenuItemEventArg> MenuItemClick;
         public event EventHandler<ColorItemEventArg> ColorItemClick;
+        public event EventHandler<string> SubmenuItemClick;
         public event EventHandler ClearClick;
 
         private Command? _command;
@@ -59,8 +60,36 @@ namespace SpeedLR.Controls
                     return;
                 }
 
+                _submenu = null;
                 Content = value.Short;
                 ToolTip = new System.Windows.Controls.ToolTip { Content = value.Title };
+            }
+        }
+
+        private Model.Menu? _submenu;
+        public Model.Menu? Submenu
+        {
+            get
+            {
+                return _submenu;
+            }
+            set
+            {
+                _submenu = value;
+
+                if (value == null)
+                {
+                    ToolTip = null;
+                    Content = null;
+                    return;
+                }
+
+                _command = null;
+                Content = new string(value.Name.Split(' ')
+                                      .Where(word => !string.IsNullOrEmpty(word))
+                                      .Select(word => char.ToUpper(word[0]))
+                                      .ToArray());
+                ToolTip = new System.Windows.Controls.ToolTip { Content = value.Name };
             }
         }
 
@@ -81,6 +110,7 @@ namespace SpeedLR.Controls
             MenuItemClick = null;
             ColorItemClick = null;
             ClearClick = null;
+            SubmenuItemClick = null;
         }
 
         private void OnButtonClick(object sender, RoutedEventArgs e)
@@ -107,6 +137,22 @@ namespace SpeedLR.Controls
 
                 contextMenu.Items.Add(categoryItem);
             }
+
+            MenuItem menuItem = new MenuItem { Header = "Open Menu", Background = Brushes.LightSlateGray };
+
+            foreach (var item in LocalData.Instance.AvailableMenus.Menus)
+            {
+                var submenuItem = new MenuItem { Header = item.Name };
+                submenuItem.Click += (s, args) =>
+                {
+                    Submenu = item;
+                    SubmenuItemClick?.Invoke(this, item.Id);
+                };
+
+                menuItem.Items.Add(submenuItem);
+            }
+
+            contextMenu.Items.Add(menuItem);
 
             MenuItem fontColorItem = new MenuItem { Header = "Font Color", Background = Brushes.DarkGray };
             MenuItem backgroundItem = new MenuItem { Header = "Background Color", Background = Brushes.DarkGray };

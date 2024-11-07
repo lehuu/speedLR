@@ -2,30 +2,14 @@
 
 namespace SpeedLR.Model
 {
-    public class CommandButton
+    public class CommandButton: BaseButton
     {
-        public CommandButton(Command command, int menuIndex, int buttonIndex, string backgroundColor, string fontColor)
+        public CommandButton(Command command, int menuIndex, int buttonIndex, string backgroundColor, string fontColor): base(menuIndex, buttonIndex, backgroundColor, fontColor)
         {
             Command = command;
-            MenuIndex = menuIndex;
-            ButtonIndex = buttonIndex;
-            BackgroundColor = backgroundColor;
-            FontColor = fontColor;
         }
 
         [JsonPropertyName("command")]
         public Command Command { get; set; }
-
-        [JsonPropertyName("menuIndex")]
-        public int MenuIndex { get; set; }
-
-        [JsonPropertyName("buttonIndex")]
-        public int ButtonIndex { get; set; }
-
-        [JsonPropertyName("backgroundColor")]
-        public string BackgroundColor { get; set; }
-
-        [JsonPropertyName("fontColor")]
-        public string FontColor { get; set; }
     }
 }

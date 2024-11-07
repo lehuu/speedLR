@@ -15,6 +15,6 @@ namespace SpeedLR.Model
         [JsonPropertyName("name")]
         public string Name { get; set; }
         [JsonPropertyName("buttons")]
-        public List<CommandButton> Buttons { get; set; } = new List<CommandButton>();
+        public List<BaseButton> Buttons { get; set; } = new List<BaseButton>();
     }
 }
