@@ -99,7 +99,7 @@ namespace SpeedLR.Controls
             Style = style;
 
 
-            ToolTipService.SetInitialShowDelay(this, 0); // Show immediately
+            ToolTipService.SetInitialShowDelay(this, 0);
             ToolTipService.SetShowDuration(this, int.MaxValue);
 
             Click += OnButtonClick;

@@ -13,7 +13,7 @@
         <Style TargetType="{x:Type local:ControlButton}">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type local:ControlButton}">
+                    <ControlTemplate TargetType="{x:Type local:LRControlButton}">
                         <Border x:Name="Border"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -57,15 +57,15 @@
     </Window.Resources>
 
     <Grid Width="300" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <local:ControlButton x:Name="hideButton" Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="30" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5"/>
+        <Button x:Name="hideButton" Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="30" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5"/>
 
-        <local:ControlButton IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="115,120,0,0"/>
-        <local:ControlButton x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="0,110,0,0"/>
-        <local:ControlButton x:Name="highStepButton" LRCommand="5%" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="165,121,0,0">
+        <local:LRControlButton IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="115,120,0,0"/>
+        <local:LRControlButton x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="0,110,0,0"/>
+        <local:LRControlButton x:Name="highStepButton" LRCommand="5%" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="165,121,0,0">
             <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">+<LineBreak/>++</TextBlock>
-        </local:ControlButton>
+        </local:LRControlButton>
 
-        <local:ControlButton x:Name="dragButton" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Margin="0,170,0,0" Cursor="Hand" PreviewMouseDown="DragButton_MouseDown"/>
-        <local:ControlButton x:Name="pinButton" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="165,159,0,0" Cursor="Hand" Click="PinButton_Click"/>
+        <Button x:Name="dragButton" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Margin="0,170,0,0" Cursor="Hand" PreviewMouseDown="DragButton_MouseDown"/>
+        <local:LRControlButton x:Name="pinButton" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="165,159,0,0" Cursor="Hand" Click="PinButton_Click"/>
     </Grid>
 </Window>

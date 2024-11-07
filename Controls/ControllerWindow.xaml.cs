@@ -9,8 +9,8 @@ namespace SpeedLR
 
     public partial class ControllerWindow : Window
     {
-        private ControlButton[] _stepButtons;
-        private ControlButton[][] _menus;
+        private LRControlButton[] _stepButtons;
+        private LRControlButton[][] _menus;
         private GlobalHotkey[] _hotkeys;
         private GlobalHotkey[] _commandHotkeys;
         private GlobalMouseHook _mouseHook;
@@ -36,7 +36,7 @@ namespace SpeedLR
             _hideTimer = new Timer(500);
             _hideTimer.AutoReset = false;
             _hideTimer.Elapsed += OnHideElapsed;
-            _stepButtons = new ControlButton[] {
+            _stepButtons = new LRControlButton[] {
                 lowStepButton,
                 midStepButton,
                 highStepButton
@@ -79,15 +79,15 @@ namespace SpeedLR
         {
             if (!(_hotkeys?.Length > 0))
             {
-                var firstMenu = new ControlButton[]
+                var firstMenu = new LRControlButton[]
                 {
                 };
 
-                var secondMenu = new ControlButton[]
+                var secondMenu = new LRControlButton[]
                 {
                 };
 
-                _menus = new ControlButton[2][];
+                _menus = new LRControlButton[2][];
                 _menus[0] = firstMenu;
                 _menus[1] = secondMenu;
 

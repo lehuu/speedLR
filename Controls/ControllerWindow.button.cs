@@ -1,11 +1,9 @@
 ﻿using System.Windows;
-using System.Linq;
 using System.Windows.Input;
 using SpeedLR.Controls;
 
 namespace SpeedLR
 {
-
     public partial class ControllerWindow : Window
     {
         private void Escape_Pressed(object sender, EventArgs e)
@@ -129,7 +127,7 @@ namespace SpeedLR
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is ControlButton clickedButton)
+            if (sender is LRControlButton clickedButton)
             {
                 if (String.IsNullOrEmpty(clickedButton.LRCommand))
                 {
@@ -141,7 +139,7 @@ namespace SpeedLR
         }
         private void StepButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is ControlButton clickedButton)
+            if (sender is LRControlButton clickedButton)
             {
                 foreach (var item in _stepButtons)
                 {
