@@ -149,13 +149,13 @@ namespace SpeedLR
                         {
                             var existingButton = menu?.Buttons[existingIndex.Value];
 
-                            if (existingButton is CommandButton)
+                            if (existingButton is CommandButton castCommandButton)
                             {
-                                command = ((CommandButton)existingButton).Command;
+                                command = castCommandButton.Command;
                             }
-                            else if (existingButton is MenuButton)
+                            else if (existingButton is MenuButton castMenuButton)
                             {
-                                submenu = ((MenuButton)existingButton).Submenu;
+                                submenu = castMenuButton.Submenu;
                                 isCommandButton = false;
                             }
                             backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
@@ -192,13 +192,13 @@ namespace SpeedLR
                     var existingButton = selectedMenu.Buttons.FirstOrDefault(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
                     if (existingButton != null)
                     {
-                        if (existingButton is CommandButton)
+                        if (existingButton is CommandButton castCommandButton)
                         {
-                            button.Command = ((CommandButton)existingButton).Command;
+                            button.Command = castCommandButton.Command;
                         }
-                        else if (existingButton is MenuButton)
+                        else if (existingButton is MenuButton castMenuButton)
                         {
-                            var submenuId = ((MenuButton)existingButton).Submenu;
+                            var submenuId = castMenuButton.Submenu;
                             var existingSubmenu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Id == submenuId);
                             if (existingSubmenu != null)
                             {
