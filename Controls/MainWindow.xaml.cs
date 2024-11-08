@@ -48,24 +48,21 @@ namespace SpeedLR
             int numberOfMenus = 3;
             int numberOfButtons = 8;
 
-            if (_menuButtons != null)
+            if (_menuButtons == null)
             {
-
-            }
-
-
-            _menuButtons = new EmptyButton[numberOfMenus, numberOfButtons];
-            for (int i = 0; i < numberOfMenus; i++)
-            {
-                for (int j = 0; j < numberOfButtons; j++)
+                _menuButtons = new EmptyButton[numberOfMenus, numberOfButtons];
+                for (int i = 0; i < numberOfMenus; i++)
                 {
-                    var currentMenu = i;
-                    var currentButton = j;
+                    for (int j = 0; j < numberOfButtons; j++)
+                    {
+                        var currentMenu = i;
+                        var currentButton = j;
 
-                    EmptyButton button = new EmptyButton();
-                    button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, currentMenu, (float)currentButton / (float)numberOfButtons);
-                    _menuButtons[currentMenu, currentButton] = button;
-                    buttonGrid.Children.Add(button);
+                        EmptyButton button = new EmptyButton();
+                        button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, currentMenu, (float)currentButton / (float)numberOfButtons);
+                        _menuButtons[currentMenu, currentButton] = button;
+                        buttonGrid.Children.Add(button);
+                    }
                 }
             }
 
