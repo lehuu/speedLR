@@ -9,65 +9,68 @@
         Closing="ControllerWindow_Closing" WindowStyle="None" AllowsTransparency="True" mc:Ignorable="d"
         Topmost="True" ShowInTaskbar="False" Height="300" Width="300" ResizeMode="NoResize" Icon="/wheel.ico">
     <Window.Resources>
-        <!-- Define the ControlTemplate for ControlButton -->
-        <Style TargetType="{x:Type local:ControlButton}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type local:LRControlButton}">
-                        <Border x:Name="Border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="15"
-                                Padding="0">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <!-- Trigger to change Background when IsEnabled is false -->
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Border" Property="Opacity" Value="0.5"/>
-                            </Trigger>
-                            <!-- Trigger to change Background when IsActive is true -->
-                            <Trigger Property="IsActive" Value="True">
-                                <Setter TargetName="Border" Property="Background" 
-                                        Value="Bisque"/>
-                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-                                <Setter Property="RenderTransform">
-                                    <Setter.Value>
-                                        <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
-                                <Setter Property="RenderTransform">
-                                    <Setter.Value>
-                                        <ScaleTransform ScaleX="1.1" ScaleY="1.1" />
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <!-- Default Background for when IsEnabled is true and IsActive is false -->
-            <Setter Property="Background" Value="LightGray"/>
+        <Style x:Key="LargeButton" TargetType="{x:Type Button}">
+            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.2"/>
+                </Trigger>
+            </Style.Triggers>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="15"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+        <Style x:Key="LargeControlButton" TargetType="{x:Type local:ControlButton}" BasedOn="{StaticResource LargeButton}">
+        </Style>
+
+        <Style x:Key="SmallButton" TargetType="{x:Type Button}">
+            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+            <Setter Property="Width" Value="20" />
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Background" Value="LightGray" />
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SmallControlButton" TargetType="{x:Type local:ControlButton}" BasedOn="{StaticResource SmallButton}">
+            <Style.Triggers>
+                <Trigger Property="IsActive" Value="True">
+                    <Setter Property="Background" Value="SandyBrown" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
 
     <Grid Width="300" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Button x:Name="hideButton" Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Center" Width="30" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5"/>
+        <Button Opacity="0.7" Style="{StaticResource LargeButton}" x:Name="hideButton" Content="X" HorizontalAlignment="Center" VerticalAlignment="Center" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5"/>
 
-        <local:LRControlButton IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="115,120,0,0"/>
-        <local:LRControlButton x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="0,110,0,0"/>
-        <local:LRControlButton x:Name="highStepButton" LRCommand="5%" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Click="StepButton_Click" Margin="165,121,0,0">
+        <local:LRControlButton Style="{StaticResource SmallControlButton}" IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="115,120,0,0"/>
+        <local:LRControlButton Style="{StaticResource SmallControlButton}" x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Click="StepButton_Click" Margin="0,110,0,0"/>
+        <local:LRControlButton Style="{StaticResource SmallControlButton}" x:Name="highStepButton" LRCommand="5%" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="165,121,0,0">
             <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">+<LineBreak/>++</TextBlock>
         </local:LRControlButton>
 
-        <Button x:Name="dragButton" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Margin="0,170,0,0" Cursor="Hand" PreviewMouseDown="DragButton_MouseDown"/>
-        <local:LRControlButton x:Name="pinButton" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="165,159,0,0" Cursor="Hand" Click="PinButton_Click"/>
-        <Button x:Name="backButton" Content="↩" ToolTip="Go Back" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="115,159,0,0" Click="BackButton_Click" IsEnabled="False"/>
+        <Button  Style="{StaticResource SmallButton}" x:Name="dragButton" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,170,0,0" Cursor="Hand" PreviewMouseDown="DragButton_MouseDown"/>
+        <local:LRControlButton  Style="{StaticResource SmallControlButton}" x:Name="pinButton" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="165,159,0,0" Cursor="Hand" Click="PinButton_Click"/>
+        <Button  Style="{StaticResource SmallButton}" x:Name="backButton" Content="↩" ToolTip="Go Back" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,159,0,0" Click="BackButton_Click" IsEnabled="False"/>
         <Grid x:Name="buttonGrid" Width="300" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
     </Grid>

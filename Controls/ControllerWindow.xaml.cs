@@ -109,6 +109,7 @@ namespace SpeedLR
 
             var distinctMenus = filteredButtons.Select(button => button.MenuIndex).Distinct().OrderBy(index => index).ToArray();
             int menuNumbers = distinctMenus.Count();
+            var isConnected = Connector.Instance.IsConnected().Result;
 
             _menus = new ControlButton[menuNumbers][];
             for (int i = 0; i < menuNumbers; i++)
@@ -127,6 +128,7 @@ namespace SpeedLR
                     if (menuButton is CommandButton lrMenuButton)
                     {
                         button = new LRControlButton(lrMenuButton.Command);
+                        button.IsEnabled = isConnected;
                     }
                     else if (menuButton is MenuButton menuControlButton)
                     {
@@ -145,6 +147,7 @@ namespace SpeedLR
 
                     button.Click += Button_Click;
                     button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, distinctMenus[i], (float)menuButton.ButtonIndex / (float)maxNumberOfButtons);
+                    button.Style = (Style) FindResource("LargeControlButton");
                     _menus[i][j] = button;
                     buttonGrid.Children.Add(button);
                 }

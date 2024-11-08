@@ -21,8 +21,6 @@ namespace SpeedLR.Controls
 
         public ControlButton()
         {
-            Width = 30;
-            Height = 30;
             ToolTipService.SetInitialShowDelay(this, 0);
             ToolTipService.SetShowDuration(this, int.MaxValue);
         }
