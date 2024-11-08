@@ -141,6 +141,8 @@ namespace SpeedLR
             if (sender is MenuControlButton clickedMenuButton)
             {
                 SwitchToMenu(clickedMenuButton.MenuCommand);
+                _menuHistory.Add(_currentMenuId);
+                backButton.IsEnabled = _menuHistory.Count > 1;
             }
         }
         private void StepButton_Click(object sender, RoutedEventArgs e)
@@ -152,6 +154,16 @@ namespace SpeedLR
                     item.IsActive = clickedButton.Name == item.Name;
                 }
             }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_menuHistory.Count <= 1) {
+                return;
+            }
+            _menuHistory.RemoveAt(_menuHistory.Count - 1);
+            SwitchToMenu(_menuHistory[_menuHistory.Count-1]);
+            backButton.IsEnabled = _menuHistory.Count > 1;
         }
 
         private void HideButton_Click(object sender, RoutedEventArgs e)

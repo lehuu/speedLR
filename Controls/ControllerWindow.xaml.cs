@@ -1,7 +1,6 @@
 ﻿using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Media;
 using SpeedLR.Controls;
 using SpeedLR.Model;
 using Timer = System.Timers.Timer;
@@ -11,6 +10,7 @@ namespace SpeedLR
 
     public partial class ControllerWindow : Window
     {
+        private List<string> _menuHistory = new List<string>();
         private LRControlButton[] _stepButtons;
         private ControlButton[][] _menus;
         private GlobalHotkey[] _hotkeys;
@@ -170,6 +170,7 @@ namespace SpeedLR
             {
                 var startMenuIndex = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == LocalData.Instance.AvailableMenus.DefaultMenu);
                 SwitchToMenu(startMenuIndex == -1 ? 0 : startMenuIndex);
+                _menuHistory.Add(_currentMenuId);
             }
             else
             {
