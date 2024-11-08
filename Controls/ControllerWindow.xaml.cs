@@ -91,15 +91,29 @@ namespace SpeedLR
             buttonGrid.Children.Clear();
 
             var selectedMenu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
+            var filteredButtons = selectedMenu.Buttons.Where(b =>
+            {
+                if (b is CommandButton)
+                {
+                    return !String.IsNullOrEmpty(((CommandButton)b).Command?.CommandName);
+                }
+
+                if (b is MenuButton)
+                {
+                    return !String.IsNullOrEmpty(((MenuButton)b).Submenu);
+                }
+                return false;
+            }).ToArray();
+
             _currentMenuId = selectedMenu.Id;
 
-            var distinctMenus = selectedMenu.Buttons.Select(button => button.MenuIndex).Distinct().OrderBy(index => index).ToArray();
+            var distinctMenus = filteredButtons.Select(button => button.MenuIndex).Distinct().OrderBy(index => index).ToArray();
             int menuNumbers = distinctMenus.Count();
 
             _menus = new ControlButton[menuNumbers][];
             for (int i = 0; i < menuNumbers; i++)
             {
-                var menuButtons = selectedMenu.Buttons.Where(button => button.MenuIndex == distinctMenus[i]).ToArray();
+                var menuButtons = filteredButtons.Where(button => button.MenuIndex == distinctMenus[i]).ToArray();
                 if (menuButtons.Count() == 0)
                 { continue; }
 
@@ -202,10 +216,11 @@ namespace SpeedLR
                 {
                     foreach (var item in submenu)
                     {
-                        if(item is LRControlButton)
+                        if (item is LRControlButton)
                         {
                             item.IsEnabled = isConnected;
-                        } else
+                        }
+                        else
                         {
                             item.IsEnabled = true;
                         }
