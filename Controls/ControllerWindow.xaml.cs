@@ -12,7 +12,7 @@ namespace SpeedLR
     public partial class ControllerWindow : Window
     {
         private LRControlButton[] _stepButtons;
-        private LRControlButton[][] _menus;
+        private ControlButton[][] _menus;
         private GlobalHotkey[] _hotkeys;
         private GlobalHotkey[] _commandHotkeys;
         private GlobalMouseHook _mouseHook;
@@ -96,20 +96,41 @@ namespace SpeedLR
             var distinctMenus = selectedMenu.Buttons.Select(button => button.MenuIndex).Distinct().OrderBy(index => index).ToArray();
             int menuNumbers = distinctMenus.Count();
 
-            _menus = new LRControlButton[menuNumbers][];
+            _menus = new ControlButton[menuNumbers][];
             for (int i = 0; i < menuNumbers; i++)
             {
                 var menuButtons = selectedMenu.Buttons.Where(button => button.MenuIndex == distinctMenus[i]).ToArray();
                 if (menuButtons.Count() == 0)
                 { continue; }
 
-                _menus[i] = new LRControlButton[menuButtons.Count()];
+                _menus[i] = new ControlButton[menuButtons.Count()];
                 for (int j = 0; j < menuButtons.Count(); j++)
                 {
                     var menuButton = menuButtons[j];
-                    var button = new LRControlButton();
+
+                    ControlButton button = null;
+
+                    if (menuButton is CommandButton lrMenuButton)
+                    {
+                        button = new LRControlButton(lrMenuButton.Command);
+                    }
+                    else if (menuButton is MenuButton menuControlButton)
+                    {
+                        var menu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(m => m.Id == menuControlButton.Submenu);
+                        if (menu == null)
+                        {
+                            continue;
+                        }
+                        button = new MenuControlButton(menu);
+                    }
+
+                    if (button == null)
+                    {
+                        continue;
+                    }
+
                     button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, distinctMenus[i], (float)menuButton.ButtonIndex / (float)maxNumberOfButtons);
-                    _menus[i][j] = new LRControlButton();
+                    _menus[i][j] = button;
                     buttonGrid.Children.Add(button);
                 }
 
@@ -142,19 +163,6 @@ namespace SpeedLR
 
             if (!(_hotkeys?.Length > 0))
             {
-                var firstMenu = new LRControlButton[]
-                {
-                };
-
-                var secondMenu = new LRControlButton[]
-                {
-                };
-
-                _menus = new LRControlButton[2][];
-                _menus[0] = firstMenu;
-                _menus[1] = secondMenu;
-
-
                 _hotkeys = new GlobalHotkey[]
                 {
                     CreateHotkey(3, 0, GlobalHotkey.RIGHT, Next_Pressed),
@@ -194,7 +202,14 @@ namespace SpeedLR
                 {
                     foreach (var item in submenu)
                     {
-                        item.IsEnabled = isConnected;
+                        if(item is LRControlButton)
+                        {
+                            item.IsEnabled = isConnected;
+                        } else
+                        {
+                            item.IsEnabled = true;
+                        }
+
                     }
                 }
             }
@@ -286,7 +301,10 @@ namespace SpeedLR
             item.IsActive = true;
             _currentMenuIndex = menu;
             _currentButtonIndex = key;
-            CurrentCommand = String.IsNullOrEmpty(item.LRCommand) ? "" : item.LRCommand;
+            if (item is LRControlButton lrControlButton)
+            {
+                CurrentCommand = String.IsNullOrEmpty(lrControlButton.LRCommand) ? "" : lrControlButton.LRCommand;
+            }
         }
 
         private void ToggleButton(ControlButton button)
@@ -299,7 +317,10 @@ namespace SpeedLR
                     if (button != null && item.Name == button.Name)
                     {
                         item.IsActive = !item.IsActive;
-                        CurrentCommand = item.IsActive ? item.LRCommand : "";
+                        if (item is LRControlButton lrControlButton)
+                        {
+                            CurrentCommand = lrControlButton.IsActive ? lrControlButton.LRCommand : "";
+                        }
                         _currentButtonIndex = j;
                         _currentMenuIndex = i;
                         continue;

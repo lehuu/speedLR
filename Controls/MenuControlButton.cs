@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SpeedLR.Model;
 using System.Windows;
 
 namespace SpeedLR.Controls
 {
-    public class MenuControlButton: ControlButton
+    public class MenuControlButton : ControlButton
     {
+        public MenuControlButton(Menu menu)
+        {
+            Content = new string(menu.Name.Split(' ')
+                                      .Where(word => !string.IsNullOrEmpty(word))
+                                      .Select(word => char.ToUpper(word[0]))
+                                      .ToArray()); ;
+            ToolTip = new System.Windows.Controls.ToolTip { Content = $"Open {menu.Name}" };
+        }
+
         public static readonly DependencyProperty MenuCommandProperty =
             DependencyProperty.Register(
                 nameof(MenuCommand),

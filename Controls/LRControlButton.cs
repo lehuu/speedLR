@@ -1,15 +1,19 @@
-﻿using System.Windows;
+﻿using SpeedLR.Model;
+using System.Windows;
 
 namespace SpeedLR.Controls
 {
     public class LRControlButton: ControlButton
     {
-        public static readonly DependencyProperty IsActiveProperty =
-            DependencyProperty.Register(
-                nameof(IsActive),
-                typeof(bool),
-                typeof(LRControlButton),
-                new PropertyMetadata(false));
+        public LRControlButton()
+        {
+        }
+
+        public LRControlButton(Command command)
+        {
+            Content = command.Short;
+            ToolTip = new System.Windows.Controls.ToolTip { Content = command.Title };
+        }
 
         public static readonly DependencyProperty LRCommandProperty =
             DependencyProperty.Register(
@@ -17,12 +21,6 @@ namespace SpeedLR.Controls
                 typeof(string),
                 typeof(LRControlButton),
                 new PropertyMetadata(""));
-
-        public bool IsActive
-        {
-            get => (bool)GetValue(IsActiveProperty);
-            set => SetValue(IsActiveProperty, value);
-        }
 
         public string LRCommand
         {
