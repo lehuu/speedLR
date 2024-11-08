@@ -12,6 +12,7 @@ namespace SpeedLR.Controls
                                       .Select(word => char.ToUpper(word[0]))
                                       .ToArray()); ;
             ToolTip = new System.Windows.Controls.ToolTip { Content = $"Open {menu.Name}" };
+            MenuCommand = menu.Id;
         }
 
         public static readonly DependencyProperty MenuCommandProperty =

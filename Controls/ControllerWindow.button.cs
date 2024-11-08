@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using SpeedLR.Controls;
+using SpeedLR.Model;
 
 namespace SpeedLR
 {
@@ -125,16 +126,21 @@ namespace SpeedLR
             });
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is LRControlButton clickedButton)
+            if (sender is LRControlButton clickedLRButton)
             {
-                if (String.IsNullOrEmpty(clickedButton.LRCommand))
+                if (String.IsNullOrEmpty(clickedLRButton.LRCommand))
                 {
                     return;
                 }
 
-                ToggleButton(clickedButton);
+                ToggleButton(clickedLRButton);
+                return;
+            }
+            if (sender is MenuControlButton clickedMenuButton)
+            {
+                SwitchToMenu(clickedMenuButton.MenuCommand);
             }
         }
         private void StepButton_Click(object sender, RoutedEventArgs e)

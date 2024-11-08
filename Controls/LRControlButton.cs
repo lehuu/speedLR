@@ -13,6 +13,7 @@ namespace SpeedLR.Controls
         {
             Content = command.Short;
             ToolTip = new System.Windows.Controls.ToolTip { Content = command.Title };
+            LRCommand = command.CommandName;
         }
 
         public static readonly DependencyProperty LRCommandProperty =

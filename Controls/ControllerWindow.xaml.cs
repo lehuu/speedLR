@@ -143,6 +143,7 @@ namespace SpeedLR
                         continue;
                     }
 
+                    button.Click += Button_Click;
                     button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, distinctMenus[i], (float)menuButton.ButtonIndex / (float)maxNumberOfButtons);
                     _menus[i][j] = button;
                     buttonGrid.Children.Add(button);
