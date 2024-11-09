@@ -391,7 +391,7 @@ namespace SpeedLR
                 for (int j = 0; j < _menus[i].Length; j++)
                 {
                     var item = _menus[i][j];
-                    if (button != null && item.Name == button.Name)
+                    if (button != null && item == button)
                     {
                         item.IsActive = !item.IsActive;
                         CurrentButtonIndex = j;
