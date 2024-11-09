@@ -10,6 +10,31 @@ namespace SpeedLR
 
     public partial class ControllerWindow : Window
     {
+        internal enum ButtonType
+        {
+            MENU,
+            LR,
+            NONE
+        }
+        private enum CommandType
+        {
+            UP,
+            DOWN,
+            RESET
+        }
+
+        internal class ButtonData
+        {
+            public string Data;
+            public ButtonType Type;
+
+            public ButtonData(string data, ButtonType type)
+            {
+                Data = data;
+                Type = type;
+            }
+        }
+
         private List<string> _menuHistory = new List<string>();
         private LRControlButton[] _stepButtons;
         private ControlButton[][] _menus;
@@ -18,18 +43,11 @@ namespace SpeedLR
         private GlobalMouseHook _mouseHook;
         private readonly Timer _hideTimer;
 
-        private string _currentCommand = "";
         private int _currentButtonIndex = -1;
         private int _currentMenuIndex = 0;
 
         private string _currentMenuId = "";
 
-        private enum CommandType
-        {
-            UP,
-            DOWN,
-            RESET
-        }
 
         public ControllerWindow()
         {
@@ -56,28 +74,67 @@ namespace SpeedLR
             }
         }
 
-        private string CurrentCommand
+        public int CurrentButtonIndex
         {
-            get => _currentCommand;
+            get => _currentButtonIndex;
             set
             {
-                if (_currentCommand != value)
+                _currentButtonIndex = value;
+                if (String.IsNullOrEmpty(CurrentButton.Data))
                 {
-                    _currentCommand = value;
-
-                    if (String.IsNullOrEmpty(value))
-                    {
-                        _mouseHook.Dispose();
-                        DeactivateCommandKeys();
-                    }
-                    else
-                    {
-                        _mouseHook.Register();
-                        ActivateCommandKeys();
-                    }
+                    _mouseHook.Dispose();
+                    DeactivateCommandKeys();
+                }
+                else
+                {
+                    _mouseHook.Register();
+                    ActivateCommandKeys();
                 }
             }
         }
+        public int CurrentMenuIndex
+        {
+            get => _currentMenuIndex;
+            set
+            {
+                _currentMenuIndex = value;
+                if (String.IsNullOrEmpty(CurrentButton.Data))
+                {
+                    _mouseHook.Dispose();
+                    DeactivateCommandKeys();
+                }
+                else
+                {
+                    _mouseHook.Register();
+                    ActivateCommandKeys();
+                }
+            }
+        }
+
+        private ButtonData CurrentButton
+        {
+            get
+            {
+                if (CurrentMenuIndex < 0 || CurrentButtonIndex < 0 || CurrentMenuIndex >= _menus.Length || CurrentButtonIndex >= _menus[CurrentMenuIndex].Length)
+                {
+                    return new ButtonData("", ButtonType.NONE);
+                }
+                var button = _menus[CurrentMenuIndex][CurrentButtonIndex];
+
+                if (button is LRControlButton lrControlButton)
+                {
+                    return new ButtonData(lrControlButton.LRCommand, ButtonType.LR);
+                }
+
+                if (button is MenuControlButton menuControlButton)
+                {
+                    return new ButtonData(menuControlButton.MenuCommand, ButtonType.MENU);
+                }
+
+                return new ButtonData("", ButtonType.NONE);
+            }
+        }
+
 
         private void SwitchToMenu(int menuIndex)
         {
@@ -136,7 +193,7 @@ namespace SpeedLR
                         if (menu == null)
                         {
                             continue;
-                        } 
+                        }
                         button = new MenuControlButton(menu);
                     }
 
@@ -145,12 +202,12 @@ namespace SpeedLR
                         continue;
                     }
 
-                    button.IsActive = _currentButtonIndex == j && _currentMenuIndex == i;
+                    button.IsActive = CurrentButtonIndex == j && CurrentMenuIndex == i;
                     button.Background = BrushHelper.GetBrushFromHex(menuButton.BackgroundColor);
                     button.Foreground = BrushHelper.GetBrushFromHex(menuButton.FontColor);
                     button.Click += Button_Click;
                     button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, distinctMenus[i], (float)menuButton.ButtonIndex / (float)maxNumberOfButtons);
-                    button.Style = (Style) FindResource("LargeControlButton");
+                    button.Style = (Style)FindResource("LargeControlButton");
                     _menus[i][j] = button;
                     buttonGrid.Children.Add(button);
                 }
@@ -201,6 +258,7 @@ namespace SpeedLR
                     CreateHotkey(5, 0, GlobalHotkey.UP, Inc_Pressed),
                     CreateHotkey(6, 0, GlobalHotkey.DOWN, Dec_Pressed),
                     CreateHotkey(7, 0, GlobalHotkey.SPACE, Reset_Pressed),
+                    CreateHotkey(12, 0, GlobalHotkey.BACKSPACE, Backspace_Pressed),
                 };
 
                 _mouseHook = new GlobalMouseHook();
@@ -214,7 +272,7 @@ namespace SpeedLR
             if (IsVisible && isConnected)
             {
                 ActivateHotkeys();
-                if (!String.IsNullOrWhiteSpace(CurrentCommand))
+                if (!String.IsNullOrWhiteSpace(CurrentButton.Data))
                 {
                     ActivateCommandKeys();
                     _mouseHook.Register();
@@ -263,7 +321,7 @@ namespace SpeedLR
             {
                 return;
             }
-            if (String.IsNullOrEmpty(CurrentCommand))
+            if (String.IsNullOrEmpty(CurrentButton.Data))
             {
                 return;
             }
@@ -276,13 +334,13 @@ namespace SpeedLR
             switch (type)
             {
                 case CommandType.DOWN:
-                    Connector.Instance.SendCommandAsync(CurrentCommand + "=-" + stepSize);
+                    Connector.Instance.SendCommandAsync(CurrentButton.Data + "=-" + stepSize);
                     break;
                 case CommandType.UP:
-                    Connector.Instance.SendCommandAsync(CurrentCommand + "=+" + stepSize);
+                    Connector.Instance.SendCommandAsync(CurrentButton.Data + "=+" + stepSize);
                     break;
                 case CommandType.RESET:
-                    Connector.Instance.SendCommandAsync(CurrentCommand + "=reset");
+                    Connector.Instance.SendCommandAsync(CurrentButton.Data + "=reset");
                     break;
             }
 
@@ -314,7 +372,6 @@ namespace SpeedLR
                     item.IsActive = false;
                 }
             }
-            CurrentCommand = "";
         }
 
         private void ToggleButton(int menu, int key)
@@ -323,12 +380,8 @@ namespace SpeedLR
             var item = _menus[menu][key];
 
             item.IsActive = true;
-            _currentMenuIndex = menu;
-            _currentButtonIndex = key;
-            if (item is LRControlButton lrControlButton)
-            {
-                CurrentCommand = String.IsNullOrEmpty(lrControlButton.LRCommand) ? "" : lrControlButton.LRCommand;
-            }
+            CurrentMenuIndex = menu;
+            CurrentButtonIndex = key;
         }
 
         private void ToggleButton(ControlButton button)
@@ -341,12 +394,8 @@ namespace SpeedLR
                     if (button != null && item.Name == button.Name)
                     {
                         item.IsActive = !item.IsActive;
-                        if (item is LRControlButton lrControlButton)
-                        {
-                            CurrentCommand = lrControlButton.IsActive ? lrControlButton.LRCommand : "";
-                        }
-                        _currentButtonIndex = j;
-                        _currentMenuIndex = i;
+                        CurrentButtonIndex = j;
+                        CurrentMenuIndex = i;
                         continue;
                     }
 

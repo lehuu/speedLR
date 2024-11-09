@@ -24,7 +24,7 @@ namespace SpeedLR
                 return;
             }
 
-            ToggleButton(_currentMenuIndex, (_currentButtonIndex + 1) % _menus[_currentMenuIndex].Length);
+            ToggleButton(CurrentMenuIndex, (CurrentButtonIndex + 1) % _menus[CurrentMenuIndex].Length);
         }
 
         private void Next_Submenu(object sender, EventArgs e)
@@ -33,8 +33,8 @@ namespace SpeedLR
             {
                 return;
             }
-            var nextSubmenu = (_currentMenuIndex + 1) % _menus.Length;
-            ToggleButton(nextSubmenu, Math.Clamp(_currentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
+            var nextSubmenu = (CurrentMenuIndex + 1) % _menus.Length;
+            ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
         }
 
         private void Prev_Submenu(object sender, EventArgs e)
@@ -43,8 +43,8 @@ namespace SpeedLR
             {
                 return;
             }
-            var nextSubmenu = (_currentMenuIndex - 1 + _menus.Length) % _menus.Length;
-            ToggleButton(nextSubmenu, Math.Clamp(_currentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
+            var nextSubmenu = (CurrentMenuIndex - 1 + _menus.Length) % _menus.Length;
+            ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
         }
 
         private void Prev_Pressed(object sender, EventArgs e)
@@ -53,7 +53,7 @@ namespace SpeedLR
             {
                 return;
             }
-            ToggleButton(_currentMenuIndex, (_currentButtonIndex - 1 + _menus[_currentMenuIndex].Length) % _menus[_currentMenuIndex].Length);
+            ToggleButton(CurrentMenuIndex, (CurrentButtonIndex - 1 + _menus[CurrentMenuIndex].Length) % _menus[CurrentMenuIndex].Length);
         }
 
         private void Increase_Step(object sender, EventArgs e)
@@ -86,6 +86,10 @@ namespace SpeedLR
             {
                 _stepButtons[i].IsActive = i == nextStep;
             }
+        }
+        private void Backspace_Pressed(object sender, EventArgs e)
+        {
+            BackButton_Click(sender, (RoutedEventArgs) RoutedEventArgs.Empty);
         }
 
         private void Reset_Pressed(object sender, EventArgs e)

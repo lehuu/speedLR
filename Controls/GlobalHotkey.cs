@@ -20,6 +20,7 @@ namespace SpeedLR.Controls
         public static int UP = 38;
         public static int DOWN = 40;
         public static int SPACE = 32;
+        public static int BACKSPACE = 8;
         private const int WM_HOTKEY = 0x0312;
 
         private int _id;
