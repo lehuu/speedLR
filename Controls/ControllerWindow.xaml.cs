@@ -321,7 +321,7 @@ namespace SpeedLR
             {
                 return;
             }
-            if (String.IsNullOrEmpty(CurrentButton.Data))
+            if (String.IsNullOrEmpty(CurrentButton.Data) || CurrentButton.Type != ButtonType.LR)
             {
                 return;
             }

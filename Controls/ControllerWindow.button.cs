@@ -89,7 +89,13 @@ namespace SpeedLR
         }
         private void Backspace_Pressed(object sender, EventArgs e)
         {
-            BackButton_Click(sender, (RoutedEventArgs) RoutedEventArgs.Empty);
+            if (_menuHistory.Count <= 1)
+            {
+                return;
+            }
+            _menuHistory.RemoveAt(_menuHistory.Count - 1);
+            SwitchToMenu(_menuHistory[_menuHistory.Count - 1]);
+            backButton.IsEnabled = _menuHistory.Count > 1;
         }
 
         private void Reset_Pressed(object sender, EventArgs e)
@@ -109,6 +115,13 @@ namespace SpeedLR
 
         private void Dec_Pressed(object sender, EventArgs e)
         {
+            if(CurrentButton.Type == ButtonType.MENU)
+            {
+                SwitchToMenu(CurrentButton.Data);
+                _menuHistory.Add(_currentMenuId);
+                backButton.IsEnabled = _menuHistory.Count > 1;
+                return;
+            }
             SendCommand(CommandType.DOWN);
         }
 
@@ -162,12 +175,7 @@ namespace SpeedLR
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_menuHistory.Count <= 1) {
-                return;
-            }
-            _menuHistory.RemoveAt(_menuHistory.Count - 1);
-            SwitchToMenu(_menuHistory[_menuHistory.Count-1]);
-            backButton.IsEnabled = _menuHistory.Count > 1;
+            Backspace_Pressed(sender, e);
         }
 
         private void HideButton_Click(object sender, RoutedEventArgs e)
