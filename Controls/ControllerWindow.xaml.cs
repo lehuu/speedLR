@@ -114,7 +114,7 @@ namespace SpeedLR
             _menus = new ControlButton[menuNumbers][];
             for (int i = 0; i < menuNumbers; i++)
             {
-                var menuButtons = filteredButtons.Where(button => button.MenuIndex == distinctMenus[i]).ToArray();
+                var menuButtons = filteredButtons.Where(button => button.MenuIndex == distinctMenus[i]).OrderBy(b => b.ButtonIndex).ToArray();
                 if (menuButtons.Count() == 0)
                 { continue; }
 
@@ -136,7 +136,7 @@ namespace SpeedLR
                         if (menu == null)
                         {
                             continue;
-                        }
+                        } 
                         button = new MenuControlButton(menu);
                     }
 
@@ -145,6 +145,7 @@ namespace SpeedLR
                         continue;
                     }
 
+                    button.IsActive = _currentButtonIndex == j && _currentMenuIndex == i;
                     button.Background = BrushHelper.GetBrushFromHex(menuButton.BackgroundColor);
                     button.Foreground = BrushHelper.GetBrushFromHex(menuButton.FontColor);
                     button.Click += Button_Click;
@@ -208,7 +209,9 @@ namespace SpeedLR
                 _mouseHook.OnMiddleMouseButtonClick += Reset_Pressed;
             }
 
-            if (IsVisible)
+            var isConnected = Connector.Instance.IsConnected().Result;
+
+            if (IsVisible && isConnected)
             {
                 ActivateHotkeys();
                 if (!String.IsNullOrWhiteSpace(CurrentCommand))
@@ -217,7 +220,6 @@ namespace SpeedLR
                     _mouseHook.Register();
                 }
 
-                var isConnected = Connector.Instance.IsConnected().Result;
 
                 foreach (var submenu in _menus)
                 {
