@@ -27,6 +27,33 @@
             </Style.Resources>
         </Style>
         <Style x:Key="LargeControlButton" TargetType="{x:Type local:ControlButton}" BasedOn="{StaticResource LargeButton}">
+            <Style.Triggers>
+                <Trigger Property="IsActive" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsActive" Value="False">
+                    <Setter Property="Opacity" Value="0.7"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsEnabled" Value="False" />
+                        <Condition Property="IsActive" Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Opacity" Value="0.1"/>
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsEnabled" Value="False" />
+                        <Condition Property="IsActive" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Opacity" Value="0.1"/>
+                </MultiTrigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="SmallButton" TargetType="{x:Type Button}">

@@ -145,6 +145,8 @@ namespace SpeedLR
                         continue;
                     }
 
+                    button.Background = BrushHelper.GetBrushFromHex(menuButton.BackgroundColor);
+                    button.Foreground = BrushHelper.GetBrushFromHex(menuButton.FontColor);
                     button.Click += Button_Click;
                     button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, distinctMenus[i], (float)menuButton.ButtonIndex / (float)maxNumberOfButtons);
                     button.Style = (Style) FindResource("LargeControlButton");
