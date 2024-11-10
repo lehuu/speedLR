@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using System.Runtime.InteropServices;
+using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
 using SpeedLR.Controls;
@@ -55,6 +56,7 @@ namespace SpeedLR
             IsVisibleChanged += ControllerWindow_IsVisibleChanged;
             DpiHelper.AdjustScaleForDpi(this);
             SourceInitialized += (s, e) => this.DpiChanged += Window_DpiChanged;
+            Loaded += Window_Loaded;
             _hideTimer = new Timer(500);
             _hideTimer.AutoReset = false;
             _hideTimer.Elapsed += OnHideElapsed;
@@ -220,6 +222,22 @@ namespace SpeedLR
 
             ToggleButton(CurrentMenuIndex, CurrentButtonIndex);
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            WindowInteropHelper helper = new WindowInteropHelper(this);
+            int exStyle = (int)GetWindowLong(helper.Handle, GWL_EXSTYLE);
+            SetWindowLong(helper.Handle, GWL_EXSTYLE, exStyle | WS_EX_NOACTIVATE);
+        }
+
+        private const int GWL_EXSTYLE = -20;
+        private const int WS_EX_NOACTIVATE = 0x08000000;
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetWindowLong(IntPtr hWnd, int nIndex);
 
         private void SwitchToMenu(string menuId)
         {

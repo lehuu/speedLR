@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:SpeedLR.Controls"
         Closing="MainWindow_Closing"
         mc:Ignorable="d"
+        ShowActivated="False"
+        Focusable="False"
         Activated="CheckConnection"
         Title="SpeedLr" Height="450" Width="320
         " ResizeMode="NoResize" Icon="/wheel.ico">
