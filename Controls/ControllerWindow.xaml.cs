@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Text;
 using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
@@ -43,12 +44,12 @@ namespace SpeedLR
         private GlobalHotkey[] _commandHotkeys;
         private GlobalMouseHook _mouseHook;
         private readonly Timer _hideTimer;
+        private ActiveWindowWatcher _watcher = new ActiveWindowWatcher();
 
         private int _currentButtonIndex = -1;
         private int _currentMenuIndex = 0;
 
         private string _currentMenuId = "";
-
 
         public ControllerWindow()
         {
@@ -292,8 +293,9 @@ namespace SpeedLR
             }
 
             var isConnected = Connector.Instance.IsConnected().Result;
+            var isLightroomActive = _watcher.IsLightroomActive();
 
-            if (IsVisible && isConnected)
+            if (IsVisible && isConnected && isLightroomActive)
             {
                 ActivateHotkeys();
                 if (!String.IsNullOrWhiteSpace(CurrentButton.Data))
@@ -301,7 +303,6 @@ namespace SpeedLR
                     ActivateCommandKeys();
                     _mouseHook.Register();
                 }
-
 
                 foreach (var submenu in _menus)
                 {
@@ -315,7 +316,6 @@ namespace SpeedLR
                         {
                             item.IsEnabled = true;
                         }
-
                     }
                 }
             }
@@ -349,6 +349,11 @@ namespace SpeedLR
             {
                 return;
             }
+            if(!_watcher.IsLightroomActive())
+            {
+                return;
+            }
+
 
             Opacity = 0;
 
