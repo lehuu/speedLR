@@ -60,6 +60,7 @@ local develop_params = {"Temperature", "Tint", "Exposure", "Contrast", "Highligh
                         "local_Grain", "local_RefineSaturation"}
 
 local string_replacements = {"LensProfile", "PostCrop", "Adjustment", "ColorGrade", "SplitToning", "GrayMixer"}
+local test_command = "Test"
 
 local develop_param_set = {}
 for _, key in ipairs(develop_params) do
@@ -283,6 +284,9 @@ local function makeReceiverSocket(context)
         end,
         onMessage = function(socket, message)
             if type(message) == "string" then
+                if message == test_command then
+                    return
+                end
                 local key, value = parseMessage(message)
                 if key and value then
                     if setValue(key, value) then
