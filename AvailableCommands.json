@@ -334,73 +334,73 @@
       "title": "Color Grading Panel",
       "commands": [
         {
-          "title": "Split Toning Shadow Hue",
-          "short": "S",
+          "title": "Shadow Hue",
+          "short": "SH",
           "command": "SplitToningShadowHue"
         },
         {
-          "title": "Split Toning Shadow Saturation",
-          "short": "S",
+          "title": "Shadow Saturation",
+          "short": "SS",
           "command": "SplitToningShadowSaturation"
         },
         {
-          "title": "Color Grade Shadow Lum",
-          "short": "C",
+          "title": "Shadow Lum",
+          "short": "SL",
           "command": "ColorGradeShadowLum"
         },
         {
-          "title": "Split Toning Highlight Hue",
-          "short": "S",
+          "title": "Highlight Hue",
+          "short": "HH",
           "command": "SplitToningHighlightHue"
         },
         {
-          "title": "Split Toning Highlight Saturation",
-          "short": "S",
+          "title": "Highlight Saturation",
+          "short": "HS",
           "command": "SplitToningHighlightSaturation"
         },
         {
-          "title": "Color Grade Highlight Lum",
-          "short": "C",
+          "title": "Highlight Lum",
+          "short": "HL",
           "command": "ColorGradeHighlightLum"
         },
         {
-          "title": "Color Grade Midtone Hue",
-          "short": "C",
+          "title": "Midtone Hue",
+          "short": "MH",
           "command": "ColorGradeMidtoneHue"
         },
         {
-          "title": "Color Grade Midtone Sat",
-          "short": "C",
+          "title": "Midtone Sat",
+          "short": "MS",
           "command": "ColorGradeMidtoneSat"
         },
         {
-          "title": "Color Grade Midtone Lum",
-          "short": "C",
+          "title": "Midtone Lum",
+          "short": "ML",
           "command": "ColorGradeMidtoneLum"
         },
         {
-          "title": "Color Grade Global Hue",
-          "short": "C",
+          "title": "Global Hue",
+          "short": "GH",
           "command": "ColorGradeGlobalHue"
         },
         {
-          "title": "Color Grade Global Sat",
-          "short": "C",
+          "title": "Global Sat",
+          "short": "GS",
           "command": "ColorGradeGlobalSat"
         },
         {
-          "title": "Color Grade Global Lum",
-          "short": "C",
+          "title": "Global Lum",
+          "short": "GL",
           "command": "ColorGradeGlobalLum"
         },
         {
-          "title": "Split Toning Balance",
-          "short": "S",
+          "title": "Balance",
+          "short": "Ba",
           "command": "SplitToningBalance"
         },
         {
-          "title": "Color Grade Blending",
-          "short": "C",
+          "title": "Blending",
+          "short": "Bl",
           "command": "ColorGradeBlending"
         }
       ]
