@@ -10,7 +10,7 @@
         Focusable="False"
         Activated="CheckConnection"
         Title="SpeedLr" Height="450" Width="320
-        " ResizeMode="NoResize" Icon="/wheel.ico">
+        " ResizeMode="NoResize">
 
     <Window.Resources>
         <Style TargetType="Button">

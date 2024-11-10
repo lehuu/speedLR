@@ -7,7 +7,7 @@
         Background="Transparent"
         Focusable="False"
         Closing="ControllerWindow_Closing" WindowStyle="None" AllowsTransparency="True" mc:Ignorable="d"
-        Topmost="True" ShowInTaskbar="False" Height="300" Width="300" ResizeMode="NoResize" Icon="/wheel.ico">
+        Topmost="True" ShowInTaskbar="False" Height="300" Width="300" ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="LargeButton" TargetType="{x:Type Button}">
             <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>

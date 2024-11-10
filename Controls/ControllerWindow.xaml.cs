@@ -451,6 +451,10 @@ namespace SpeedLR
 
         private void ActivateCommandKeys()
         {
+            if (_commandHotkeys == null)
+            {
+                return;
+            }
             foreach (var key in _commandHotkeys)
             {
                 key.Register(HwndHook);
@@ -472,6 +476,10 @@ namespace SpeedLR
 
         private void ActivateHotkeys()
         {
+            if (_hotkeys == null)
+            {
+                return;
+            }
             foreach (var key in _hotkeys)
             {
                 key.Register(HwndHook);
@@ -480,6 +488,10 @@ namespace SpeedLR
 
         private void DeactivateHotkeys()
         {
+            if(_hotkeys == null)
+            {
+                return;
+            }
             foreach (var key in _hotkeys)
             {
                 key.Unregister(HwndHook);

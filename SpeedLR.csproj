@@ -11,34 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="wheel.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <COMReference Include="{215d64d2-031c-33c7-96e3-61794cd1ee61}">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>4</VersionMinor>
-      <VersionMajor>2</VersionMajor>
-      <Guid>215d64d2-031c-33c7-96e3-61794cd1ee61</Guid>
-    </COMReference>
-    <COMReference Include="{d37e2a3e-8545-3a39-9f4f-31827c9124ab}">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>4</VersionMinor>
-      <VersionMajor>2</VersionMajor>
-      <Guid>d37e2a3e-8545-3a39-9f4f-31827c9124ab</Guid>
-    </COMReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="wheel.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Controls\ControllerWindow.button.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Content Include="wheel.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +29,9 @@
     </None>
     <None Update="SpeedLR.lrplugin\stop.lua">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="wheel.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
