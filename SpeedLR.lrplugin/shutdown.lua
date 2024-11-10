@@ -1,6 +1,10 @@
 return {
 	LrShutdownFunction = function( doneFunction, progressFunction )
 		local LrTasks = import "LrTasks"
+		LrTasks.startAsyncTask(function()
+			-- Command to stop the process (Windows example)
+			LrTasks.execute("taskkill /IM SpeedLR.exe /F")
+		end)
 		LrTasks.startAsyncTask( function()
 				if _G.running then
 					local LrDate = import "LrDate"

@@ -247,13 +247,10 @@ local makingReceiver = false
 
 local function getPortFromFile()
     local thePort = defaultReceivePort
-    local path = LrPathUtils.getStandardFilePath("appData")
-    path = path .. "\\..\\..\\Ebo\\StreamDeckLightroom"
-    path = LrPathUtils.standardizePath(path)
-    LrFileUtils.createAllDirectories(path)
-    path = path .. "\\port.config"
-    if LrFileUtils.exists(path) then
-        thePort = LrFileUtils.readFile(path)
+    local pluginFolderPath = LrPathUtils.parent(_PLUGIN.path)
+    local portPath = LrPathUtils.child(pluginFolderPath, "Port.txt")
+    if LrFileUtils.exists(portPath) then
+        thePort = LrFileUtils.readFile(portPath)
     end
     return thePort
 end
@@ -313,6 +310,14 @@ end
 --------------------------------------------------------------------------------
 -- Start everything in an async task so we can sleep in a loop until we are shut down.
 LrTasks.startAsyncTask(function()
+    local pluginFolderPath = LrPathUtils.parent(_PLUGIN.path)
+    local exePath = LrPathUtils.child(pluginFolderPath, "SpeedLR.exe")
+    if LrFileUtils.exists(exePath) then
+        LrTasks.execute(exePath)
+    end
+end)
+
+LrTasks.startAsyncTask(function()
     -- A function context is required for the socket API below. When this context
     -- is exited all socket connections that have been created from it will be
     -- closed. We stay inside this context indefinitiely by spinning in a sleep
@@ -335,3 +340,5 @@ LrTasks.startAsyncTask(function()
         LrDialogs.showBezel("Remote connection closed", 4)
     end)
 end)
+
+
