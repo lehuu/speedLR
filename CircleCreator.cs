@@ -10,7 +10,8 @@ namespace SpeedLR
 
         public static Thickness CreateButtonsInCircle(Grid centerGrid, int menuNumber, float circleFraction)
         {
-            double angle = 2 * Math.PI * circleFraction;
+            double ninetyDeg = 90 * Math.PI / 180;
+            double angle = 2 * Math.PI * circleFraction - ninetyDeg;
 
             var distanceDelta = (menuNumber * MENU_DISTANCE);
             var distance = START_DISTANCE + distanceDelta;
