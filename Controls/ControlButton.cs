@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Button = System.Windows.Controls.Button;
-using ToolTip = System.Windows.Controls.ToolTip;
 
 namespace SpeedLR.Controls
 {
@@ -17,23 +16,29 @@ namespace SpeedLR.Controls
         public bool IsActive
         {
             get => (bool)GetValue(IsActiveProperty);
-            set  { SetValue(IsActiveProperty, value);
-                if(ToolTip != null && ToolTip is ToolTip tooltip && tooltip.Content != null)
-                {
-                    tooltip.IsOpen = value;
-                }
+            set
+            {
+                SetValue(IsActiveProperty, value);
             }
+        }
+
+        public string? PopupText
+        {
+            get; set;
         }
 
         public ControlButton()
         {
             ToolTipService.SetInitialShowDelay(this, 0);
-            Unloaded += ControlButton_Unloaded;
         }
-        private void ControlButton_Unloaded(object sender, RoutedEventArgs e)
+
+        public ControlButton(string popupText) : this()
         {
-            // Clear the ToolTip to remove it from the visual tree
-            ToolTip = null;
+            PopupText = popupText;
+            ToolTip = new System.Windows.Controls.ToolTip
+            {
+                Content = popupText,
+            };
         }
     }
 }

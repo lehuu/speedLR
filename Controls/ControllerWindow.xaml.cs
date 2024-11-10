@@ -82,12 +82,12 @@ namespace SpeedLR
                 _currentButtonIndex = value;
                 if (String.IsNullOrEmpty(CurrentButton.Data))
                 {
-                    _mouseHook.Dispose();
+                    _mouseHook?.Dispose();
                     DeactivateCommandKeys();
                 }
                 else
                 {
-                    _mouseHook.Register();
+                    _mouseHook?.Register();
                     ActivateCommandKeys();
                 }
             }
@@ -100,12 +100,12 @@ namespace SpeedLR
                 _currentMenuIndex = value;
                 if (String.IsNullOrEmpty(CurrentButton.Data))
                 {
-                    _mouseHook.Dispose();
+                    _mouseHook?.Dispose();
                     DeactivateCommandKeys();
                 }
                 else
                 {
-                    _mouseHook.Register();
+                    _mouseHook?.Register();
                     ActivateCommandKeys();
                 }
             }
@@ -120,6 +120,11 @@ namespace SpeedLR
                     return new ButtonData("", ButtonType.NONE);
                 }
                 var button = _menus[CurrentMenuIndex][CurrentButtonIndex];
+
+                if (!button.IsActive)
+                {
+                    return new ButtonData("", ButtonType.NONE);
+                }
 
                 if (button is LRControlButton lrControlButton)
                 {
@@ -202,17 +207,18 @@ namespace SpeedLR
                         continue;
                     }
 
-                    button.IsActive = CurrentButtonIndex == j && CurrentMenuIndex == i;
                     button.Background = BrushHelper.GetBrushFromHex(menuButton.BackgroundColor);
                     button.Foreground = BrushHelper.GetBrushFromHex(menuButton.FontColor);
                     button.Click += Button_Click;
                     button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, distinctMenus[i], (float)menuButton.ButtonIndex / (float)maxNumberOfButtons);
                     button.Style = (Style)FindResource("LargeControlButton");
+
                     _menus[i][j] = button;
                     buttonGrid.Children.Add(button);
                 }
-
             }
+
+            ToggleButton(CurrentMenuIndex, CurrentButtonIndex);
         }
 
         private void SwitchToMenu(string menuId)
@@ -376,32 +382,28 @@ namespace SpeedLR
 
         private void ToggleButton(int menu, int key)
         {
+            if (menu < 0 || key < 0 || menu >= _menus.Length || key >= _menus[menu].Length)
+            {
+                popup.Visibility = Visibility.Collapsed;
+                ClearActiveButtons();
+                return;
+            }
+
+            var wasActive = _menus[menu][key].IsActive;
             ClearActiveButtons();
             var item = _menus[menu][key];
-
-            item.IsActive = true;
+            item.IsActive = !wasActive;
             CurrentMenuIndex = menu;
             CurrentButtonIndex = key;
-        }
 
-        private void ToggleButton(ControlButton button)
-        {
-            for (int i = 0; i < _menus.Length; i++)
-            {
-                for (int j = 0; j < _menus[i].Length; j++)
-                {
-                    var item = _menus[i][j];
-                    if (button != null && item == button)
-                    {
-                        item.IsActive = !item.IsActive;
-                        CurrentButtonIndex = j;
-                        CurrentMenuIndex = i;
-                        continue;
-                    }
-
-                    item.IsActive = false;
-                }
-            }
+            popup.Visibility = item.IsActive ? Visibility.Visible : Visibility.Collapsed;
+            popup.Text = item.PopupText;
+            popup.Margin = new Thickness(
+                item.Margin.Left,
+                item.Margin.Top + (item.Margin.Top < 0 ? -item.Height : item.Height),
+                item.Margin.Right,
+                item.Margin.Bottom
+            );
         }
 
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -434,6 +436,11 @@ namespace SpeedLR
 
         private void DeactivateCommandKeys()
         {
+            if (_commandHotkeys == null)
+            {
+                return;
+            }
+
             foreach (var key in _commandHotkeys)
             {
                 key.Unregister(HwndHook);

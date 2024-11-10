@@ -99,6 +99,6 @@
         <local:LRControlButton  Style="{StaticResource SmallControlButton}" x:Name="pinButton" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="165,159,0,0" Cursor="Hand" Click="PinButton_Click"/>
         <Button  Style="{StaticResource SmallButton}" x:Name="backButton" Content="↩" ToolTip="Go Back" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,159,0,0" Click="BackButton_Click" IsEnabled="False"/>
         <Grid x:Name="buttonGrid" Width="300" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
+        <TextBlock IsHitTestVisible="False" x:Name="popup" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Background="White" />
     </Grid>
 </Window>

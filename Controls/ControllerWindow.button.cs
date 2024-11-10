@@ -115,7 +115,7 @@ namespace SpeedLR
 
         private void Dec_Pressed(object sender, EventArgs e)
         {
-            if(CurrentButton.Type == ButtonType.MENU)
+            if (CurrentButton.Type == ButtonType.MENU)
             {
                 SwitchToMenu(CurrentButton.Data);
                 _menuHistory.Add(_currentMenuId);
@@ -152,7 +152,16 @@ namespace SpeedLR
                     return;
                 }
 
-                ToggleButton(clickedLRButton);
+                for (int i = 0; i < _menus.Length; i++)
+                {
+                    for (int j = 0; j < _menus[i].Length; j++)
+                    {
+                        if (_menus[i][j] == clickedLRButton)
+                        {
+                            ToggleButton(i, j);
+                        }
+                    }
+                }
                 return;
             }
             if (sender is MenuControlButton clickedMenuButton)

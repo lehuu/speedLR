@@ -9,15 +9,15 @@ namespace SpeedLR.Controls
         {
         }
 
-        public LRControlButton(Command command)
+        public LRControlButton(Command command): base(ExtractTooltipContent(command))
         {
             Content = command.Short;
-            ToolTip = new System.Windows.Controls.ToolTip {
-                Content = command.Title,
-                Placement = System.Windows.Controls.Primitives.PlacementMode.Center,
-                VerticalOffset = 30,
-                PlacementTarget = this };
             LRCommand = command.CommandName;
+        }
+
+        private static string ExtractTooltipContent(Command command)
+        {
+            return command.Title;
         }
 
         public static readonly DependencyProperty LRCommandProperty =

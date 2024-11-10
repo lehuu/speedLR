@@ -5,20 +5,18 @@ namespace SpeedLR.Controls
 {
     public class MenuControlButton : ControlButton
     {
-        public MenuControlButton(Menu menu)
+        public MenuControlButton(Menu menu): base(ExtractTooltipContent(menu))
         {
             Content = new string(menu.Name.Split(' ')
                                       .Where(word => !string.IsNullOrEmpty(word))
                                       .Select(word => char.ToUpper(word[0]))
                                       .ToArray()); ;
-            ToolTip = new System.Windows.Controls.ToolTip
-            {
-                Content = $"Open {menu.Name}",
-                Placement = System.Windows.Controls.Primitives.PlacementMode.Center,
-                VerticalOffset = 30,
-                PlacementTarget = this
-            };
             MenuCommand = menu.Id;
+        }
+
+        private static string ExtractTooltipContent(Menu menu)
+        {
+            return $"Open {menu.Name}";
         }
 
         public static readonly DependencyProperty MenuCommandProperty =
