@@ -24,10 +24,13 @@ namespace SpeedLR
         public MainWindow()
         {
             InitializeComponent();
-
             var startMenuIndex = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == LocalData.Instance.AvailableMenus.DefaultMenu);
             SwitchToMenu(startMenuIndex == -1 ? 0 : startMenuIndex);
 
+            Loaded += (s, e) =>
+            {
+                Hide();
+            };
             IsVisibleChanged += MainWindow_IsVisibleChanged;
             menuTextbox.DebouncedTextChanged += TextBoxChanged;
         }
