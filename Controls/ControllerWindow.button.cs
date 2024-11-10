@@ -12,7 +12,7 @@ namespace SpeedLR
             {
                 return;
             }
-
+            popup.Visibility = Visibility.Collapsed;
             ClearActiveButtons();
         }
 
