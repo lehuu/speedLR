@@ -313,7 +313,7 @@ LrTasks.startAsyncTask(function()
     local pluginFolderPath = LrPathUtils.parent(_PLUGIN.path)
     local exePath = LrPathUtils.child(pluginFolderPath, "SpeedLR.exe")
     if LrFileUtils.exists(exePath) then
-        LrTasks.execute(exePath)
+        LrTasks.execute("cd "..pluginFolderPath .. "& SpeedLR.exe")
     end
 end)
 
