@@ -11,7 +11,13 @@ namespace SpeedLR.Controls
                                       .Where(word => !string.IsNullOrEmpty(word))
                                       .Select(word => char.ToUpper(word[0]))
                                       .ToArray()); ;
-            ToolTip = new System.Windows.Controls.ToolTip { Content = $"Open {menu.Name}" };
+            ToolTip = new System.Windows.Controls.ToolTip
+            {
+                Content = $"Open {menu.Name}",
+                Placement = System.Windows.Controls.Primitives.PlacementMode.Center,
+                VerticalOffset = 30,
+                PlacementTarget = this
+            };
             MenuCommand = menu.Id;
         }
 

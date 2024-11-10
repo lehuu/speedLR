@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace SpeedLR.Controls
 {
-    public class LRControlButton: ControlButton
+    public class LRControlButton : ControlButton
     {
         public LRControlButton()
         {
@@ -12,7 +12,11 @@ namespace SpeedLR.Controls
         public LRControlButton(Command command)
         {
             Content = command.Short;
-            ToolTip = new System.Windows.Controls.ToolTip { Content = command.Title };
+            ToolTip = new System.Windows.Controls.ToolTip {
+                Content = command.Title,
+                Placement = System.Windows.Controls.Primitives.PlacementMode.Center,
+                VerticalOffset = 30,
+                PlacementTarget = this };
             LRCommand = command.CommandName;
         }
 
