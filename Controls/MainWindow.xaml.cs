@@ -16,6 +16,7 @@ namespace SpeedLR
         private ControllerWindow _controller;
         private GlobalHotkey _activatorHotkey;
         private PortWindow? _portWindow;
+        private ActiveWindowWatcher _watcher = new ActiveWindowWatcher();
 
         private EmptyButton[,] _menuButtons;
         private string _currentMenuId = "";
@@ -314,36 +315,40 @@ namespace SpeedLR
             if (_controller.IsVisible)
             {
                 _controller.Hide();
+                return;
             }
-            else
+
+            if (!_watcher.IsLightroomActive())
             {
-                if (_controller.IsPinned)
-                {
-                    _controller.Show();
-                    return;
-                }
-                var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-                Point mousePosition = System.Windows.Forms.Control.MousePosition;
-
-                var mouse = transform.Transform(new System.Windows.Point(mousePosition.X, mousePosition.Y));
-
-                Screen screen = Screen.FromPoint(mousePosition);
-
-                var formWidth = _controller.Width;
-                var formHeight = _controller.Height;
-
-                double x = mouse.X - formWidth / 2;
-                double y = mouse.Y - formHeight / 2;
-
-                var topLeft = transform.Transform(new System.Windows.Point(screen.WorkingArea.Left, screen.WorkingArea.Top));
-                var bottomRight = transform.Transform(new System.Windows.Point(screen.WorkingArea.Right, screen.WorkingArea.Bottom));
-                x = Math.Max(topLeft.X, Math.Min(x, bottomRight.X - formWidth));
-                y = Math.Max(topLeft.Y, Math.Min(y, bottomRight.Y - formHeight));
-
-                _controller.Left = x;
-                _controller.Top = y;
-                _controller.Show();
+                return;
             }
+
+            if (_controller.IsPinned)
+            {
+                _controller.Show();
+                return;
+            }
+            var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
+            Point mousePosition = System.Windows.Forms.Control.MousePosition;
+
+            var mouse = transform.Transform(new System.Windows.Point(mousePosition.X, mousePosition.Y));
+
+            Screen screen = Screen.FromPoint(mousePosition);
+
+            var formWidth = _controller.Width;
+            var formHeight = _controller.Height;
+
+            double x = mouse.X - formWidth / 2;
+            double y = mouse.Y - formHeight / 2;
+
+            var topLeft = transform.Transform(new System.Windows.Point(screen.WorkingArea.Left, screen.WorkingArea.Top));
+            var bottomRight = transform.Transform(new System.Windows.Point(screen.WorkingArea.Right, screen.WorkingArea.Bottom));
+            x = Math.Max(topLeft.X, Math.Min(x, bottomRight.X - formWidth));
+            y = Math.Max(topLeft.Y, Math.Min(y, bottomRight.Y - formHeight));
+
+            _controller.Left = x;
+            _controller.Top = y;
+            _controller.Show();
         }
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
