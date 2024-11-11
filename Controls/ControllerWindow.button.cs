@@ -12,6 +12,13 @@ namespace SpeedLR
             {
                 return;
             }
+
+            if(CurrentButton.Type == ButtonType.NONE)
+            {
+                Backspace_Pressed(sender, e);
+                return;
+            }
+
             popup.Visibility = Visibility.Collapsed;
             ClearActiveButtons();
         }

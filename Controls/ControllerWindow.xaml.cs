@@ -283,7 +283,6 @@ namespace SpeedLR
                     CreateHotkey(5, 0, GlobalHotkey.UP, Inc_Pressed),
                     CreateHotkey(6, 0, GlobalHotkey.DOWN, Dec_Pressed),
                     CreateHotkey(7, 0, GlobalHotkey.SPACE, Reset_Pressed),
-                    CreateHotkey(12, 0, GlobalHotkey.BACKSPACE, Backspace_Pressed),
                 };
 
                 _mouseHook = new GlobalMouseHook();
