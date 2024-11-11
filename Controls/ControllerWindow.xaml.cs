@@ -349,7 +349,7 @@ namespace SpeedLR
             {
                 return;
             }
-            if(!_watcher.IsLightroomActive())
+            if (!_watcher.IsLightroomActive())
             {
                 return;
             }
@@ -423,7 +423,7 @@ namespace SpeedLR
             popup.Text = item.PopupText;
             popup.Margin = new Thickness(
                 item.Margin.Left,
-                item.Margin.Top + (item.Margin.Top < 0 ? -item.Height : item.Height),
+                item.Margin.Top + (item.Margin.Top < 0 ? -item.Height * 2 : item.Height * 2),
                 item.Margin.Right,
                 item.Margin.Bottom
             );
@@ -488,7 +488,7 @@ namespace SpeedLR
 
         private void DeactivateHotkeys()
         {
-            if(_hotkeys == null)
+            if (_hotkeys == null)
             {
                 return;
             }
