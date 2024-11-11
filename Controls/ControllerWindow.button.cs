@@ -13,7 +13,13 @@ namespace SpeedLR
                 return;
             }
 
-            if(CurrentButton.Type == ButtonType.NONE)
+            if (CurrentButton.Type == ButtonType.NONE && _menuHistory.Count <= 1)
+            {
+                Hide();
+                return;
+            }
+
+            if (CurrentButton.Type == ButtonType.NONE)
             {
                 Backspace_Pressed(sender, e);
                 return;
@@ -101,6 +107,13 @@ namespace SpeedLR
 
         private void Reset_Pressed(object sender, EventArgs e)
         {
+            if (CurrentButton.Type == ButtonType.MENU)
+            {
+                SwitchToMenu(CurrentButton.Data);
+                _menuHistory.Add(_currentMenuId);
+                backButton.IsEnabled = _menuHistory.Count > 1;
+                return;
+            }
             SendCommand(CommandType.RESET);
         }
 
