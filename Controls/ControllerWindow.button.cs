@@ -25,12 +25,14 @@ namespace SpeedLR
 
         private void Next_Pressed(object sender, EventArgs e)
         {
-            if (!IsVisible)
+            if (!IsVisible || _menus.Length == 0)
             {
                 return;
             }
 
-            ToggleButton(CurrentMenuIndex, (CurrentButtonIndex + 1) % _menus[CurrentMenuIndex].Length);
+            var menuIndex = CurrentMenuIndex % _menus.Length;
+
+            ToggleButton(menuIndex, (CurrentButtonIndex + 1) % _menus[menuIndex].Length);
         }
 
         private void Next_Submenu(object sender, EventArgs e)
@@ -55,11 +57,14 @@ namespace SpeedLR
 
         private void Prev_Pressed(object sender, EventArgs e)
         {
-            if (!IsVisible)
+            if (!IsVisible || _menus.Length == 0)
             {
                 return;
             }
-            ToggleButton(CurrentMenuIndex, (CurrentButtonIndex - 1 + _menus[CurrentMenuIndex].Length) % _menus[CurrentMenuIndex].Length);
+
+            var menuIndex = CurrentMenuIndex % _menus.Length;
+
+            ToggleButton(menuIndex, (CurrentButtonIndex - 1 + _menus[menuIndex].Length) % _menus[menuIndex].Length);
         }
 
         private void Increase_Step(object sender, EventArgs e)
