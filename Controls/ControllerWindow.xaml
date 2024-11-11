@@ -90,7 +90,7 @@
         <Button Opacity="0.7" Style="{StaticResource LargeButton}" x:Name="hideButton" Content="X" HorizontalAlignment="Center" VerticalAlignment="Center" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5"/>
         <Grid x:Name="buttonGrid" Width="400" Height="400" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <local:LRControlButton Style="{StaticResource SmallControlButton}" IsActive="false" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="165,171,0,0"/>
+        <local:LRControlButton Style="{StaticResource SmallControlButton}" IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="165,171,0,0"/>
         <local:LRControlButton Style="{StaticResource SmallControlButton}" x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="215,171,0,0"/>
         <local:LRControlButton Style="{StaticResource SmallControlButton}" x:Name="highStepButton" LRCommand="5%" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Click="StepButton_Click" Margin="0,160,0,0">
             <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top">+<LineBreak/>++</TextBlock>

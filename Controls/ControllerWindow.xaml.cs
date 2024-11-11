@@ -356,7 +356,7 @@ namespace SpeedLR
 
             Opacity = 0;
 
-            var stepSize = _stepButtons.First(item => item.IsActive)?.LRCommand;
+            var stepSize = _stepButtons.FirstOrDefault(item => item.IsActive)?.LRCommand;
             stepSize = String.IsNullOrEmpty(stepSize) ? "1%" : stepSize;
 
             switch (type)
