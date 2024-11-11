@@ -116,6 +116,11 @@ namespace SpeedLR
 
         private void HandleGlobalScrollUp()
         {
+            if (!_watcher.IsLightroomActive())
+            {
+                return;
+            }
+
             // This will be invoked on any upward scroll globally
             Dispatcher.Invoke(() =>
             {
@@ -125,6 +130,11 @@ namespace SpeedLR
 
         private void HandleGlobalScrollDown()
         {
+            if (!_watcher.IsLightroomActive())
+            {
+                return;
+            }
+
             // This will be invoked on any downward scroll globally
             Dispatcher.Invoke(() =>
             {
