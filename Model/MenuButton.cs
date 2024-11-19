@@ -4,7 +4,7 @@ namespace SpeedLR.Model
 {
     public class MenuButton: BaseButton
     {
-        public MenuButton(string submenu, int menuIndex, int buttonIndex, string backgroundColor, string fontColor) : base(menuIndex, buttonIndex, backgroundColor, fontColor)
+        public MenuButton(string submenu, int row, int col, string backgroundColor, string fontColor) : base(row, col, backgroundColor, fontColor)
         {
             Submenu = submenu;
         }

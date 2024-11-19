@@ -49,41 +49,42 @@ namespace SpeedLR
 
             defaultCheckBox.IsChecked = LocalData.Instance.AvailableMenus.DefaultMenu == selectedMenu.Id;
             menuTextbox.Text = selectedMenu.Name;
-            int numberOfMenus = 3;
-            int numberOfButtons = 8;
 
             if (_menuButtons == null)
             {
-                _menuButtons = new EmptyButton[numberOfMenus, numberOfButtons];
-                for (int i = 0; i < numberOfMenus; i++)
+                _menuButtons = new EmptyButton[GridCreator.MAX_ROWS, GridCreator.MAX_COLS];
+                for (int i = 0; i < GridCreator.MAX_ROWS; i++)
                 {
-                    for (int j = 0; j < numberOfButtons; j++)
+                    for (int j = 0; j < GridCreator.MAX_COLS; j++)
                     {
-                        var currentMenu = i;
-                        var currentButton = j;
+                        var currentRow = i;
+                        var currentCol = j;
 
                         EmptyButton button = new EmptyButton();
-                        button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, currentMenu, (float)currentButton / (float)numberOfButtons);
-                        _menuButtons[currentMenu, currentButton] = button;
+                        button.Margin = GridCreator.Create(buttonGrid, currentCol, currentRow);
+                        _menuButtons[currentRow, currentCol] = button;
+
                         buttonGrid.Children.Add(button);
                     }
                 }
+
+                //Width = 8 * 40;
             }
 
-            for (int i = 0; i < numberOfMenus; i++)
+            for (int i = 0; i < GridCreator.MAX_ROWS; i++)
             {
-                for (int j = 0; j < numberOfButtons; j++)
+                for (int j = 0; j < GridCreator.MAX_COLS; j++)
                 {
-                    var currentMenu = i;
-                    var currentButton = j;
+                    var currentRow = i;
+                    var currentCol = j;
 
-                    EmptyButton button = _menuButtons[currentMenu, currentButton];
+                    EmptyButton button = _menuButtons[currentRow, currentCol];
                     button.ResetEventsHandlers();
 
                     button.MenuItemClick += (s, args) =>
                     {
                         var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
-                        var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+                        var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
 
                         var backgroundColor = ColorData.DEFAULT_BACKGROUND;
                         var fontColor = ColorData.DEFAULT_FONT;
@@ -94,7 +95,7 @@ namespace SpeedLR
                             fontColor = menu?.Buttons[existingIndex.Value].FontColor;
                             menu?.Buttons.RemoveAt(existingIndex.Value);
                         }
-                        menu?.Buttons.Add(new CommandButton(args.Value, currentMenu, currentButton, backgroundColor, fontColor));
+                        menu?.Buttons.Add(new CommandButton(args.Value, currentRow, currentCol, backgroundColor, fontColor));
 
                         if (menu != null)
                         {
@@ -106,7 +107,7 @@ namespace SpeedLR
                     button.ClearClick += (s, args) =>
                     {
                         var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
-                        var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+                        var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
                         if (existingIndex.HasValue && existingIndex.Value != -1 && menu != null)
                         {
                             menu.Buttons.RemoveAt(existingIndex.Value);
@@ -118,7 +119,7 @@ namespace SpeedLR
                     button.SubmenuItemClick += (s, args) =>
                     {
                         var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
-                        var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+                        var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
 
                         var backgroundColor = ColorData.DEFAULT_BACKGROUND;
                         var fontColor = ColorData.DEFAULT_FONT;
@@ -129,7 +130,7 @@ namespace SpeedLR
                             fontColor = menu?.Buttons[existingIndex.Value].FontColor;
                             menu?.Buttons.RemoveAt(existingIndex.Value);
                         }
-                        menu?.Buttons.Add(new MenuButton(args, currentMenu, currentButton, backgroundColor, fontColor));
+                        menu?.Buttons.Add(new MenuButton(args, currentRow, currentCol, backgroundColor, fontColor));
 
                         if (menu != null)
                         {
@@ -141,7 +142,7 @@ namespace SpeedLR
                     button.ColorItemClick += (s, args) =>
                     {
                         var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
-                        var existingIndex = menu?.Buttons.FindIndex(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+                        var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
 
                         var backgroundColor = ColorData.DEFAULT_BACKGROUND;
                         var fontColor = ColorData.DEFAULT_FONT;
@@ -179,11 +180,11 @@ namespace SpeedLR
 
                         if (isCommandButton)
                         {
-                            menu?.Buttons.Add(new CommandButton(command, currentMenu, currentButton, backgroundColor, fontColor));
+                            menu?.Buttons.Add(new CommandButton(command, currentRow, currentCol, backgroundColor, fontColor));
                         }
                         else
                         {
-                            menu?.Buttons.Add(new MenuButton(submenu, currentMenu, currentButton, backgroundColor, fontColor));
+                            menu?.Buttons.Add(new MenuButton(submenu, currentRow, currentCol, backgroundColor, fontColor));
                         }
 
                         if (menu != null)
@@ -193,7 +194,7 @@ namespace SpeedLR
                         }
                     };
 
-                    var existingButton = selectedMenu.Buttons.FirstOrDefault(item => item.MenuIndex == currentMenu && item.ButtonIndex == currentButton);
+                    var existingButton = selectedMenu.Buttons.FirstOrDefault(item => item.Row == currentRow && item.Col == currentCol);
                     if (existingButton != null)
                     {
                         if (existingButton is CommandButton castCommandButton)
@@ -264,7 +265,7 @@ namespace SpeedLR
             _notifyIcon.ContextMenuStrip = contextMenu;
             _notifyIcon.MouseDoubleClick += OpenMenuItem_Click;
 
-            _controller = new ControllerWindow();
+            //_controller = new ControllerWindow();
 
             var helper = new WindowInteropHelper(this);
 

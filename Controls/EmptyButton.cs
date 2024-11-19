@@ -95,6 +95,8 @@ namespace SpeedLR.Controls
 
         public EmptyButton()
         {
+            VerticalAlignment = VerticalAlignment.Top;
+
             Style style = (Style)FindResource("EmptyButtonStyle");
             Style = style;
 

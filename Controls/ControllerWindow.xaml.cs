@@ -172,14 +172,14 @@ namespace SpeedLR
 
             _currentMenuId = selectedMenu.Id;
 
-            var distinctMenus = filteredButtons.Select(button => button.MenuIndex).Distinct().OrderBy(index => index).ToArray();
+            var distinctMenus = filteredButtons.Select(button => button.Row).Distinct().OrderBy(index => index).ToArray();
             int menuNumbers = distinctMenus.Count();
             var isConnected = Connector.Instance.IsConnected().Result;
 
             _menus = new ControlButton[menuNumbers][];
             for (int i = 0; i < menuNumbers; i++)
             {
-                var menuButtons = filteredButtons.Where(button => button.MenuIndex == distinctMenus[i]).OrderBy(b => b.ButtonIndex).ToArray();
+                var menuButtons = filteredButtons.Where(button => button.Row == distinctMenus[i]).OrderBy(b => b.Col).ToArray();
                 if (menuButtons.Count() == 0)
                 { continue; }
 
@@ -213,7 +213,7 @@ namespace SpeedLR
                     button.Background = BrushHelper.GetBrushFromHex(menuButton.BackgroundColor);
                     button.Foreground = BrushHelper.GetBrushFromHex(menuButton.FontColor);
                     button.Click += Button_Click;
-                    button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, distinctMenus[i], (float)menuButton.ButtonIndex / (float)maxNumberOfButtons);
+                    button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, distinctMenus[i], (float)menuButton.Col / (float)maxNumberOfButtons);
                     button.Style = (Style)FindResource("LargeControlButton");
 
                     _menus[i][j] = button;

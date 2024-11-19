@@ -5,18 +5,18 @@ namespace SpeedLR.Model
     [JsonConverter(typeof(JsonButtonConverter))]
     public class BaseButton
     {
-        public BaseButton(int menuIndex, int buttonIndex, string backgroundColor, string fontColor)
+        public BaseButton(int row, int col, string backgroundColor, string fontColor)
         {
-            MenuIndex = menuIndex;
-            ButtonIndex = buttonIndex;
+            Row = row;
+            Col = col;
             BackgroundColor = backgroundColor;
             FontColor = fontColor;
         }
-        [JsonPropertyName("menuIndex")]
-        public int MenuIndex { get; set; }
+        [JsonPropertyName("row")]
+        public int Row { get; set; }
 
-        [JsonPropertyName("buttonIndex")]
-        public int ButtonIndex { get; set; }
+        [JsonPropertyName("col")]
+        public int Col { get; set; }
 
         [JsonPropertyName("backgroundColor")]
         public string BackgroundColor { get; set; }
