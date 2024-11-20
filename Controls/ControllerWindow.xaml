@@ -95,7 +95,7 @@
                             <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
                         </Setter.Value>
                     </Setter>
-                    <Setter Property="Opacity" Value="0.1"/>
+                    <Setter Property="Opacity" Value="0.4"/>
                 </MultiDataTrigger>
 
                 <MultiDataTrigger>
