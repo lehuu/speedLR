@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
@@ -9,7 +10,7 @@ using Timer = System.Timers.Timer;
 namespace SpeedLR
 {
 
-    public partial class ControllerWindow : Window
+    public partial class ControllerWindow : Window, INotifyPropertyChanged
     {
         internal enum ButtonType
         {
@@ -63,6 +64,7 @@ namespace SpeedLR
                 midStepButton,
                 highStepButton
             };
+            this.DataContext = this;
         }
 
         public bool IsPinned
@@ -74,10 +76,19 @@ namespace SpeedLR
             }
         }
 
-        private bool InEditMode
+        private bool _inEditMode;
+
+        public bool InEditMode
         {
-            get;
-            set;
+            get => _inEditMode;
+            set
+            {
+                if (_inEditMode != value)
+                {
+                    _inEditMode = value;
+                    OnPropertyChanged(nameof(InEditMode));
+                }
+            }
         }
 
         public int CurrentButtonIndex
@@ -212,7 +223,7 @@ namespace SpeedLR
                     button.Foreground = BrushHelper.GetBrushFromHex(menuButton.FontColor);
                     button.Click += Button_Click;
                     button.Margin = GridCreator.Create(buttonGrid, menuButton.Col, menuButton.Row);
-                    button.Style = (Style)FindResource("LargeControlButton");
+                    button.Style = (Style)FindResource("GridControlButton");
 
                     _menus[i][j] = button;
                     buttonGrid.Children.Add(button);
@@ -453,6 +464,12 @@ namespace SpeedLR
             {
                 key.Unregister(HwndHook);
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

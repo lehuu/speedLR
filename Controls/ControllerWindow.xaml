@@ -26,35 +26,6 @@
                 </Style>
             </Style.Resources>
         </Style>
-        <Style x:Key="LargeControlButton" TargetType="{x:Type local:ControlButton}" BasedOn="{StaticResource LargeButton}">
-            <Style.Triggers>
-                <Trigger Property="IsActive" Value="True">
-                    <Setter Property="Opacity" Value="1"/>
-                    <Setter Property="RenderTransform">
-                        <Setter.Value>
-                            <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-                <Trigger Property="IsActive" Value="False">
-                    <Setter Property="Opacity" Value="0.7"/>
-                </Trigger>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsEnabled" Value="False" />
-                        <Condition Property="IsActive" Value="False" />
-                    </MultiTrigger.Conditions>
-                    <Setter Property="Opacity" Value="0.1"/>
-                </MultiTrigger>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsEnabled" Value="False" />
-                        <Condition Property="IsActive" Value="True" />
-                    </MultiTrigger.Conditions>
-                    <Setter Property="Opacity" Value="0.1"/>
-                </MultiTrigger>
-            </Style.Triggers>
-        </Style>
 
         <Style x:Key="SmallButton" TargetType="{x:Type Button}">
             <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
@@ -82,6 +53,65 @@
                         </Setter.Value>
                     </Setter>
                 </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="GridControlButton" TargetType="{x:Type local:ControlButton}" BasedOn="{StaticResource LargeButton}">
+            <Style.Triggers>
+                <Trigger Property="IsActive" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsActive" Value="False">
+                    <Setter Property="Opacity" Value="0.7"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsEnabled" Value="False" />
+                        <Condition Property="IsActive" Value="False" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Opacity" Value="0.1"/>
+                </MultiTrigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsEnabled" Value="False" />
+                        <Condition Property="IsActive" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Opacity" Value="0.1"/>
+                </MultiTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding InEditMode, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Value="True" />
+                        <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Self}}" Value="False" />
+                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="False" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Opacity" Value="0.1"/>
+                </MultiDataTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding InEditMode, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" Value="True" />
+                        <Condition Binding="{Binding IsActive, RelativeSource={RelativeSource Self}}" Value="False" />
+                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Opacity" Value="0.9"/>
+                </MultiDataTrigger>
+
             </Style.Triggers>
         </Style>
     </Window.Resources>
