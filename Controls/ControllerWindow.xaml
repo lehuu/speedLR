@@ -87,18 +87,17 @@
     </Window.Resources>
 
     <Grid Width="400" Height="400" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Button Opacity="0.7" Style="{StaticResource LargeButton}" x:Name="hideButton" Content="X" HorizontalAlignment="Center" VerticalAlignment="Center" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5"/>
-        <Grid x:Name="buttonGrid" Width="400" Height="400" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Grid x:Name="buttonGrid" Width="400" Height="210" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
 
-        <local:LRControlButton Style="{StaticResource SmallControlButton}" IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="165,171,0,0"/>
-        <local:LRControlButton Style="{StaticResource SmallControlButton}" x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="215,171,0,0"/>
-        <local:LRControlButton Style="{StaticResource SmallControlButton}" x:Name="highStepButton" LRCommand="5%" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Click="StepButton_Click" Margin="0,160,0,0">
+        <Button Opacity="0.7" Style="{StaticResource LargeButton}" x:Name="hideButton" Content="X" HorizontalAlignment="Center" VerticalAlignment="Top" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5" Margin="0,129,0,0"/>
+        <local:LRControlButton Style="{StaticResource SmallControlButton}" IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="165,164,0,0"/>
+        <local:LRControlButton Style="{StaticResource SmallControlButton}"  x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Click="StepButton_Click" Margin="0,164,0,0"/>
+        <local:LRControlButton Style="{StaticResource SmallControlButton}" x:Name="highStepButton" LRCommand="5%" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="215,164,0,0">
             <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top">+<LineBreak/>++</TextBlock>
         </local:LRControlButton>
 
-        <Button  Style="{StaticResource SmallButton}" x:Name="dragButton" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,220,0,0" Cursor="Hand" PreviewMouseDown="DragButton_MouseDown"/>
-        <local:LRControlButton  Style="{StaticResource SmallControlButton}" x:Name="pinButton" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,211,0,0" Cursor="Hand" Click="PinButton_Click"/>
-        <Button  Style="{StaticResource SmallButton}" x:Name="backButton" Content="↩" ToolTip="Go Back" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="165,211,0,0" Click="Backspace_Pressed" IsEnabled="False"/>
+        <Button  Style="{StaticResource SmallButton}" x:Name="dragButton" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="155,130,0,0" Cursor="Hand" PreviewMouseDown="DragButton_MouseDown"/>
+        <local:LRControlButton  Style="{StaticResource SmallControlButton}" x:Name="pinButton" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="225,130,0,0" Cursor="Hand" Click="PinButton_Click"/>
         <TextBlock IsHitTestVisible="False" x:Name="popup" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Black"  Foreground="White" Opacity="0.8" Padding="6"/>
     </Grid>
 </Window>

@@ -13,15 +13,9 @@ namespace SpeedLR
                 return;
             }
 
-            if (CurrentButton.Type == ButtonType.NONE && _menuHistory.Count <= 1)
-            {
-                Hide();
-                return;
-            }
-
             if (CurrentButton.Type == ButtonType.NONE)
             {
-                Backspace_Pressed(sender, e);
+                Hide();
                 return;
             }
 
@@ -29,7 +23,64 @@ namespace SpeedLR
             ClearActiveButtons();
         }
 
-        private void Next_Pressed(object sender, EventArgs e)
+        //private void Increase_Step(object sender, EventArgs e)
+        //{
+        //    if (!IsVisible)
+        //    {
+        //        return;
+        //    }
+        //    var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
+        //        .FirstOrDefault(x => x.Item.IsActive)?.Index ?? -1;
+
+        //    var nextStep = (currentStep + 1 + _stepButtons.Length) % _stepButtons.Length;
+        //    for (int i = 0; i < _stepButtons.Length; i++)
+        //    {
+        //        _stepButtons[i].IsActive = i == nextStep;
+        //    }
+        //}
+
+        //private void Decrease_Step(object sender, EventArgs e)
+        //{
+        //    if (!IsVisible)
+        //    {
+        //        return;
+        //    }
+        //    var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
+        //        .FirstOrDefault(x => x.Item.IsActive)?.Index ?? 0;
+
+        //    var nextStep = (currentStep - 1 + _stepButtons.Length) % _stepButtons.Length;
+        //    for (int i = 0; i < _stepButtons.Length; i++)
+        //    {
+        //        _stepButtons[i].IsActive = i == nextStep;
+        //    }
+        //}
+
+        private void Reset_Pressed(object sender, EventArgs e)
+        {
+            if (CurrentButton.Type == ButtonType.MENU)
+            {
+                SwitchToMenu(CurrentButton.Data);
+                return;
+            }
+            SendCommand(CommandType.RESET);
+        }
+
+        private void Reset_Pressed()
+        {
+            SendCommand(CommandType.RESET);
+        }
+
+        private void Up_Pressed(object sender, EventArgs e)
+        {
+            //SendCommand(CommandType.UP);
+        }
+
+        private void Down_Pressed(object sender, EventArgs e)
+        {
+            //SendCommand(CommandType.DOWN);
+        }
+
+        private void Right_Pressed(object sender, EventArgs e)
         {
             if (!IsVisible || _menus.Length == 0)
             {
@@ -41,27 +92,7 @@ namespace SpeedLR
             ToggleButton(menuIndex, (CurrentButtonIndex + 1) % _menus[menuIndex].Length);
         }
 
-        private void Next_Submenu(object sender, EventArgs e)
-        {
-            if (!IsVisible)
-            {
-                return;
-            }
-            var nextSubmenu = (CurrentMenuIndex + 1) % _menus.Length;
-            ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
-        }
-
-        private void Prev_Submenu(object sender, EventArgs e)
-        {
-            if (!IsVisible)
-            {
-                return;
-            }
-            var nextSubmenu = (CurrentMenuIndex - 1 + _menus.Length) % _menus.Length;
-            ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
-        }
-
-        private void Prev_Pressed(object sender, EventArgs e)
+        private void Left_Pressed(object sender, EventArgs e)
         {
             if (!IsVisible || _menus.Length == 0)
             {
@@ -73,71 +104,26 @@ namespace SpeedLR
             ToggleButton(menuIndex, (CurrentButtonIndex - 1 + _menus[menuIndex].Length) % _menus[menuIndex].Length);
         }
 
-        private void Increase_Step(object sender, EventArgs e)
-        {
-            if (!IsVisible)
-            {
-                return;
-            }
-            var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
-                .FirstOrDefault(x => x.Item.IsActive)?.Index ?? -1;
+        /*        private void Next_Submenu(object sender, EventArgs e)
+                {
+                    if (!IsVisible)
+                    {
+                        return;
+                    }
+                    var nextSubmenu = (CurrentMenuIndex + 1) % _menus.Length;
+                    ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
+                }
 
-            var nextStep = (currentStep + 1 + _stepButtons.Length) % _stepButtons.Length;
-            for (int i = 0; i < _stepButtons.Length; i++)
-            {
-                _stepButtons[i].IsActive = i == nextStep;
-            }
-        }
-
-        private void Decrease_Step(object sender, EventArgs e)
-        {
-            if (!IsVisible)
-            {
-                return;
-            }
-            var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
-                .FirstOrDefault(x => x.Item.IsActive)?.Index ?? 0;
-
-            var nextStep = (currentStep - 1 + _stepButtons.Length) % _stepButtons.Length;
-            for (int i = 0; i < _stepButtons.Length; i++)
-            {
-                _stepButtons[i].IsActive = i == nextStep;
-            }
-        }
-
-        private void Reset_Pressed(object sender, EventArgs e)
-        {
-            if (CurrentButton.Type == ButtonType.MENU)
-            {
-                SwitchToMenu(CurrentButton.Data);
-                _menuHistory.Add(_currentMenuId);
-                backButton.IsEnabled = _menuHistory.Count > 1;
-                return;
-            }
-            SendCommand(CommandType.RESET);
-        }
-
-        private void Reset_Pressed()
-        {
-            SendCommand(CommandType.RESET);
-        }
-
-        private void Inc_Pressed(object sender, EventArgs e)
-        {
-            SendCommand(CommandType.UP);
-        }
-
-        private void Dec_Pressed(object sender, EventArgs e)
-        {
-            if (CurrentButton.Type == ButtonType.MENU)
-            {
-                SwitchToMenu(CurrentButton.Data);
-                _menuHistory.Add(_currentMenuId);
-                backButton.IsEnabled = _menuHistory.Count > 1;
-                return;
-            }
-            SendCommand(CommandType.DOWN);
-        }
+                private void Prev_Submenu(object sender, EventArgs e)
+                {
+                    if (!IsVisible)
+                    {
+                        return;
+                    }
+                    var nextSubmenu = (CurrentMenuIndex - 1 + _menus.Length) % _menus.Length;
+                    ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
+                }
+        */
 
         private void HandleGlobalScrollUp()
         {
@@ -191,8 +177,6 @@ namespace SpeedLR
             if (sender is MenuControlButton clickedMenuButton)
             {
                 SwitchToMenu(clickedMenuButton.MenuCommand);
-                _menuHistory.Add(_currentMenuId);
-                backButton.IsEnabled = _menuHistory.Count > 1;
             }
         }
         private void StepButton_Click(object sender, RoutedEventArgs e)
@@ -204,17 +188,6 @@ namespace SpeedLR
                     item.IsActive = clickedButton.Name == item.Name;
                 }
             }
-        }
-
-        private void Backspace_Pressed(object sender, EventArgs e)
-        {
-            if (_menuHistory.Count <= 1)
-            {
-                return;
-            }
-            _menuHistory.RemoveAt(_menuHistory.Count - 1);
-            SwitchToMenu(_menuHistory[_menuHistory.Count - 1]);
-            backButton.IsEnabled = _menuHistory.Count > 1;
         }
 
         private void HideButton_Click(object sender, RoutedEventArgs e)

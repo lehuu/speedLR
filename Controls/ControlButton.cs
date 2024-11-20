@@ -34,6 +34,7 @@ namespace SpeedLR.Controls
 
         public ControlButton(string popupText) : this()
         {
+            VerticalAlignment = VerticalAlignment.Top;
             PopupText = popupText;
             ToolTip = new System.Windows.Controls.ToolTip
             {

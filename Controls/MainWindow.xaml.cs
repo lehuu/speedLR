@@ -67,8 +67,6 @@ namespace SpeedLR
                         buttonGrid.Children.Add(button);
                     }
                 }
-
-                //Width = 8 * 40;
             }
 
             for (int i = 0; i < GridCreator.MAX_ROWS; i++)
@@ -265,7 +263,7 @@ namespace SpeedLR
             _notifyIcon.ContextMenuStrip = contextMenu;
             _notifyIcon.MouseDoubleClick += OpenMenuItem_Click;
 
-            //_controller = new ControllerWindow();
+            _controller = new ControllerWindow();
 
             var helper = new WindowInteropHelper(this);
 

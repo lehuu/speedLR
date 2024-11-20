@@ -37,11 +37,9 @@ namespace SpeedLR
             }
         }
 
-        private List<string> _menuHistory = new List<string>();
         private LRControlButton[] _stepButtons;
         private ControlButton[][] _menus;
         private GlobalHotkey[] _hotkeys;
-        private GlobalHotkey[] _commandHotkeys;
         private GlobalMouseHook _mouseHook;
         private readonly Timer _hideTimer;
         private ActiveWindowWatcher _watcher = new ActiveWindowWatcher();
@@ -77,6 +75,12 @@ namespace SpeedLR
             }
         }
 
+        private bool InEditMode
+        {
+            get;
+            set;
+        }
+
         public int CurrentButtonIndex
         {
             get => _currentButtonIndex;
@@ -86,12 +90,10 @@ namespace SpeedLR
                 if (String.IsNullOrEmpty(CurrentButton.Data))
                 {
                     _mouseHook?.Dispose();
-                    DeactivateCommandKeys();
                 }
                 else
                 {
                     _mouseHook?.Register();
-                    ActivateCommandKeys();
                 }
             }
         }
@@ -104,12 +106,10 @@ namespace SpeedLR
                 if (String.IsNullOrEmpty(CurrentButton.Data))
                 {
                     _mouseHook?.Dispose();
-                    DeactivateCommandKeys();
                 }
                 else
                 {
                     _mouseHook?.Register();
-                    ActivateCommandKeys();
                 }
             }
         }
@@ -150,8 +150,6 @@ namespace SpeedLR
             {
                 return;
             }
-
-            int maxNumberOfButtons = 8;
 
             buttonGrid.Children.Clear();
 
@@ -213,7 +211,7 @@ namespace SpeedLR
                     button.Background = BrushHelper.GetBrushFromHex(menuButton.BackgroundColor);
                     button.Foreground = BrushHelper.GetBrushFromHex(menuButton.FontColor);
                     button.Click += Button_Click;
-                    button.Margin = CircleCreator.CreateButtonsInCircle(buttonGrid, distinctMenus[i], (float)menuButton.Col / (float)maxNumberOfButtons);
+                    button.Margin = GridCreator.Create(buttonGrid, menuButton.Col, menuButton.Row);
                     button.Style = (Style)FindResource("LargeControlButton");
 
                     _menus[i][j] = button;
@@ -258,7 +256,6 @@ namespace SpeedLR
             {
                 var startMenuIndex = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == LocalData.Instance.AvailableMenus.DefaultMenu);
                 SwitchToMenu(startMenuIndex == -1 ? 0 : startMenuIndex);
-                _menuHistory.Add(_currentMenuId);
             }
             else
             {
@@ -269,19 +266,12 @@ namespace SpeedLR
             {
                 _hotkeys = new GlobalHotkey[]
                 {
-                    CreateHotkey(3, 0, GlobalHotkey.RIGHT, Next_Pressed),
-                    CreateHotkey(4, 0, GlobalHotkey.LEFT, Prev_Pressed),
-                    CreateHotkey(8, GlobalHotkey.MOD_ALT, GlobalHotkey.RIGHT, Next_Submenu),
-                    CreateHotkey(9, GlobalHotkey.MOD_ALT, GlobalHotkey.LEFT, Prev_Submenu),
-                    CreateHotkey(10, GlobalHotkey.MOD_ALT, GlobalHotkey.UP, Increase_Step),
-                    CreateHotkey(11, GlobalHotkey.MOD_ALT, GlobalHotkey.DOWN, Decrease_Step),
-                };
+                    CreateHotkey(3, 0, GlobalHotkey.RIGHT, Right_Pressed),
+                    CreateHotkey(4, 0, GlobalHotkey.LEFT, Left_Pressed),
+                    CreateHotkey(5, 0, GlobalHotkey.UP, Up_Pressed),
+                    CreateHotkey(6, 0, GlobalHotkey.DOWN, Down_Pressed),
 
-                _commandHotkeys = new GlobalHotkey[]
-                {
                     CreateHotkey(2, 0, GlobalHotkey.ESCAPE, Escape_Pressed),
-                    CreateHotkey(5, 0, GlobalHotkey.UP, Inc_Pressed),
-                    CreateHotkey(6, 0, GlobalHotkey.DOWN, Dec_Pressed),
                     CreateHotkey(7, 0, GlobalHotkey.SPACE, Reset_Pressed),
                 };
 
@@ -299,7 +289,6 @@ namespace SpeedLR
                 ActivateHotkeys();
                 if (!String.IsNullOrWhiteSpace(CurrentButton.Data))
                 {
-                    ActivateCommandKeys();
                     _mouseHook.Register();
                 }
 
@@ -321,7 +310,6 @@ namespace SpeedLR
             else
             {
                 DeactivateHotkeys();
-                DeactivateCommandKeys();
                 _mouseHook.Dispose();
             }
         }
@@ -434,43 +422,13 @@ namespace SpeedLR
             {
                 key.ProcessWindowMessage(hwnd, msg, wParam, lParam, ref handled);
             }
-            foreach (var key in _commandHotkeys)
-            {
-                key.ProcessWindowMessage(hwnd, msg, wParam, lParam, ref handled);
-            }
             return IntPtr.Zero;
         }
 
         protected override void OnClosed(EventArgs e)
         {
             DeactivateHotkeys();
-            DeactivateCommandKeys();
             _mouseHook?.Dispose();
-        }
-
-        private void ActivateCommandKeys()
-        {
-            if (_commandHotkeys == null)
-            {
-                return;
-            }
-            foreach (var key in _commandHotkeys)
-            {
-                key.Register(HwndHook);
-            }
-        }
-
-        private void DeactivateCommandKeys()
-        {
-            if (_commandHotkeys == null)
-            {
-                return;
-            }
-
-            foreach (var key in _commandHotkeys)
-            {
-                key.Unregister(HwndHook);
-            }
         }
 
         private void ActivateHotkeys()
