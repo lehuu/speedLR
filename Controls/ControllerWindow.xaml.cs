@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System.Text;
 using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
@@ -146,6 +145,7 @@ namespace SpeedLR
 
         private void SwitchToMenu(int menuIndex)
         {
+            InEditMode = false;
             if (menuIndex < 0 || menuIndex >= LocalData.Instance.AvailableMenus.Menus.Count || !IsVisible)
             {
                 return;
@@ -266,13 +266,13 @@ namespace SpeedLR
             {
                 _hotkeys = new GlobalHotkey[]
                 {
-                    CreateHotkey(3, 0, GlobalHotkey.RIGHT, Right_Pressed),
-                    CreateHotkey(4, 0, GlobalHotkey.LEFT, Left_Pressed),
-                    CreateHotkey(5, 0, GlobalHotkey.UP, Up_Pressed),
-                    CreateHotkey(6, 0, GlobalHotkey.DOWN, Down_Pressed),
-
-                    CreateHotkey(2, 0, GlobalHotkey.ESCAPE, Escape_Pressed),
-                    CreateHotkey(7, 0, GlobalHotkey.SPACE, Reset_Pressed),
+                    CreateHotkey(2, 0, (int) Keys.Escape, Escape_Pressed),
+                    CreateHotkey(3, 0, (int) Keys.Right, Right_Pressed),
+                    CreateHotkey(4, 0, (int) Keys.Left, Left_Pressed),
+                    CreateHotkey(5, 0, (int) Keys.Up, Up_Pressed),
+                    CreateHotkey(6, 0, (int) Keys.Down, Down_Pressed),
+                    CreateHotkey(7, 0, (int) Keys.Space, Space_Pressed),
+                    CreateHotkey(8, 0, (int) Keys.Return, Enter_Pressed),
                 };
 
                 _mouseHook = new GlobalMouseHook();

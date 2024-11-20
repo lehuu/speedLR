@@ -13,56 +13,34 @@ namespace SpeedLR
                 return;
             }
 
-            if (CurrentButton.Type == ButtonType.NONE)
+            if (InEditMode)
             {
-                Hide();
+                InEditMode = false;
                 return;
             }
 
-            popup.Visibility = Visibility.Collapsed;
-            ClearActiveButtons();
+            Hide();
         }
 
-        //private void Increase_Step(object sender, EventArgs e)
-        //{
-        //    if (!IsVisible)
-        //    {
-        //        return;
-        //    }
-        //    var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
-        //        .FirstOrDefault(x => x.Item.IsActive)?.Index ?? -1;
-
-        //    var nextStep = (currentStep + 1 + _stepButtons.Length) % _stepButtons.Length;
-        //    for (int i = 0; i < _stepButtons.Length; i++)
-        //    {
-        //        _stepButtons[i].IsActive = i == nextStep;
-        //    }
-        //}
-
-        //private void Decrease_Step(object sender, EventArgs e)
-        //{
-        //    if (!IsVisible)
-        //    {
-        //        return;
-        //    }
-        //    var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
-        //        .FirstOrDefault(x => x.Item.IsActive)?.Index ?? 0;
-
-        //    var nextStep = (currentStep - 1 + _stepButtons.Length) % _stepButtons.Length;
-        //    for (int i = 0; i < _stepButtons.Length; i++)
-        //    {
-        //        _stepButtons[i].IsActive = i == nextStep;
-        //    }
-        //}
-
-        private void Reset_Pressed(object sender, EventArgs e)
+        private void Space_Pressed(object sender, EventArgs e)
         {
-            if (CurrentButton.Type == ButtonType.MENU)
+            switch (CurrentButton.Type)
             {
-                SwitchToMenu(CurrentButton.Data);
-                return;
+                case ButtonType.MENU:
+                    SwitchToMenu(CurrentButton.Data);
+                    return;
+                case ButtonType.LR:
+                    if (InEditMode)
+                    {
+                        Reset_Pressed();
+                        return;
+                    }
+                    InEditMode = true;
+                    return;
+                case ButtonType.NONE:
+                default:
+                    return;
             }
-            SendCommand(CommandType.RESET);
         }
 
         private void Reset_Pressed()
@@ -77,8 +55,8 @@ namespace SpeedLR
 
         private int FindNextClosestButton(int row)
         {
-            if (CurrentButtonIndex < 0 || CurrentMenuIndex < 0 
-                || CurrentMenuIndex >= _menus.Length || CurrentButtonIndex >= _menus[CurrentMenuIndex].Length 
+            if (CurrentButtonIndex < 0 || CurrentMenuIndex < 0
+                || CurrentMenuIndex >= _menus.Length || CurrentButtonIndex >= _menus[CurrentMenuIndex].Length
                 || _menus == null || _menus.Length == 0)
             {
                 return 0;
@@ -92,6 +70,23 @@ namespace SpeedLR
                    .First().Index;
         }
 
+        private void Enter_Pressed(object sender, EventArgs e)
+        {
+            switch (CurrentButton.Type)
+            {
+
+                case ButtonType.MENU:
+                    SwitchToMenu(CurrentButton.Data);
+                    return;
+                case ButtonType.LR:
+                    InEditMode = !InEditMode;
+                    return;
+                case ButtonType.NONE:
+                default:
+                    return;
+            }
+        }
+
         private void Up_Pressed(object sender, EventArgs e)
         {
             if (!CanNavigate())
@@ -99,9 +94,14 @@ namespace SpeedLR
                 return;
             }
 
+            if (InEditMode)
+            {
+                SendCommand(CommandType.UP);
+                return;
+            }
+
             var nextSubmenu = (CurrentMenuIndex - 1 + _menus.Length) % _menus.Length;
             ToggleButton(nextSubmenu, FindNextClosestButton(nextSubmenu));
-            //SendCommand(CommandType.UP);
         }
 
         private void Down_Pressed(object sender, EventArgs e)
@@ -111,15 +111,33 @@ namespace SpeedLR
                 return;
             }
 
+            if (InEditMode)
+            {
+                SendCommand(CommandType.DOWN);
+                return;
+            }
+
             var nextSubmenu = (CurrentMenuIndex + 1) % _menus.Length;
             ToggleButton(nextSubmenu, FindNextClosestButton(nextSubmenu));
-            //SendCommand(CommandType.DOWN);
         }
 
         private void Right_Pressed(object sender, EventArgs e)
         {
             if (!CanNavigate())
             {
+                return;
+            }
+
+            if (InEditMode)
+            {
+                var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
+                    .FirstOrDefault(x => x.Item.IsActive)?.Index ?? -1;
+
+                var nextStep = (currentStep + 1 + _stepButtons.Length) % _stepButtons.Length;
+                for (int i = 0; i < _stepButtons.Length; i++)
+                {
+                    _stepButtons[i].IsActive = i == nextStep;
+                }
                 return;
             }
 
@@ -132,6 +150,19 @@ namespace SpeedLR
         {
             if (!CanNavigate())
             {
+                return;
+            }
+
+            if (InEditMode)
+            {
+                var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
+                    .FirstOrDefault(x => x.Item.IsActive)?.Index ?? 0;
+
+                var nextStep = (currentStep - 1 + _stepButtons.Length) % _stepButtons.Length;
+                for (int i = 0; i < _stepButtons.Length; i++)
+                {
+                    _stepButtons[i].IsActive = i == nextStep;
+                }
                 return;
             }
 
@@ -183,7 +214,24 @@ namespace SpeedLR
                     {
                         if (_menus[i][j] == clickedLRButton)
                         {
-                            ToggleButton(i, j);
+                            if (CurrentButton.Type == ButtonType.LR && _menus[CurrentMenuIndex][CurrentButtonIndex] == clickedLRButton)
+                            {
+                                if (InEditMode)
+                                {
+                                    InEditMode = false;
+                                    ToggleButton(i, j);
+                                }
+                                else
+                                {
+                                    InEditMode = true;
+                                }
+                            }
+                            else
+                            {
+                                InEditMode = true;
+                                ToggleButton(i, j);
+                            }
+
                         }
                     }
                 }
