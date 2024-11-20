@@ -19,7 +19,7 @@ local defaultReceivePort = 49000
 
 -- All of the Develop parameters that we will monitor for changes. For a complete
 -- listing of all parameter names, see the API documentation for LrDevelopController.
-local develop_params = {"Temperature", "Tint", "Exposure", "Contrast", "Highlights", "Shadows", "Whites", "Blacks",
+local develop_params = {"Temperature", "Tint", "Exposure", "Contrast", "Highlights", "Shadows", "Whites", "Blacks", "Texture",
                         "Clarity", "Vibrance", "Saturation", "PresetAmount", "ProfileAmount", -- Tone Panel
 "ParametricDarks", "ParametricLights", "ParametricShadows", "ParametricHighlights", "ParametricShadowSplit",
                         "ParametricMidtoneSplit", "ParametricHighlightSplit", -- HSL / Color
