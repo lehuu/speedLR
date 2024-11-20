@@ -52,10 +52,9 @@ namespace SpeedLR
         public ControllerWindow()
         {
             InitializeComponent();
-            IsVisibleChanged += ControllerWindow_IsVisibleChanged;
-            DpiHelper.AdjustScaleForDpi(this);
-            SourceInitialized += (s, e) => this.DpiChanged += Window_DpiChanged;
             Loaded += Window_Loaded;
+            DpiHelper.AdjustScaleForDpi(this);
+            IsVisibleChanged += ControllerWindow_IsVisibleChanged;
             _hideTimer = new Timer(500);
             _hideTimer.AutoReset = false;
             _hideTimer.Elapsed += OnHideElapsed;
@@ -152,7 +151,6 @@ namespace SpeedLR
                 return new ButtonData("", ButtonType.NONE);
             }
         }
-
 
         private void SwitchToMenu(int menuIndex)
         {
@@ -261,8 +259,32 @@ namespace SpeedLR
             SwitchToMenu(index);
         }
 
-        private void ControllerWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        protected override void OnSourceInitialized(EventArgs e)
         {
+            base.OnSourceInitialized(e);
+            DpiChanged += Window_DpiChanged;
+            Connector.Instance.ConnectionChanged += OnConnectionChanged;
+        }
+
+        private void UpdateHooksAndControls()
+        {
+            var isConnected = Connector.Instance.Status == Connector.ConnectionStatus.CONNECTED;
+            var isLightroomActive = _watcher.IsLightroomActive();
+
+            InEditMode = false;
+
+            if (!IsVisible || !isLightroomActive || !isConnected)
+            {
+                DeactivateHotkeys();
+
+                if (_mouseHook != null)
+                    _mouseHook.Dispose();
+            }
+            else
+            {
+                ActivateHotkeys();
+            }
+
             if (String.IsNullOrEmpty(_currentMenuId))
             {
                 var startMenuIndex = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == LocalData.Instance.AvailableMenus.DefaultMenu);
@@ -273,6 +295,29 @@ namespace SpeedLR
                 SwitchToMenu(_currentMenuId);
             }
 
+            foreach (var submenu in _menus)
+            {
+                foreach (var item in submenu)
+                {
+                    if (item is LRControlButton)
+                    {
+                        item.IsEnabled = isConnected;
+                    }
+                    else
+                    {
+                        item.IsEnabled = true;
+                    }
+                }
+            }
+        }
+
+        private void OnConnectionChanged(object sender, Connector.ConnectionStatus status)
+        {
+            UpdateHooksAndControls();
+        }
+
+        private void ControllerWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
             if (!(_hotkeys?.Length > 0))
             {
                 _hotkeys = new GlobalHotkey[]
@@ -292,37 +337,7 @@ namespace SpeedLR
                 _mouseHook.OnMiddleMouseButtonClick += Reset_Pressed;
             }
 
-            var isConnected = Connector.Instance.Status == Connector.ConnectionStatus.CONNECTED;
-            var isLightroomActive = _watcher.IsLightroomActive();
-
-            if (IsVisible && isConnected && isLightroomActive)
-            {
-                ActivateHotkeys();
-                if (!String.IsNullOrWhiteSpace(CurrentButton.Data))
-                {
-                    _mouseHook.Register();
-                }
-
-                foreach (var submenu in _menus)
-                {
-                    foreach (var item in submenu)
-                    {
-                        if (item is LRControlButton)
-                        {
-                            item.IsEnabled = isConnected;
-                        }
-                        else
-                        {
-                            item.IsEnabled = true;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                DeactivateHotkeys();
-                _mouseHook.Dispose();
-            }
+            UpdateHooksAndControls();
         }
         private void Window_DpiChanged(object sender, System.Windows.DpiChangedEventArgs e)
         {

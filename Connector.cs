@@ -41,12 +41,11 @@ namespace SpeedLR
         {
             get { return _status; }
             set {
-                if(_status != value)
+                if (_status != value)
                 {
+                    _status = value;
                     ConnectionChanged?.Invoke(this, value);
                 }
-
-                _status = value;
             }
         }
 
