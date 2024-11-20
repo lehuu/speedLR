@@ -410,7 +410,7 @@ namespace SpeedLR
             popup.Text = item.PopupText;
             popup.Margin = new Thickness(
                 item.Margin.Left,
-                item.Margin.Top + (item.Margin.Top < 0 ? -item.Height * 2 : item.Height * 2),
+                item.Margin.Top + item.Height,
                 item.Margin.Right,
                 item.Margin.Bottom
             );

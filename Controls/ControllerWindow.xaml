@@ -7,7 +7,7 @@
         Background="Transparent"
         Focusable="False"
         Closing="ControllerWindow_Closing" WindowStyle="None" AllowsTransparency="True" mc:Ignorable="d"
-        Topmost="True" ShowInTaskbar="False" Height="400" Width="400" ResizeMode="NoResize">
+        Topmost="True" ShowInTaskbar="False" Height="420" Width="600" ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="LargeButton" TargetType="{x:Type Button}">
             <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
@@ -86,18 +86,20 @@
         </Style>
     </Window.Resources>
 
-    <Grid Width="400" Height="400" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <Grid x:Name="buttonGrid" Width="400" Height="210" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+    <Grid Width="600" Height="420" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid x:Name="buttonGrid" Width="600" Height="230" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
 
         <Button Opacity="0.7" Style="{StaticResource LargeButton}" x:Name="hideButton" Content="X" HorizontalAlignment="Center" VerticalAlignment="Top" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5" Margin="0,129,0,0"/>
-        <local:LRControlButton Style="{StaticResource SmallControlButton}" IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="165,164,0,0"/>
+        <local:LRControlButton Style="{StaticResource SmallControlButton}" IsActive="False" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Click="StepButton_Click" Margin="-55,164,0,0"/>
         <local:LRControlButton Style="{StaticResource SmallControlButton}"  x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Click="StepButton_Click" Margin="0,164,0,0"/>
-        <local:LRControlButton Style="{StaticResource SmallControlButton}" x:Name="highStepButton" LRCommand="5%" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Click="StepButton_Click" Margin="215,164,0,0">
-            <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top">+<LineBreak/>++</TextBlock>
+        <local:LRControlButton Style="{StaticResource SmallControlButton}" x:Name="highStepButton" LRCommand="5%" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Click="StepButton_Click" Margin="55,164,0,0">
+            <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top">+<LineBreak/>++</TextBlock>
         </local:LRControlButton>
 
-        <Button  Style="{StaticResource SmallButton}" x:Name="dragButton" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="155,130,0,0" Cursor="Hand" PreviewMouseDown="DragButton_MouseDown"/>
-        <local:LRControlButton  Style="{StaticResource SmallControlButton}" x:Name="pinButton" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="225,130,0,0" Cursor="Hand" Click="PinButton_Click"/>
-        <TextBlock IsHitTestVisible="False" x:Name="popup" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Black"  Foreground="White" Opacity="0.8" Padding="6"/>
+        <Button  Style="{StaticResource SmallButton}" x:Name="dragButton" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-65,130,0,0" Cursor="Hand" PreviewMouseDown="DragButton_MouseDown"/>
+        <local:LRControlButton  Style="{StaticResource SmallControlButton}" x:Name="pinButton" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="65,130,0,0" Cursor="Hand" Click="PinButton_Click"/>
+        <Grid Width="600" Height="230" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <TextBlock IsHitTestVisible="False" x:Name="popup" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Black"  Foreground="White" Opacity="0.8" Padding="6" Grid.Column="1" Margin="120,0,0,0"/>
+        </Grid>
     </Grid>
 </Window>
