@@ -1,10 +1,424 @@
 {
-  "defaultMenu": "de347fbf-0948-4db6-8f19-12aabb998b2b",
+  "defaultMenu": "1dd93fd1-8d7e-470c-9510-9333bfb7d8f6",
   "menus": [
     {
-      "id": "de347fbf-0948-4db6-8f19-12aabb998b2b",
-      "name": "Start",
+      "id": "1dd93fd1-8d7e-470c-9510-9333bfb7d8f6",
+      "name": "Basic Menu",
       "buttons": [
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Contrast",
+            "short": "C",
+            "command": "Contrast"
+          },
+          "row": 1,
+          "col": 5,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Texture",
+            "short": "T",
+            "command": "Texture"
+          },
+          "row": 3,
+          "col": 2,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Clarity",
+            "short": "C",
+            "command": "Clarity"
+          },
+          "row": 3,
+          "col": 3,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Dehaze",
+            "short": "D",
+            "command": "Dehaze"
+          },
+          "row": 3,
+          "col": 4,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Profile Amount",
+            "short": "P",
+            "command": "ProfileAmount"
+          },
+          "row": 4,
+          "col": 4,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "1dd93fd1-8d7e-470c-9510-9333bfb7d8f6",
+          "row": 0,
+          "col": 1,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "3868c170-c13c-43fc-81ba-12490a2a22d3",
+          "row": 0,
+          "col": 5,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "b5fd338e-c8f8-4adf-84ac-74a9dedadc8a",
+          "row": 0,
+          "col": 6,
+          "backgroundColor": "#000000",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "d1e6b98c-2c86-4606-be9b-2e77ddbddb57",
+          "row": 0,
+          "col": 3,
+          "backgroundColor": "#FFB74D",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "0e1a8513-7dad-48e4-bbcb-7820f1dd0ecc",
+          "row": 0,
+          "col": 2,
+          "backgroundColor": "#4DD0E1",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "0a7f1eae-a10e-49ff-a1b7-6769bd28b438",
+          "row": 0,
+          "col": 4,
+          "backgroundColor": "#A5D6A7",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Highlights",
+            "short": "H",
+            "command": "Highlights"
+          },
+          "row": 2,
+          "col": 2,
+          "backgroundColor": "#E6E6E6",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Whites",
+            "short": "W",
+            "command": "Whites"
+          },
+          "row": 2,
+          "col": 4,
+          "backgroundColor": "#FFFFFF",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Shadows",
+            "short": "S",
+            "command": "Shadows"
+          },
+          "row": 2,
+          "col": 3,
+          "backgroundColor": "#666666",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Blacks",
+            "short": "B",
+            "command": "Blacks"
+          },
+          "row": 2,
+          "col": 5,
+          "backgroundColor": "#000000",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Temperature",
+            "short": "T",
+            "command": "Temperature"
+          },
+          "row": 1,
+          "col": 2,
+          "backgroundColor": "#FFA726",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Tint",
+            "short": "T",
+            "command": "Tint"
+          },
+          "row": 1,
+          "col": 3,
+          "backgroundColor": "#66BB6A",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Exposure",
+            "short": "E",
+            "command": "Exposure"
+          },
+          "row": 1,
+          "col": 4,
+          "backgroundColor": "#666666",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Preset Amount",
+            "short": "P",
+            "command": "PresetAmount"
+          },
+          "row": 4,
+          "col": 3,
+          "backgroundColor": "#4D4D4D",
+          "fontColor": "#FFFFFF"
+        }
+      ]
+    },
+    {
+      "id": "0e1a8513-7dad-48e4-bbcb-7820f1dd0ecc",
+      "name": "Hue Saturation Luminance",
+      "buttons": [
+        {
+          "Type": "MenuButton",
+          "submenu": "b5fd338e-c8f8-4adf-84ac-74a9dedadc8a",
+          "row": 0,
+          "col": 6,
+          "backgroundColor": "#000000",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "1dd93fd1-8d7e-470c-9510-9333bfb7d8f6",
+          "row": 0,
+          "col": 1,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "0e1a8513-7dad-48e4-bbcb-7820f1dd0ecc",
+          "row": 0,
+          "col": 2,
+          "backgroundColor": "#4DD0E1",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "d1e6b98c-2c86-4606-be9b-2e77ddbddb57",
+          "row": 0,
+          "col": 3,
+          "backgroundColor": "#FFB74D",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "0a7f1eae-a10e-49ff-a1b7-6769bd28b438",
+          "row": 0,
+          "col": 4,
+          "backgroundColor": "#A5D6A7",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "3868c170-c13c-43fc-81ba-12490a2a22d3",
+          "row": 0,
+          "col": 5,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Saturation",
+            "short": "S",
+            "command": "Saturation"
+          },
+          "row": 4,
+          "col": 4,
+          "backgroundColor": "#BA68C8",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Point Colors",
+            "short": "P",
+            "command": "PointColors"
+          },
+          "row": 4,
+          "col": 5,
+          "backgroundColor": "#64B5F6",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Vibrance",
+            "short": "V",
+            "command": "Vibrance"
+          },
+          "row": 4,
+          "col": 3,
+          "backgroundColor": "#EF9A9A",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Hue Red",
+            "short": "R",
+            "command": "HueAdjustmentRed"
+          },
+          "row": 1,
+          "col": 0,
+          "backgroundColor": "#EF5350",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Saturation Red",
+            "short": "R",
+            "command": "SaturationAdjustmentRed"
+          },
+          "row": 2,
+          "col": 0,
+          "backgroundColor": "#E57373",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Luminance Red",
+            "short": "R",
+            "command": "LuminanceAdjustmentRed"
+          },
+          "row": 3,
+          "col": 0,
+          "backgroundColor": "#EF9A9A",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Hue Orange",
+            "short": "O",
+            "command": "HueAdjustmentOrange"
+          },
+          "row": 1,
+          "col": 1,
+          "backgroundColor": "#FFA726",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Hue Yellow",
+            "short": "Y",
+            "command": "HueAdjustmentYellow"
+          },
+          "row": 1,
+          "col": 2,
+          "backgroundColor": "#FFEE58",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Hue Green",
+            "short": "G",
+            "command": "HueAdjustmentGreen"
+          },
+          "row": 1,
+          "col": 3,
+          "backgroundColor": "#66BB6A",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Hue Aqua",
+            "short": "A",
+            "command": "HueAdjustmentAqua"
+          },
+          "row": 1,
+          "col": 4,
+          "backgroundColor": "#26C6DA",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Hue Blue",
+            "short": "B",
+            "command": "HueAdjustmentBlue"
+          },
+          "row": 1,
+          "col": 5,
+          "backgroundColor": "#42A5F5",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Hue Purple",
+            "short": "P",
+            "command": "HueAdjustmentPurple"
+          },
+          "row": 1,
+          "col": 6,
+          "backgroundColor": "#AB47BC",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Hue Magenta",
+            "short": "M",
+            "command": "HueAdjustmentMagenta"
+          },
+          "row": 1,
+          "col": 7,
+          "backgroundColor": "#E91E63",
+          "fontColor": "#000000"
+        },
         {
           "Type": "CommandButton",
           "command": {
@@ -12,69 +426,9 @@
             "short": "O",
             "command": "SaturationAdjustmentOrange"
           },
-          "row": 1,
-          "col": 0,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Post-Crop Vignette Feather",
-            "short": "P",
-            "command": "PostCropVignetteFeather"
-          },
           "row": 2,
-          "col": 0,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Shadow Hue",
-            "short": "SH",
-            "command": "SplitToningShadowHue"
-          },
-          "row": 3,
-          "col": 0,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Red Hue",
-            "short": "R",
-            "command": "RedHue"
-          },
-          "row": 4,
-          "col": 0,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Sharpen Edge Masking",
-            "short": "S",
-            "command": "SharpenEdgeMasking"
-          },
-          "row": 1,
           "col": 1,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Post-Crop Vignette Midpoint",
-            "short": "P",
-            "command": "PostCropVignetteMidpoint"
-          },
-          "row": 1,
-          "col": 3,
-          "backgroundColor": "#D3D3D3",
+          "backgroundColor": "#FFB74D",
           "fontColor": "#000000"
         },
         {
@@ -85,70 +439,160 @@
             "command": "SaturationAdjustmentYellow"
           },
           "row": 2,
-          "col": 4,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Post-Crop Vignette Roundness",
-            "short": "P",
-            "command": "PostCropVignetteRoundness"
-          },
-          "row": 1,
           "col": 2,
-          "backgroundColor": "#D3D3D3",
+          "backgroundColor": "#FFF176",
           "fontColor": "#000000"
         },
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Luminance Noise Reduction Contrast",
-            "short": "L",
-            "command": "LuminanceNoiseReductionContrast"
+            "title": "Saturation Green",
+            "short": "G",
+            "command": "SaturationAdjustmentGreen"
+          },
+          "row": 2,
+          "col": 3,
+          "backgroundColor": "#81C784",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Saturation Aqua",
+            "short": "A",
+            "command": "SaturationAdjustmentAqua"
+          },
+          "row": 2,
+          "col": 4,
+          "backgroundColor": "#4DD0E1",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Saturation Blue",
+            "short": "B",
+            "command": "SaturationAdjustmentBlue"
+          },
+          "row": 2,
+          "col": 5,
+          "backgroundColor": "#64B5F6",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Saturation Purple",
+            "short": "P",
+            "command": "SaturationAdjustmentPurple"
+          },
+          "row": 2,
+          "col": 6,
+          "backgroundColor": "#BA68C8",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Saturation Magenta",
+            "short": "M",
+            "command": "SaturationAdjustmentMagenta"
           },
           "row": 2,
           "col": 7,
-          "backgroundColor": "#D3D3D3",
+          "backgroundColor": "#EC407A",
           "fontColor": "#000000"
         },
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Sharpen Edge Masking",
-            "short": "S",
-            "command": "SharpenEdgeMasking"
+            "title": "Luminance Orange",
+            "short": "O",
+            "command": "LuminanceAdjustmentOrange"
+          },
+          "row": 3,
+          "col": 1,
+          "backgroundColor": "#FFCC80",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Luminance Yellow",
+            "short": "Y",
+            "command": "LuminanceAdjustmentYellow"
+          },
+          "row": 3,
+          "col": 2,
+          "backgroundColor": "#FFF59D",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Luminance Green",
+            "short": "G",
+            "command": "LuminanceAdjustmentGreen"
           },
           "row": 3,
           "col": 3,
-          "backgroundColor": "#D3D3D3",
+          "backgroundColor": "#A5D6A7",
           "fontColor": "#000000"
         },
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Sharpen Detail",
-            "short": "S",
-            "command": "SharpenDetail"
+            "title": "Luminance Aqua",
+            "short": "A",
+            "command": "LuminanceAdjustmentAqua"
           },
-          "row": 2,
-          "col": 3,
-          "backgroundColor": "#D3D3D3",
+          "row": 3,
+          "col": 4,
+          "backgroundColor": "#80DEEA",
           "fontColor": "#000000"
         },
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Straighten Angle",
-            "short": "S",
-            "command": "straightenAngle"
+            "title": "Luminance Blue",
+            "short": "B",
+            "command": "LuminanceAdjustmentBlue"
           },
-          "row": 2,
-          "col": 2,
-          "backgroundColor": "#D3D3D3",
+          "row": 3,
+          "col": 5,
+          "backgroundColor": "#90CAF9",
           "fontColor": "#000000"
         },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Luminance Purple",
+            "short": "P",
+            "command": "LuminanceAdjustmentPurple"
+          },
+          "row": 3,
+          "col": 6,
+          "backgroundColor": "#CE93D8",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Luminance Magenta",
+            "short": "M",
+            "command": "LuminanceAdjustmentMagenta"
+          },
+          "row": 3,
+          "col": 7,
+          "backgroundColor": "#F06292",
+          "fontColor": "#000000"
+        }
+      ]
+    },
+    {
+      "id": "d1e6b98c-2c86-4606-be9b-2e77ddbddb57",
+      "name": "Color Grading",
+      "buttons": [
         {
           "Type": "CommandButton",
           "command": {
@@ -156,65 +600,77 @@
             "short": "MH",
             "command": "ColorGradeMidtoneHue"
           },
+          "row": 1,
+          "col": 3,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Midtone Sat",
+            "short": "MS",
+            "command": "ColorGradeMidtoneSat"
+          },
           "row": 2,
-          "col": 1,
+          "col": 3,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
         },
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Sharpen Detail",
-            "short": "S",
-            "command": "SharpenDetail"
+            "title": "Midtone Lum",
+            "short": "ML",
+            "command": "ColorGradeMidtoneLum"
           },
           "row": 3,
-          "col": 1,
+          "col": 3,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
         },
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Post-Crop Vignette Roundness",
-            "short": "P",
-            "command": "PostCropVignetteRoundness"
+            "title": "Global Hue",
+            "short": "GH",
+            "command": "ColorGradeGlobalHue"
+          },
+          "row": 1,
+          "col": 5,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Global Sat",
+            "short": "GS",
+            "command": "ColorGradeGlobalSat"
+          },
+          "row": 2,
+          "col": 5,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Global Lum",
+            "short": "GL",
+            "command": "ColorGradeGlobalLum"
           },
           "row": 3,
-          "col": 2,
+          "col": 5,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
         },
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Shadow Lum",
-            "short": "SL",
-            "command": "ColorGradeShadowLum"
-          },
-          "row": 4,
-          "col": 1,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Shadow Lum",
-            "short": "SL",
-            "command": "ColorGradeShadowLum"
-          },
-          "row": 4,
-          "col": 4,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Sharpen Radius",
-            "short": "S",
-            "command": "SharpenRadius"
+            "title": "Balance",
+            "short": "Ba",
+            "command": "SplitToningBalance"
           },
           "row": 4,
           "col": 3,
@@ -224,60 +680,60 @@
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Red Hue",
-            "short": "R",
-            "command": "RedHue"
+            "title": "Blending",
+            "short": "Bl",
+            "command": "ColorGradeBlending"
           },
           "row": 4,
-          "col": 2,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Lens Profile Vignetting Scale",
-            "short": "L",
-            "command": "LensProfileVignettingScale"
-          },
-          "row": 3,
           "col": 4,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
         },
         {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Post-Crop Vignette Roundness",
-            "short": "P",
-            "command": "PostCropVignetteRoundness"
-          },
-          "row": 3,
-          "col": 5,
+          "Type": "MenuButton",
+          "submenu": "1dd93fd1-8d7e-470c-9510-9333bfb7d8f6",
+          "row": 0,
+          "col": 1,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
         },
         {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Highlight Saturation",
-            "short": "HS",
-            "command": "SplitToningHighlightSaturation"
-          },
-          "row": 2,
-          "col": 5,
-          "backgroundColor": "#D3D3D3",
+          "Type": "MenuButton",
+          "submenu": "0e1a8513-7dad-48e4-bbcb-7820f1dd0ecc",
+          "row": 0,
+          "col": 2,
+          "backgroundColor": "#4DD0E1",
           "fontColor": "#000000"
         },
         {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Sharpen Detail",
-            "short": "S",
-            "command": "SharpenDetail"
-          },
-          "row": 2,
+          "Type": "MenuButton",
+          "submenu": "d1e6b98c-2c86-4606-be9b-2e77ddbddb57",
+          "row": 0,
+          "col": 3,
+          "backgroundColor": "#FFB74D",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "0a7f1eae-a10e-49ff-a1b7-6769bd28b438",
+          "row": 0,
+          "col": 4,
+          "backgroundColor": "#A5D6A7",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "b5fd338e-c8f8-4adf-84ac-74a9dedadc8a",
+          "row": 0,
           "col": 6,
+          "backgroundColor": "#000000",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "3868c170-c13c-43fc-81ba-12490a2a22d3",
+          "row": 0,
+          "col": 5,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
         },
@@ -288,9 +744,9 @@
             "short": "HH",
             "command": "SplitToningHighlightHue"
           },
-          "row": 3,
-          "col": 7,
-          "backgroundColor": "#D3D3D3",
+          "row": 1,
+          "col": 2,
+          "backgroundColor": "#F2F2F2",
           "fontColor": "#000000"
         },
         {
@@ -300,67 +756,247 @@
             "short": "HS",
             "command": "SplitToningHighlightSaturation"
           },
+          "row": 2,
+          "col": 2,
+          "backgroundColor": "#F2F2F2",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Highlight Lum",
+            "short": "HL",
+            "command": "ColorGradeHighlightLum"
+          },
           "row": 3,
-          "col": 6,
-          "backgroundColor": "#D3D3D3",
+          "col": 2,
+          "backgroundColor": "#F2F2F2",
           "fontColor": "#000000"
         },
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Mixer Aqua",
-            "short": "A",
-            "command": "GrayMixerAqua"
-          },
-          "row": 4,
-          "col": 5,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Mixer Yellow",
-            "short": "Y",
-            "command": "GrayMixerYellow"
-          },
-          "row": 4,
-          "col": 6,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Mixer Blue",
-            "short": "B",
-            "command": "GrayMixerBlue"
-          },
-          "row": 4,
-          "col": 7,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Defringe Purple Hue Lo",
-            "short": "D",
-            "command": "DefringePurpleHueLo"
+            "title": "Shadow Hue",
+            "short": "SH",
+            "command": "SplitToningShadowHue"
           },
           "row": 1,
           "col": 4,
+          "backgroundColor": "#666666",
+          "fontColor": "#F2F2F2"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Shadow Saturation",
+            "short": "SS",
+            "command": "SplitToningShadowSaturation"
+          },
+          "row": 2,
+          "col": 4,
+          "backgroundColor": "#666666",
+          "fontColor": "#F2F2F2"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Shadow Lum",
+            "short": "SL",
+            "command": "ColorGradeShadowLum"
+          },
+          "row": 3,
+          "col": 4,
+          "backgroundColor": "#666666",
+          "fontColor": "#F2F2F2"
+        }
+      ]
+    },
+    {
+      "id": "0a7f1eae-a10e-49ff-a1b7-6769bd28b438",
+      "name": "Calibration",
+      "buttons": [
+        {
+          "Type": "MenuButton",
+          "submenu": "1dd93fd1-8d7e-470c-9510-9333bfb7d8f6",
+          "row": 0,
+          "col": 1,
           "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "0e1a8513-7dad-48e4-bbcb-7820f1dd0ecc",
+          "row": 0,
+          "col": 2,
+          "backgroundColor": "#4DD0E1",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "d1e6b98c-2c86-4606-be9b-2e77ddbddb57",
+          "row": 0,
+          "col": 3,
+          "backgroundColor": "#FFB74D",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "0a7f1eae-a10e-49ff-a1b7-6769bd28b438",
+          "row": 0,
+          "col": 4,
+          "backgroundColor": "#A5D6A7",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "3868c170-c13c-43fc-81ba-12490a2a22d3",
+          "row": 0,
+          "col": 5,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "b5fd338e-c8f8-4adf-84ac-74a9dedadc8a",
+          "row": 0,
+          "col": 6,
+          "backgroundColor": "#000000",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Shadow Tint",
+            "short": "S",
+            "command": "ShadowTint"
+          },
+          "row": 1,
+          "col": 2,
+          "backgroundColor": "#BA68C8",
           "fontColor": "#000000"
         },
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Sharpen Edge Masking",
-            "short": "S",
-            "command": "SharpenEdgeMasking"
+            "title": "Red Hue",
+            "short": "R",
+            "command": "RedHue"
           },
           "row": 1,
+          "col": 3,
+          "backgroundColor": "#EF9A9A",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Red Saturation",
+            "short": "R",
+            "command": "RedSaturation"
+          },
+          "row": 2,
+          "col": 3,
+          "backgroundColor": "#EF9A9A",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Green Hue",
+            "short": "G",
+            "command": "GreenHue"
+          },
+          "row": 1,
+          "col": 4,
+          "backgroundColor": "#81C784",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Green Saturation",
+            "short": "G",
+            "command": "GreenSaturation"
+          },
+          "row": 2,
+          "col": 4,
+          "backgroundColor": "#81C784",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Blue Hue",
+            "short": "B",
+            "command": "BlueHue"
+          },
+          "row": 1,
+          "col": 5,
+          "backgroundColor": "#64B5F6",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Blue Saturation",
+            "short": "B",
+            "command": "BlueSaturation"
+          },
+          "row": 2,
+          "col": 5,
+          "backgroundColor": "#64B5F6",
+          "fontColor": "#000000"
+        }
+      ]
+    },
+    {
+      "id": "b5fd338e-c8f8-4adf-84ac-74a9dedadc8a",
+      "name": "Black White",
+      "buttons": [
+        {
+          "Type": "MenuButton",
+          "submenu": "b5fd338e-c8f8-4adf-84ac-74a9dedadc8a",
+          "row": 0,
+          "col": 6,
+          "backgroundColor": "#000000",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "1dd93fd1-8d7e-470c-9510-9333bfb7d8f6",
+          "row": 0,
+          "col": 1,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "0e1a8513-7dad-48e4-bbcb-7820f1dd0ecc",
+          "row": 0,
+          "col": 2,
+          "backgroundColor": "#4DD0E1",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "d1e6b98c-2c86-4606-be9b-2e77ddbddb57",
+          "row": 0,
+          "col": 3,
+          "backgroundColor": "#FFB74D",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "0a7f1eae-a10e-49ff-a1b7-6769bd28b438",
+          "row": 0,
+          "col": 4,
+          "backgroundColor": "#A5D6A7",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "3868c170-c13c-43fc-81ba-12490a2a22d3",
+          "row": 0,
           "col": 5,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
@@ -368,13 +1004,13 @@
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Lens Blur Amount",
-            "short": "L",
-            "command": "LensBlurAmount"
+            "title": "Mixer Red",
+            "short": "R",
+            "command": "GrayMixerRed"
           },
           "row": 1,
-          "col": 6,
-          "backgroundColor": "#D3D3D3",
+          "col": 0,
+          "backgroundColor": "#E57373",
           "fontColor": "#000000"
         },
         {
@@ -385,222 +1021,144 @@
             "command": "GrayMixerOrange"
           },
           "row": 1,
-          "col": 7,
-          "backgroundColor": "#D3D3D3",
+          "col": 1,
+          "backgroundColor": "#FFCC80",
           "fontColor": "#000000"
         },
         {
-          "Type": "MenuButton",
-          "submenu": "de347fbf-0948-4db6-8f19-12aabb998b2b",
-          "row": 0,
-          "col": 2,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "90c2ebae-e552-48d4-b661-93ad88156ca2",
-          "row": 0,
+          "Type": "CommandButton",
+          "command": {
+            "title": "Mixer Green",
+            "short": "G",
+            "command": "GrayMixerGreen"
+          },
+          "row": 1,
           "col": 3,
-          "backgroundColor": "#D3D3D3",
+          "backgroundColor": "#81C784",
           "fontColor": "#000000"
         },
         {
-          "Type": "MenuButton",
-          "submenu": "a398e0f0-9106-4bc3-9705-3a57bdf266e0",
-          "row": 0,
+          "Type": "CommandButton",
+          "command": {
+            "title": "Mixer Yellow",
+            "short": "Y",
+            "command": "GrayMixerYellow"
+          },
+          "row": 1,
+          "col": 2,
+          "backgroundColor": "#FFF176",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Mixer Aqua",
+            "short": "A",
+            "command": "GrayMixerAqua"
+          },
+          "row": 1,
           "col": 4,
-          "backgroundColor": "#D3D3D3",
+          "backgroundColor": "#4DD0E1",
           "fontColor": "#000000"
         },
         {
-          "Type": "MenuButton",
-          "submenu": "ceb2ba99-a329-442e-98c7-e3b529e9b172",
-          "row": 0,
+          "Type": "CommandButton",
+          "command": {
+            "title": "Mixer Blue",
+            "short": "B",
+            "command": "GrayMixerBlue"
+          },
+          "row": 1,
           "col": 5,
-          "backgroundColor": "#D3D3D3",
+          "backgroundColor": "#64B5F6",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Mixer Purple",
+            "short": "P",
+            "command": "GrayMixerPurple"
+          },
+          "row": 1,
+          "col": 6,
+          "backgroundColor": "#BA68C8",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Mixer Magenta",
+            "short": "M",
+            "command": "GrayMixerMagenta"
+          },
+          "row": 1,
+          "col": 7,
+          "backgroundColor": "#F06292",
           "fontColor": "#000000"
         }
       ]
     },
     {
-      "id": "90c2ebae-e552-48d4-b661-93ad88156ca2",
-      "name": "Menu 1",
+      "id": "3868c170-c13c-43fc-81ba-12490a2a22d3",
+      "name": "Local Adjustments",
       "buttons": [
         {
           "Type": "MenuButton",
-          "submenu": "de347fbf-0948-4db6-8f19-12aabb998b2b",
+          "submenu": "1dd93fd1-8d7e-470c-9510-9333bfb7d8f6",
           "row": 0,
-          "col": 2,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "90c2ebae-e552-48d4-b661-93ad88156ca2",
-          "row": 0,
-          "col": 3,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "a398e0f0-9106-4bc3-9705-3a57bdf266e0",
-          "row": 0,
-          "col": 4,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "ceb2ba99-a329-442e-98c7-e3b529e9b172",
-          "row": 0,
-          "col": 5,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Highlight Lum",
-            "short": "HL",
-            "command": "ColorGradeHighlightLum"
-          },
-          "row": 1,
-          "col": 3,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Sharpen Detail",
-            "short": "S",
-            "command": "SharpenDetail"
-          },
-          "row": 2,
-          "col": 0,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Post-Crop Vignette Style",
-            "short": "P",
-            "command": "PostCropVignetteStyle"
-          },
-          "row": 2,
-          "col": 3,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Luminance Smoothing",
-            "short": "L",
-            "command": "LuminanceSmoothing"
-          },
-          "row": 2,
-          "col": 2,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Green Hue",
-            "short": "G",
-            "command": "GreenHue"
-          },
-          "row": 2,
-          "col": 6,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Sharpen Edge Masking",
-            "short": "S",
-            "command": "SharpenEdgeMasking"
-          },
-          "row": 3,
-          "col": 4,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Lens Profile Distortion Scale",
-            "short": "L",
-            "command": "LensProfileDistortionScale"
-          },
-          "row": 3,
           "col": 1,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
         },
         {
+          "Type": "MenuButton",
+          "submenu": "0e1a8513-7dad-48e4-bbcb-7820f1dd0ecc",
+          "row": 0,
+          "col": 2,
+          "backgroundColor": "#4DD0E1",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "d1e6b98c-2c86-4606-be9b-2e77ddbddb57",
+          "row": 0,
+          "col": 3,
+          "backgroundColor": "#FFB74D",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "0a7f1eae-a10e-49ff-a1b7-6769bd28b438",
+          "row": 0,
+          "col": 4,
+          "backgroundColor": "#A5D6A7",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "3868c170-c13c-43fc-81ba-12490a2a22d3",
+          "row": 0,
+          "col": 5,
+          "backgroundColor": "#D3D3D3",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "MenuButton",
+          "submenu": "b5fd338e-c8f8-4adf-84ac-74a9dedadc8a",
+          "row": 0,
+          "col": 6,
+          "backgroundColor": "#000000",
+          "fontColor": "#FFFFFF"
+        },
+        {
           "Type": "CommandButton",
           "command": {
-            "title": "Defringe Purple Hue Lo",
-            "short": "D",
-            "command": "DefringePurpleHueLo"
+            "title": "Local Contrast",
+            "short": "C",
+            "command": "local_Contrast"
           },
           "row": 1,
-          "col": 7,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Highlight Saturation",
-            "short": "HS",
-            "command": "SplitToningHighlightSaturation"
-          },
-          "row": 4,
-          "col": 2,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        }
-      ]
-    },
-    {
-      "id": "a398e0f0-9106-4bc3-9705-3a57bdf266e0",
-      "name": "Menu 2",
-      "buttons": [
-        {
-          "Type": "MenuButton",
-          "submenu": "de347fbf-0948-4db6-8f19-12aabb998b2b",
-          "row": 0,
-          "col": 2,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "90c2ebae-e552-48d4-b661-93ad88156ca2",
-          "row": 0,
-          "col": 3,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "a398e0f0-9106-4bc3-9705-3a57bdf266e0",
-          "row": 0,
-          "col": 4,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "ceb2ba99-a329-442e-98c7-e3b529e9b172",
-          "row": 0,
           "col": 5,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
@@ -608,11 +1166,11 @@
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Sharpen Detail",
-            "short": "S",
-            "command": "SharpenDetail"
+            "title": "Local Texture",
+            "short": "T",
+            "command": "local_Texture"
           },
-          "row": 2,
+          "row": 3,
           "col": 2,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
@@ -620,99 +1178,145 @@
         {
           "Type": "CommandButton",
           "command": {
-            "title": "Luminance Smoothing",
-            "short": "L",
-            "command": "LuminanceSmoothing"
+            "title": "Local Clarity",
+            "short": "C",
+            "command": "local_Clarity"
           },
-          "row": 4,
-          "col": 6,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Red Saturation",
-            "short": "R",
-            "command": "RedSaturation"
-          },
-          "row": 4,
-          "col": 0,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "CommandButton",
-          "command": {
-            "title": "Lens Manual Distortion Amount",
-            "short": "L",
-            "command": "LensManualDistortionAmount"
-          },
-          "row": 2,
-          "col": 7,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        }
-      ]
-    },
-    {
-      "id": "ceb2ba99-a329-442e-98c7-e3b529e9b172",
-      "name": "Menu 3",
-      "buttons": [
-        {
-          "Type": "MenuButton",
-          "submenu": "de347fbf-0948-4db6-8f19-12aabb998b2b",
-          "row": 0,
-          "col": 2,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "90c2ebae-e552-48d4-b661-93ad88156ca2",
-          "row": 0,
-          "col": 3,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "a398e0f0-9106-4bc3-9705-3a57bdf266e0",
-          "row": 0,
-          "col": 4,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "ceb2ba99-a329-442e-98c7-e3b529e9b172",
-          "row": 0,
-          "col": 5,
-          "backgroundColor": "#D3D3D3",
-          "fontColor": "#000000"
-        },
-        {
-          "Type": "MenuButton",
-          "submenu": "a398e0f0-9106-4bc3-9705-3a57bdf266e0",
           "row": 3,
           "col": 3,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
         },
         {
-          "Type": "MenuButton",
-          "submenu": "a398e0f0-9106-4bc3-9705-3a57bdf266e0",
-          "row": 2,
-          "col": 2,
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Dehaze",
+            "short": "D",
+            "command": "local_Dehaze"
+          },
+          "row": 3,
+          "col": 4,
           "backgroundColor": "#D3D3D3",
           "fontColor": "#000000"
         },
         {
-          "Type": "MenuButton",
-          "submenu": "a398e0f0-9106-4bc3-9705-3a57bdf266e0",
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Highlights",
+            "short": "H",
+            "command": "local_Highlights"
+          },
+          "row": 2,
+          "col": 2,
+          "backgroundColor": "#E6E6E6",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Shadows",
+            "short": "S",
+            "command": "local_Shadows"
+          },
+          "row": 2,
+          "col": 3,
+          "backgroundColor": "#666666",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Whites",
+            "short": "W",
+            "command": "local_Whites"
+          },
+          "row": 2,
+          "col": 4,
+          "backgroundColor": "#FFFFFF",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Blacks",
+            "short": "B",
+            "command": "local_Blacks"
+          },
+          "row": 2,
+          "col": 5,
+          "backgroundColor": "#000000",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Temperature",
+            "short": "T",
+            "command": "local_Temperature"
+          },
+          "row": 1,
+          "col": 2,
+          "backgroundColor": "#FFA726",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Tint",
+            "short": "T",
+            "command": "local_Tint"
+          },
+          "row": 1,
+          "col": 3,
+          "backgroundColor": "#81C784",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Exposure",
+            "short": "E",
+            "command": "local_Exposure"
+          },
           "row": 1,
           "col": 4,
-          "backgroundColor": "#D3D3D3",
+          "backgroundColor": "#666666",
+          "fontColor": "#FFFFFF"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Saturation",
+            "short": "S",
+            "command": "local_Saturation"
+          },
+          "row": 3,
+          "col": 5,
+          "backgroundColor": "#AB47BC",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Hue",
+            "short": "H",
+            "command": "local_Hue"
+          },
+          "row": 4,
+          "col": 3,
+          "backgroundColor": "#81C784",
+          "fontColor": "#000000"
+        },
+        {
+          "Type": "CommandButton",
+          "command": {
+            "title": "Local Point Colors",
+            "short": "P",
+            "command": "local_PointColors"
+          },
+          "row": 4,
+          "col": 4,
+          "backgroundColor": "#42A5F5",
           "fontColor": "#000000"
         }
       ]
