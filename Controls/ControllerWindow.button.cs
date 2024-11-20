@@ -75,6 +75,23 @@ namespace SpeedLR
             return IsVisible && _menus.Length > 0;
         }
 
+        private int FindNextClosestButton(int row)
+        {
+            if (CurrentButtonIndex < 0 || CurrentMenuIndex < 0 
+                || CurrentMenuIndex >= _menus.Length || CurrentButtonIndex >= _menus[CurrentMenuIndex].Length 
+                || _menus == null || _menus.Length == 0)
+            {
+                return 0;
+            }
+
+            var currentXPosition = _menus[CurrentMenuIndex][CurrentButtonIndex].Margin.Left;
+
+            return _menus[row]
+                   .Select((value, index) => new { Value = value.Margin.Left, Index = index })
+                   .OrderBy(item => Math.Abs(item.Value - currentXPosition))
+                   .First().Index;
+        }
+
         private void Up_Pressed(object sender, EventArgs e)
         {
             if (!CanNavigate())
@@ -83,7 +100,7 @@ namespace SpeedLR
             }
 
             var nextSubmenu = (CurrentMenuIndex - 1 + _menus.Length) % _menus.Length;
-            ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
+            ToggleButton(nextSubmenu, FindNextClosestButton(nextSubmenu));
             //SendCommand(CommandType.UP);
         }
 
@@ -95,7 +112,7 @@ namespace SpeedLR
             }
 
             var nextSubmenu = (CurrentMenuIndex + 1) % _menus.Length;
-            ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
+            ToggleButton(nextSubmenu, FindNextClosestButton(nextSubmenu));
             //SendCommand(CommandType.DOWN);
         }
 

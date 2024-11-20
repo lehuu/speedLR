@@ -219,7 +219,7 @@ namespace SpeedLR
                 }
             }
 
-            ToggleButton(CurrentMenuIndex, CurrentButtonIndex);
+            ToggleButton(-1, -1);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
