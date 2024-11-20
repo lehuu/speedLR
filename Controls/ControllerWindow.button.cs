@@ -70,19 +70,38 @@ namespace SpeedLR
             SendCommand(CommandType.RESET);
         }
 
+        private bool CanNavigate()
+        {
+            return IsVisible && _menus.Length > 0;
+        }
+
         private void Up_Pressed(object sender, EventArgs e)
         {
+            if (!CanNavigate())
+            {
+                return;
+            }
+
+            var nextSubmenu = (CurrentMenuIndex - 1 + _menus.Length) % _menus.Length;
+            ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
             //SendCommand(CommandType.UP);
         }
 
         private void Down_Pressed(object sender, EventArgs e)
         {
+            if (!CanNavigate())
+            {
+                return;
+            }
+
+            var nextSubmenu = (CurrentMenuIndex + 1) % _menus.Length;
+            ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
             //SendCommand(CommandType.DOWN);
         }
 
         private void Right_Pressed(object sender, EventArgs e)
         {
-            if (!IsVisible || _menus.Length == 0)
+            if (!CanNavigate())
             {
                 return;
             }
@@ -94,7 +113,7 @@ namespace SpeedLR
 
         private void Left_Pressed(object sender, EventArgs e)
         {
-            if (!IsVisible || _menus.Length == 0)
+            if (!CanNavigate())
             {
                 return;
             }
@@ -103,27 +122,6 @@ namespace SpeedLR
 
             ToggleButton(menuIndex, (CurrentButtonIndex - 1 + _menus[menuIndex].Length) % _menus[menuIndex].Length);
         }
-
-        /*        private void Next_Submenu(object sender, EventArgs e)
-                {
-                    if (!IsVisible)
-                    {
-                        return;
-                    }
-                    var nextSubmenu = (CurrentMenuIndex + 1) % _menus.Length;
-                    ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
-                }
-
-                private void Prev_Submenu(object sender, EventArgs e)
-                {
-                    if (!IsVisible)
-                    {
-                        return;
-                    }
-                    var nextSubmenu = (CurrentMenuIndex - 1 + _menus.Length) % _menus.Length;
-                    ToggleButton(nextSubmenu, Math.Clamp(CurrentButtonIndex, 0, _menus[nextSubmenu].Length - 1));
-                }
-        */
 
         private void HandleGlobalScrollUp()
         {
