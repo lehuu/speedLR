@@ -6,6 +6,7 @@ using Point = System.Drawing.Point;
 using SpeedLR.Model;
 using System.Windows.Controls;
 using SpeedLR.Controls;
+using System.Data;
 
 namespace SpeedLR
 {
@@ -270,23 +271,25 @@ namespace SpeedLR
 
         private void OnConnectionChanged(object sender, Connector.ConnectionStatus status)
         {
-            switch (status)
+            Dispatcher.Invoke(() =>
             {
-                case Connector.ConnectionStatus.CONNECTING:
-                    this.connectButton.Content = "Connecting...";
-                    this.connectButton.Background = Brushes.Blue;
-                    break;
-                case Connector.ConnectionStatus.CONNECTED:
-                    this.connectButton.Background = Brushes.Green;
-                    this.connectButton.Content = "Connected";
-                    break;
-                case Connector.ConnectionStatus.DISCONNECTED:
-                default:
-
-                    this.connectButton.Background = Brushes.Red;
-                    this.connectButton.Content = "Reconnect";
-                    break;
-            }
+                switch (status)
+                {
+                    case Connector.ConnectionStatus.CONNECTING:
+                        this.connectButton.Content = "Connecting...";
+                        this.connectButton.Background = Brushes.Blue;
+                        break;
+                    case Connector.ConnectionStatus.CONNECTED:
+                        this.connectButton.Background = Brushes.Green;
+                        this.connectButton.Content = "Connected";
+                        break;
+                    case Connector.ConnectionStatus.DISCONNECTED:
+                    default:
+                        this.connectButton.Background = Brushes.Red;
+                        this.connectButton.Content = "Reconnect";
+                        break;
+                }
+            });
         }
 
         private async void ConnectToServer()

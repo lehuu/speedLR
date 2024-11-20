@@ -313,7 +313,7 @@ namespace SpeedLR
 
         private void OnConnectionChanged(object sender, Connector.ConnectionStatus status)
         {
-            UpdateHooksAndControls();
+            Dispatcher.Invoke(() => UpdateHooksAndControls());
         }
 
         private void ControllerWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

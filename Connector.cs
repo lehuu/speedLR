@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using Timer = System.Timers.Timer;
 
 namespace SpeedLR
 {
@@ -17,11 +18,14 @@ namespace SpeedLR
         private Socket _clientSocket;
         private DateTime _lastSendTime = DateTime.MinValue;
         private double _maxRequestsPerSecond = 16;
+        private Timer _connectionTimer;
 
         public event EventHandler<ConnectionStatus> ConnectionChanged;
 
         private Connector()
-        { }
+        {
+            InitializeTimer();
+        }
 
         public static Connector Instance
         {
@@ -40,13 +44,22 @@ namespace SpeedLR
         public ConnectionStatus Status
         {
             get { return _status; }
-            set {
+            set
+            {
                 if (_status != value)
                 {
                     _status = value;
                     ConnectionChanged?.Invoke(this, value);
                 }
             }
+        }
+
+        private void InitializeTimer()
+        {
+            _connectionTimer = new Timer(10000); // 10 seconds in milliseconds
+            _connectionTimer.Elapsed += (sender, e) => CheckConnection();
+            _connectionTimer.AutoReset = true;
+            _connectionTimer.Start();
         }
 
         private async void CheckConnection()
@@ -95,7 +108,6 @@ namespace SpeedLR
             {
                 await Connect("127.0.0.1", port);
                 Status = ConnectionStatus.CONNECTED;
-
             }
             catch (Exception)
             {
@@ -121,6 +133,8 @@ namespace SpeedLR
             }
             _lastSendTime = DateTime.Now;
 
+            ResetTimer(); // Reset the timer on command send
+
             if (_clientSocket == null || !_clientSocket.Connected)
             {
                 throw new Exception("Not connected to the server.");
@@ -136,6 +150,12 @@ namespace SpeedLR
             {
                 throw new Exception($"Error sending command: {ex.Message}");
             }
+        }
+
+        private void ResetTimer()
+        {
+            _connectionTimer.Stop();
+            _connectionTimer.Start();
         }
 
         public void CloseConnection()
