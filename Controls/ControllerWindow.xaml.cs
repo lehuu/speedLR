@@ -96,7 +96,7 @@ namespace SpeedLR
             set
             {
                 _currentButtonIndex = value;
-                if (String.IsNullOrEmpty(CurrentButton.Data))
+                if (String.IsNullOrEmpty(CurrentButton.Data) || !InEditMode)
                 {
                     _mouseHook?.Dispose();
                 }
@@ -112,7 +112,7 @@ namespace SpeedLR
             set
             {
                 _currentMenuIndex = value;
-                if (String.IsNullOrEmpty(CurrentButton.Data))
+                if (String.IsNullOrEmpty(CurrentButton.Data) || !InEditMode)
                 {
                     _mouseHook?.Dispose();
                 }
