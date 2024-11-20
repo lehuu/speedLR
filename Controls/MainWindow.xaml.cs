@@ -6,7 +6,6 @@ using Point = System.Drawing.Point;
 using SpeedLR.Model;
 using System.Windows.Controls;
 using SpeedLR.Controls;
-using System.Data;
 
 namespace SpeedLR
 {
@@ -241,24 +240,7 @@ namespace SpeedLR
             Connector.Instance.ConnectionChanged += OnConnectionChanged;
             ConnectToServer();
 
-            // init context menu
-            _notifyIcon = new NotifyIcon();
-            _notifyIcon.Icon = new Icon("wheel.ico"); // Replace with your icon file
-            _notifyIcon.Text = Title;
-            _notifyIcon.Visible = true;
-
-            // Create a context menu for the NotifyIcon
-            ContextMenuStrip contextMenu = new ContextMenuStrip();
-            ToolStripMenuItem exitMenuItem = new ToolStripMenuItem("Exit");
-            exitMenuItem.Click += ExitMenuItem_Click;
-            ToolStripMenuItem openMenuItem = new ToolStripMenuItem("Open");
-            openMenuItem.Click += OpenMenuItem_Click;
-
-            contextMenu.Items.Add(exitMenuItem);
-            contextMenu.Items.Add(openMenuItem);
-
-            _notifyIcon.ContextMenuStrip = contextMenu;
-            _notifyIcon.MouseDoubleClick += OpenMenuItem_Click;
+            SetupContextMenu();
 
             _controller = new ControllerWindow();
 
@@ -267,6 +249,52 @@ namespace SpeedLR
             _activatorHotkey = new GlobalHotkey(helper.Handle, 1, GlobalHotkey.MOD_CONTROL);
             _activatorHotkey.Register(HwndHook);
             _activatorHotkey.HotKeyDoublePressed += Ctrl_DoublePressed;
+        }
+
+        private void SetupContextMenu()
+        {
+            // init context menu
+            if(_notifyIcon == null)
+            {
+                _notifyIcon = new NotifyIcon();
+                _notifyIcon.Icon = new Icon("wheel.ico"); // Replace with your icon file
+                _notifyIcon.Text = Title;
+                _notifyIcon.Visible = true;
+                _notifyIcon.MouseDoubleClick += OpenMenuItem_Click;
+            }
+
+            // Create a context menu for the NotifyIcon
+            ContextMenuStrip contextMenu = new ContextMenuStrip();
+            ToolStripMenuItem exitMenuItem = new ToolStripMenuItem("Exit");
+            exitMenuItem.Click += ExitMenuItem_Click;
+            ToolStripMenuItem openMenuItem = new ToolStripMenuItem("Open");
+            openMenuItem.Click += OpenMenuItem_Click;
+
+            ToolStripMenuItem connectItem = null;
+
+            switch (Connector.Instance.Status)
+            {
+                case Connector.ConnectionStatus.CONNECTING:
+                    connectItem = new ToolStripMenuItem("Connecting...");
+                    connectItem.BackColor = Color.LightBlue;
+                    break;
+                case Connector.ConnectionStatus.CONNECTED:
+                    connectItem = new ToolStripMenuItem("Connected");
+                    connectItem.BackColor = Color.LightGreen;
+                    break;
+                case Connector.ConnectionStatus.DISCONNECTED:
+                default:
+                    connectItem = new ToolStripMenuItem("Connect");
+                    connectItem.BackColor = Color.IndianRed;
+                    connectItem.Click += (s, e) => { ConnectToServer(); };
+                    break;
+            }
+
+            contextMenu.Items.Add(openMenuItem);
+            contextMenu.Items.Add(connectItem);
+            contextMenu.Items.Add(exitMenuItem);
+
+            _notifyIcon.ContextMenuStrip = contextMenu;
         }
 
         private void OnConnectionChanged(object sender, Connector.ConnectionStatus status)
@@ -289,6 +317,7 @@ namespace SpeedLR
                         this.connectButton.Content = "Reconnect";
                         break;
                 }
+                SetupContextMenu();
             });
         }
 
