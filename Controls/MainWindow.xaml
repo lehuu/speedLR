@@ -8,7 +8,6 @@
         mc:Ignorable="d"
         ShowActivated="False"
         Focusable="False"
-        Activated="CheckConnection"
         Title="SpeedLr" Height="450" Width="400
         " ResizeMode="NoResize">
 

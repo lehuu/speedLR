@@ -183,7 +183,7 @@ namespace SpeedLR
 
             var distinctMenus = filteredButtons.Select(button => button.Row).Distinct().OrderBy(index => index).ToArray();
             int menuNumbers = distinctMenus.Count();
-            var isConnected = Connector.Instance.IsConnected().Result;
+            var isConnected = Connector.Instance.Status == Connector.ConnectionStatus.CONNECTED;
 
             _menus = new ControlButton[menuNumbers][];
             for (int i = 0; i < menuNumbers; i++)
@@ -292,7 +292,7 @@ namespace SpeedLR
                 _mouseHook.OnMiddleMouseButtonClick += Reset_Pressed;
             }
 
-            var isConnected = Connector.Instance.IsConnected().Result;
+            var isConnected = Connector.Instance.Status == Connector.ConnectionStatus.CONNECTED;
             var isLightroomActive = _watcher.IsLightroomActive();
 
             if (IsVisible && isConnected && isLightroomActive)

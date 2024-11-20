@@ -6,10 +6,20 @@ namespace SpeedLR
 {
     public class Connector
     {
+        public enum ConnectionStatus
+        {
+            DISCONNECTED,
+            CONNECTING,
+            CONNECTED
+        }
+
         private static Connector _instance;
         private Socket _clientSocket;
         private DateTime _lastSendTime = DateTime.MinValue;
         private double _maxRequestsPerSecond = 16;
+
+        public event EventHandler<ConnectionStatus> ConnectionChanged;
+
         private Connector()
         { }
 
@@ -25,31 +35,46 @@ namespace SpeedLR
             }
         }
 
-        public async Task<bool> IsConnected()
+        private ConnectionStatus _status;
+
+        public ConnectionStatus Status
+        {
+            get { return _status; }
+            set {
+                if(_status != value)
+                {
+                    ConnectionChanged?.Invoke(this, value);
+                }
+
+                _status = value;
+            }
+        }
+
+        private async void CheckConnection()
         {
             if (_clientSocket == null || !_clientSocket.Connected)
             {
-                return false;
+                Status = ConnectionStatus.DISCONNECTED;
             }
 
             try
             {
                 await SendCommandAsync("Test");
-                return true;
+                Status = ConnectionStatus.CONNECTED;
             }
             catch (Exception)
             {
-                return false;
+                Status = ConnectionStatus.DISCONNECTED;
             }
         }
 
-        public async Task Connect(string address, int port)
+        private async Task Connect(string address, int port)
         {
             try
             {
                 CloseConnection();
+                Status = ConnectionStatus.CONNECTING;
                 await Task.Delay(1000);
-
                 IPHostEntry host = Dns.GetHostEntry(address);
                 IPAddress ipAddress = host.AddressList[0];
                 var endpoint = new IPEndPoint(ipAddress, port);
@@ -66,19 +91,23 @@ namespace SpeedLR
 
         public async Task Connect(int port)
         {
+            Status = ConnectionStatus.CONNECTING;
             try
             {
                 await Connect("127.0.0.1", port);
+                Status = ConnectionStatus.CONNECTED;
+
             }
             catch (Exception)
             {
                 try
                 {
                     await Connect("localhost", port);
+                    Status = ConnectionStatus.CONNECTED;
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception($"Error connecting to server: {ex.Message}");
+                    Status = ConnectionStatus.DISCONNECTED;
                 }
             }
         }
@@ -120,6 +149,7 @@ namespace SpeedLR
                 }
                 _clientSocket.Close();
                 _clientSocket = null;
+                Status = ConnectionStatus.DISCONNECTED;
             }
         }
     }

@@ -32,7 +32,6 @@ namespace SpeedLR
             {
                 Hide();
             };
-            IsVisibleChanged += MainWindow_IsVisibleChanged;
             menuTextbox.DebouncedTextChanged += TextBoxChanged;
         }
 
@@ -234,14 +233,11 @@ namespace SpeedLR
             SwitchToMenu(index);
         }
 
-        private void MainWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            CheckConnection(sender, null);
-        }
-
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
+
+            Connector.Instance.ConnectionChanged += OnConnectionChanged;
             ConnectToServer();
 
             // init context menu
@@ -272,41 +268,31 @@ namespace SpeedLR
             _activatorHotkey.HotKeyDoublePressed += Ctrl_DoublePressed;
         }
 
-        private async void CheckConnection(object sender, EventArgs? e)
+        private void OnConnectionChanged(object sender, Connector.ConnectionStatus status)
         {
-            var isConnected = await Connector.Instance.IsConnected();
-            if (isConnected)
+            switch (status)
             {
-                this.connectButton.Background = Brushes.Green;
-                this.connectButton.Content = "Connected";
-            }
-            else
-            {
-                this.connectButton.Background = Brushes.Red;
-                this.connectButton.Content = "Reconnect";
+                case Connector.ConnectionStatus.CONNECTING:
+                    this.connectButton.Content = "Connecting...";
+                    this.connectButton.Background = Brushes.Blue;
+                    break;
+                case Connector.ConnectionStatus.CONNECTED:
+                    this.connectButton.Background = Brushes.Green;
+                    this.connectButton.Content = "Connected";
+                    break;
+                case Connector.ConnectionStatus.DISCONNECTED:
+                default:
+
+                    this.connectButton.Background = Brushes.Red;
+                    this.connectButton.Content = "Reconnect";
+                    break;
             }
         }
 
         private async void ConnectToServer()
         {
             this.portButton.Content = "Port: " + LocalData.Instance.Port;
-
-            try
-            {
-                this.connectButton.Content = "Connecting...";
-                this.connectButton.Background = Brushes.Blue;
-
-                await Connector.Instance.Connect(LocalData.Instance.Port);
-
-                this.connectButton.Background = Brushes.Green;
-                this.connectButton.Content = "Connected";
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                this.connectButton.Background = Brushes.Red;
-                this.connectButton.Content = "Reconnect";
-            }
+            await Connector.Instance.Connect(LocalData.Instance.Port);
         }
 
         private void Ctrl_DoublePressed(object sender, EventArgs e)
@@ -350,9 +336,9 @@ namespace SpeedLR
             _controller.Show();
         }
 
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            var isConnected = await Connector.Instance.IsConnected();
+            var isConnected = Connector.Instance.Status == Connector.ConnectionStatus.CONNECTED;
             if (!isConnected)
             {
                 ConnectToServer();
