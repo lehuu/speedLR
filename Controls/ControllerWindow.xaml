@@ -118,7 +118,7 @@
 
     <Grid Width="600" Height="420" VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid x:Name="buttonGrid" Width="600" Height="230" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-
+        <TextBlock IsHitTestVisible="False" FontSize="18" x:Name="menuTitle" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Black"  Foreground="White" Opacity="0.8" Padding="6" Margin="0,80,0,0"/>
         <Button Opacity="0.7" Style="{StaticResource LargeButton}" x:Name="hideButton" Content="X" HorizontalAlignment="Center" VerticalAlignment="Top" Click="HideButton_Click" RenderTransformOrigin="0.5,0.5" Margin="0,129,0,0"/>
         <local:LRControlButton Style="{StaticResource SmallControlButton}" IsActive="True" x:Name="lowStepButton" LRCommand="1%" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Click="StepButton_Click" Margin="-55,164,0,0"/>
         <local:LRControlButton Style="{StaticResource SmallControlButton}"  x:Name="midStepButton" LRCommand="2%" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" VerticalAlignment="Top" Click="StepButton_Click" Margin="0,164,0,0"/>

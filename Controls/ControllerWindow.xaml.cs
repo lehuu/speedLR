@@ -163,6 +163,8 @@ namespace SpeedLR
             buttonGrid.Children.Clear();
 
             var selectedMenu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
+            menuTitle.Text = selectedMenu.Name;
+
             var filteredButtons = selectedMenu.Buttons.Where(b =>
             {
                 if (b is CommandButton)
