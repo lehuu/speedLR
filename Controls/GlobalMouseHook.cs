@@ -9,13 +9,25 @@ namespace SpeedLR.Controls
         private const int WH_MOUSE_LL = 14; // Low-level mouse hook
         private const int WM_MOUSEWHEEL = 0x020A;
         private const int WM_MBUTTONDOWN = 0x0207;
-
+        private const int WM_MOUSEMOVE = 0x0200;
+        private const int WM_LBUTTONDOWN = 0x0201;
+        private const int WM_LBUTTONUP = 0x0202;
+        private const int WM_RBUTTONDOWN = 0x0204;
+        private const int WM_RBUTTONUP = 0x0205;
+        private const int WM_KEYDOWN = 0x100;
+        private const int WM_KEYUP = 0x101;
+        
         private nint _hookID = 999;
         private LowLevelMouseProc _proc;
+        private bool _isDragging = false;
+        private int _lastX = 0;
+        private static int MIN_DRAG_DISTANCE = 10; 
 
-        public event Action OnMouseScrollUp;    // Event for scroll up
-        public event Action OnMouseScrollDown;  // Event for scroll down
+        public event Action OnMouseScrollUp;     // Event for scroll up
+        public event Action OnMouseScrollDown;   // Event for scroll down
         public event Action OnMiddleMouseButtonClick;
+        public event Action OnMouseDragLeft;     // Event for dragging left
+        public event Action OnMouseDragRight;    // Event for dragging right
 
         public GlobalMouseHook()
         {
@@ -35,6 +47,8 @@ namespace SpeedLR.Controls
         {
             if (nCode >= 0)
             {
+                MSLLHOOKSTRUCT hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
+
                 if (wParam == WM_MOUSEWHEEL)
                 {
                     int scrollDelta = Marshal.ReadInt32(lParam + 8) >> 16;
@@ -43,19 +57,41 @@ namespace SpeedLR.Controls
                     {
                         OnMouseScrollUp?.Invoke();
                         return 1;
-
                     }
                     else if (scrollDelta < 0 && OnMouseScrollDown?.GetInvocationList().Length > 0)
                     {
                         OnMouseScrollDown?.Invoke();
                         return 1;
-
                     }
                 }
                 else if (wParam == WM_MBUTTONDOWN && OnMiddleMouseButtonClick?.GetInvocationList().Length > 0)
                 {
                     OnMiddleMouseButtonClick?.Invoke(); // Trigger middle mouse button event
                     return 1;
+                }
+                else if (wParam == WM_LBUTTONDOWN)
+                {
+                    _isDragging = true;
+                    _lastX = hookStruct.pt.x;
+                    return 1;
+                }
+                else if (wParam == WM_LBUTTONUP)
+                {
+                    _isDragging = false;
+                        return 1;
+                }
+                else if (wParam == WM_MOUSEMOVE && _isDragging)
+                {
+                    if ((_lastX - hookStruct.pt.x) > MIN_DRAG_DISTANCE  && OnMouseDragLeft?.GetInvocationList().Length > 0)
+                    {
+                        OnMouseDragLeft?.Invoke();
+                        _lastX = hookStruct.pt.x;
+                    }
+                    else if ((hookStruct.pt.x - _lastX) > MIN_DRAG_DISTANCE && OnMouseDragRight?.GetInvocationList().Length > 0)
+                    {
+                        OnMouseDragRight?.Invoke();
+                        _lastX = hookStruct.pt.x;
+                    }
                 }
             }
 
@@ -88,5 +124,22 @@ namespace SpeedLR.Controls
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern nint GetModuleHandle(string lpModuleName);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct POINT
+        {
+            public int x;
+            public int y;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct MSLLHOOKSTRUCT
+        {
+            public POINT pt;
+            public uint mouseData;
+            public uint flags;
+            public uint time;
+            public IntPtr dwExtraInfo;
+        }
     }
 }

@@ -333,7 +333,9 @@ namespace SpeedLR
                 };
 
                 _mouseHook = new GlobalMouseHook();
+                _mouseHook.OnMouseDragRight += HandleGlobalScrollUp;
                 _mouseHook.OnMouseScrollUp += HandleGlobalScrollUp;
+                _mouseHook.OnMouseDragLeft += HandleGlobalScrollDown;
                 _mouseHook.OnMouseScrollDown += HandleGlobalScrollDown;
                 _mouseHook.OnMiddleMouseButtonClick += Reset_Pressed;
             }
