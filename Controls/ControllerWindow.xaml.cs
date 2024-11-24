@@ -6,6 +6,7 @@ using System.Windows.Interop;
 using SpeedLR.Controls;
 using SpeedLR.Model;
 using Timer = System.Timers.Timer;
+using System.Diagnostics;
 
 namespace SpeedLR
 {
@@ -53,7 +54,6 @@ namespace SpeedLR
         {
             InitializeComponent();
             Loaded += Window_Loaded;
-            DpiHelper.AdjustScaleForDpi(this);
             IsVisibleChanged += ControllerWindow_IsVisibleChanged;
             _hideTimer = new Timer(500);
             _hideTimer.AutoReset = false;
@@ -263,7 +263,6 @@ namespace SpeedLR
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            DpiChanged += Window_DpiChanged;
             Connector.Instance.ConnectionChanged += OnConnectionChanged;
         }
 
@@ -338,13 +337,11 @@ namespace SpeedLR
                 _mouseHook.OnMouseDragLeft += HandleGlobalScrollDown;
                 _mouseHook.OnMouseScrollDown += HandleGlobalScrollDown;
                 _mouseHook.OnMiddleMouseButtonClick += Reset_Pressed;
+                _mouseHook.OnMouseClickDown += IsClickInWindow;
+                _mouseHook.OnMouseClickUp += IsClickInWindow;
             }
 
             UpdateHooksAndControls();
-        }
-        private void Window_DpiChanged(object sender, System.Windows.DpiChangedEventArgs e)
-        {
-            DpiHelper.AdjustScaleForDpi(this);
         }
 
         private GlobalHotkey CreateHotkey(int id, int modifier, int key, EventHandler clickEvent)
@@ -353,6 +350,15 @@ namespace SpeedLR
             var result = new GlobalHotkey(helper.Handle, id, modifier, key);
             result.HotKeyPressed += clickEvent;
             return result;
+        }
+
+        private bool IsClickInWindow(int x, int y)
+        {
+            // Scale the mouse coordinates according to DPI
+            double scale = DpiHelper.GetWindowScale(this);
+            int scaledX = (int)(x / scale);
+            int scaledY = (int)(y / scale);
+            return !(Left <= scaledX && (Left + ActualWidth >= scaledX)) || !(Top <= scaledY && (Top + ActualHeight >= scaledY));
         }
 
         private void SendCommand(CommandType type)

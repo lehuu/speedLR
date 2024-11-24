@@ -1,46 +1,69 @@
 ﻿using System.Windows.Media;
 using System.Windows;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace SpeedLR
 {
     public static class DpiHelper
     {
+        [DllImport("Shcore.dll")]
+        static extern int GetScaleFactorForMonitor(IntPtr hmonitor, out int dpi);
+
+        [DllImport("User32.dll")]
+        static extern IntPtr MonitorFromPoint(POINT pt, uint dwFlags);
+
+        [DllImport("User32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetCursorPos(ref POINT lpPoint);
+
+        [DllImport("Shcore.dll")]
+        private static extern IntPtr GetDpiForMonitor(IntPtr hmonitor, MonitorDpiType dpiType, ref uint dpiX, ref uint dpiY);
+
+
+        public enum MonitorDpiType
+        {
+            EffectiveDpi = 0,
+            AngularDpi = 1,
+            RawDpi = 2,
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+        }
+
+        // Win32 API constants for MonitorFromPoint
+        private const int MONITOR_DEFAULTTONULL = 0x00000000;
+        private const int MONITOR_DEFAULTTOPRIMARY = 0x00000001;
+        private const int MONITOR_DEFAULTTONEAREST = 0x00000002;
+
         /// <summary>
         /// Gets the DPI of the specified window.
         /// </summary>
         /// <param name="window">The window to retrieve DPI for.</param>
         /// <returns>The DPI of the monitor where the window is displayed.</returns>
-        public static double GetWindowDpi(Window window)
+        public static double GetWindowScale(Window window)
         {
-            var source = PresentationSource.FromVisual(window);
-            if (source != null)
-            {
-                var dpiX = 96.0 * source.CompositionTarget.TransformToDevice.M11;
-                return dpiX;
-            }
-            return 96.0; // Default DPI
+            return VisualTreeHelper.GetDpi(window).DpiScaleX;
         }
 
-        /// <summary>
-        /// Adjusts the scale of a window based on the current DPI of the monitor.
-        /// </summary>
-        /// <param name="window">The window to scale.</param>
-        public static void AdjustScaleForDpi(Window window)
+        public static double GetDpiScaleFactorForMousePosition()
         {
-            double currentDpi = GetWindowDpi(window);
-            double defaultDpi = 96.0; // Standard DPI
-            double scale = currentDpi / defaultDpi;
+            // Get the current mouse position
+            POINT mousePoint = new POINT();
+            GetCursorPos(ref mousePoint);
 
-            // Apply scaling transform
-            if (window.RenderTransform is ScaleTransform scaleTransform)
-            {
-                scaleTransform.ScaleX = scale;
-                scaleTransform.ScaleY = scale;
-            }
-            else
-            {
-                window.RenderTransform = new ScaleTransform(scale, scale);
-            }
+            // Get the monitor handle at the mouse position
+            IntPtr hMonitor = MonitorFromPoint(mousePoint, MONITOR_DEFAULTTONEAREST);
+
+            uint dpiX = 0, dpiY = 0;
+            GetDpiForMonitor(hMonitor, MonitorDpiType.EffectiveDpi, ref dpiX, ref dpiY);
+
+            return dpiX / 96f; // Assuming dpiX and dpiY are the same
         }
+
     }
 }

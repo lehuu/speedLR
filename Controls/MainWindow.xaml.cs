@@ -254,7 +254,7 @@ namespace SpeedLR
         private void SetupContextMenu()
         {
             // init context menu
-            if(_notifyIcon == null)
+            if (_notifyIcon == null)
             {
                 _notifyIcon = new NotifyIcon();
                 _notifyIcon.Icon = new Icon("wheel.ico"); // Replace with your icon file
@@ -327,6 +327,8 @@ namespace SpeedLR
             await Connector.Instance.Connect(LocalData.Instance.Port);
         }
 
+        double _prevScale = -1;
+
         private void Ctrl_DoublePressed(object sender, EventArgs e)
         {
             if (_controller.IsVisible)
@@ -345,26 +347,33 @@ namespace SpeedLR
                 _controller.Show();
                 return;
             }
-            var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
+
             Point mousePosition = System.Windows.Forms.Control.MousePosition;
-
-            var mouse = transform.Transform(new System.Windows.Point(mousePosition.X, mousePosition.Y));
-
             Screen screen = Screen.FromPoint(mousePosition);
+            var scale = DpiHelper.GetDpiScaleFactorForMousePosition();
 
             var formWidth = _controller.Width;
             var formHeight = _controller.Height;
 
-            double x = mouse.X - formWidth / 2;
-            double y = mouse.Y - formHeight / 2;
+            var topLeft = (new System.Windows.Point(screen.WorkingArea.Left / scale, screen.WorkingArea.Top / scale));
+            var bottomRight = (new System.Windows.Point(screen.WorkingArea.Right / scale, screen.WorkingArea.Bottom / scale));
 
-            var topLeft = transform.Transform(new System.Windows.Point(screen.WorkingArea.Left, screen.WorkingArea.Top));
-            var bottomRight = transform.Transform(new System.Windows.Point(screen.WorkingArea.Right, screen.WorkingArea.Bottom));
+            var x = mousePosition.X / scale - formWidth / 2;
+            var y = mousePosition.Y / scale - formHeight / 2;
+
             x = Math.Max(topLeft.X, Math.Min(x, bottomRight.X - formWidth));
             y = Math.Max(topLeft.Y, Math.Min(y, bottomRight.Y - formHeight));
 
+            if (_prevScale > 0)
+            {
+                x = x * scale / _prevScale;
+                y = y * scale / _prevScale;
+            }
+            _prevScale = scale;
+
             _controller.Left = x;
             _controller.Top = y;
+
             _controller.Show();
         }
 

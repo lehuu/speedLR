@@ -28,6 +28,8 @@ namespace SpeedLR.Controls
         public event Action OnMiddleMouseButtonClick;
         public event Action OnMouseDragLeft;     // Event for dragging left
         public event Action OnMouseDragRight;    // Event for dragging right
+        public event Func<int, int, bool> OnMouseClickDown;
+        public event Func<int, int, bool> OnMouseClickUp;
 
         public GlobalMouseHook()
         {
@@ -73,12 +75,20 @@ namespace SpeedLR.Controls
                 {
                     _isDragging = true;
                     _lastX = hookStruct.pt.x;
-                    return 1;
+
+                    if(OnMouseClickDown != null && OnMouseClickDown.Invoke(hookStruct.pt.x, hookStruct.pt.y))
+                    {
+                        return 1;
+                    }
                 }
                 else if (wParam == WM_LBUTTONUP)
                 {
                     _isDragging = false;
+
+                    if (OnMouseClickUp != null && OnMouseClickUp.Invoke(hookStruct.pt.x, hookStruct.pt.y))
+                    {
                         return 1;
+                    }
                 }
                 else if (wParam == WM_MOUSEMOVE && _isDragging)
                 {
