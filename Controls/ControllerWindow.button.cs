@@ -216,15 +216,7 @@ namespace SpeedLR
                         {
                             if (CurrentButton.Type == ButtonType.LR && _menus[CurrentMenuIndex][CurrentButtonIndex] == clickedLRButton)
                             {
-                                if (InEditMode)
-                                {
-                                    InEditMode = false;
-                                    ToggleButton(i, j);
-                                }
-                                else
-                                {
-                                    InEditMode = true;
-                                }
+                                InEditMode = !InEditMode;
                             }
                             else
                             {
