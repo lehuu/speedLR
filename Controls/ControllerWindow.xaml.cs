@@ -87,6 +87,7 @@ namespace SpeedLR
                     _inEditMode = value;
                     OnPropertyChanged(nameof(InEditMode));
                 }
+                UpdateMouseHook();
             }
         }
 
@@ -96,14 +97,7 @@ namespace SpeedLR
             set
             {
                 _currentButtonIndex = value;
-                if (String.IsNullOrEmpty(CurrentButton.Data) || !InEditMode)
-                {
-                    _mouseHook?.Dispose();
-                }
-                else
-                {
-                    _mouseHook?.Register();
-                }
+                UpdateMouseHook();
             }
         }
         public int CurrentMenuIndex
@@ -112,14 +106,7 @@ namespace SpeedLR
             set
             {
                 _currentMenuIndex = value;
-                if (String.IsNullOrEmpty(CurrentButton.Data) || !InEditMode)
-                {
-                    _mouseHook?.Dispose();
-                }
-                else
-                {
-                    _mouseHook?.Register();
-                }
+                UpdateMouseHook();
             }
         }
 
@@ -149,6 +136,18 @@ namespace SpeedLR
                 }
 
                 return new ButtonData("", ButtonType.NONE);
+            }
+        }
+
+        private void UpdateMouseHook()
+        {
+            if (String.IsNullOrEmpty(CurrentButton.Data) || !InEditMode)
+            {
+                _mouseHook?.Dispose();
+            }
+            else
+            {
+                _mouseHook?.Register();
             }
         }
 

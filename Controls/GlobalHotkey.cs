@@ -23,12 +23,15 @@ namespace SpeedLR.Controls
         private HwndSource _source;
         private bool _isRegistered = false;
 
+        private bool _isDoubleClickHandled = false;
+
         private DateTime _lastClickTime = DateTime.MinValue;
         private const int DOUBLE_CLICK_INTERVAL = 500;
 
         public event EventHandler HotKeyPressed;
         public event EventHandler HotKeyDoublePressed;
 
+        // https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
         public GlobalHotkey(nint hWnd, int id, int modifier, int key)
         {
             _hWnd = hWnd;
@@ -75,9 +78,12 @@ namespace SpeedLR.Controls
                 TimeSpan timeSinceLastClick = currentTime - _lastClickTime;
 
 
-                if (timeSinceLastClick.TotalMilliseconds <= DOUBLE_CLICK_INTERVAL)
+                if (timeSinceLastClick.TotalMilliseconds <= DOUBLE_CLICK_INTERVAL && !_isDoubleClickHandled)
                 {
                     handled = handled || OnHotKeyDoublePressed();
+                } else
+                {
+                    _isDoubleClickHandled = false;
                 }
 
                 _lastClickTime = currentTime;
@@ -92,8 +98,13 @@ namespace SpeedLR.Controls
 
         protected virtual bool OnHotKeyDoublePressed()
         {
+            if (_isDoubleClickHandled)
+            {
+                return false;
+            }
+            _isDoubleClickHandled = HotKeyDoublePressed?.GetInvocationList().Length > 0;
             HotKeyDoublePressed?.Invoke(this, EventArgs.Empty);
-            return HotKeyDoublePressed?.GetInvocationList().Length > 0;
+            return _isDoubleClickHandled;
         }
     }
 }
