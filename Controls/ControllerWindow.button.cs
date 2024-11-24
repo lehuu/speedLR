@@ -22,21 +22,19 @@ namespace SpeedLR
             Hide();
         }
 
-        private void Space_Pressed(object sender, EventArgs e)
+        private void Back_Pressed(object sender, EventArgs e)
         {
             switch (CurrentButton.Type)
             {
-                case ButtonType.MENU:
-                    SwitchToMenu(CurrentButton.Data);
-                    return;
+
                 case ButtonType.LR:
                     if (InEditMode)
                     {
                         Reset_Pressed();
                         return;
                     }
-                    InEditMode = true;
                     return;
+                case ButtonType.MENU:
                 case ButtonType.NONE:
                 default:
                     return;

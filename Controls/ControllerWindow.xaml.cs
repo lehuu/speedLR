@@ -327,7 +327,7 @@ namespace SpeedLR
                     CreateHotkey(4, 0, (int) Keys.Left, Left_Pressed),
                     CreateHotkey(5, 0, (int) Keys.Up, Up_Pressed),
                     CreateHotkey(6, 0, (int) Keys.Down, Down_Pressed),
-                    CreateHotkey(7, 0, (int) Keys.Space, Space_Pressed),
+                    CreateHotkey(7, 0, (int) Keys.Back, Back_Pressed),
                     CreateHotkey(8, 0, (int) Keys.Return, Enter_Pressed),
                 };
 
