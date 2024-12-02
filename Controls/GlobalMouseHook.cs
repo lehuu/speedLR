@@ -71,38 +71,38 @@ namespace SpeedLR.Controls
                     OnMiddleMouseButtonClick?.Invoke(); // Trigger middle mouse button event
                     return 1;
                 }
-                else if (wParam == WM_LBUTTONDOWN)
-                {
-                    _isDragging = true;
-                    _lastX = hookStruct.pt.x;
+                //else if (wParam == WM_LBUTTONDOWN)
+                //{
+                //    _isDragging = true;
+                //    _lastX = hookStruct.pt.x;
 
-                    if(OnMouseClickDown != null && OnMouseClickDown.Invoke(hookStruct.pt.x, hookStruct.pt.y))
-                    {
-                        return 1;
-                    }
-                }
-                else if (wParam == WM_LBUTTONUP)
-                {
-                    _isDragging = false;
+                //    if(OnMouseClickDown != null && OnMouseClickDown.Invoke(hookStruct.pt.x, hookStruct.pt.y))
+                //    {
+                //        return 1;
+                //    }
+                //}
+                //else if (wParam == WM_LBUTTONUP)
+                //{
+                //    _isDragging = false;
 
-                    if (OnMouseClickUp != null && OnMouseClickUp.Invoke(hookStruct.pt.x, hookStruct.pt.y))
-                    {
-                        return 1;
-                    }
-                }
-                else if (wParam == WM_MOUSEMOVE && _isDragging)
-                {
-                    if ((_lastX - hookStruct.pt.x) > MIN_DRAG_DISTANCE  && OnMouseDragLeft?.GetInvocationList().Length > 0)
-                    {
-                        OnMouseDragLeft?.Invoke();
-                        _lastX = hookStruct.pt.x;
-                    }
-                    else if ((hookStruct.pt.x - _lastX) > MIN_DRAG_DISTANCE && OnMouseDragRight?.GetInvocationList().Length > 0)
-                    {
-                        OnMouseDragRight?.Invoke();
-                        _lastX = hookStruct.pt.x;
-                    }
-                }
+                //    if (OnMouseClickUp != null && OnMouseClickUp.Invoke(hookStruct.pt.x, hookStruct.pt.y))
+                //    {
+                //        return 1;
+                //    }
+                //}
+                //else if (wParam == WM_MOUSEMOVE && _isDragging)
+                //{
+                //    if ((_lastX - hookStruct.pt.x) > MIN_DRAG_DISTANCE  && OnMouseDragLeft?.GetInvocationList().Length > 0)
+                //    {
+                //        OnMouseDragLeft?.Invoke();
+                //        _lastX = hookStruct.pt.x;
+                //    }
+                //    else if ((hookStruct.pt.x - _lastX) > MIN_DRAG_DISTANCE && OnMouseDragRight?.GetInvocationList().Length > 0)
+                //    {
+                //        OnMouseDragRight?.Invoke();
+                //        _lastX = hookStruct.pt.x;
+                //    }
+                //}
             }
 
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
