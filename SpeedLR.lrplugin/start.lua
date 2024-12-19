@@ -60,11 +60,17 @@ local develop_params = {"Temperature", "Tint", "Exposure", "Contrast", "Highligh
                         "local_Grain", "local_RefineSaturation"}
 
 local string_replacements = {"LensProfile", "PostCrop", "Adjustment", "ColorGrade", "SplitToning", "GrayMixer"}
+local circle_params = { "SplitToningShadowHue", "SplitToningHighlightHue", "ColorGradeMidtoneHue", "ColorGradeGlobalHue" }
 local test_command = "Test"
 
 local develop_param_set = {}
 for _, key in ipairs(develop_params) do
     develop_param_set[key] = true
+end
+
+local circle_param_set = {}
+for _, key in ipairs(circle_params) do
+    circle_param_set[key] = true
 end
 
 local currentSetting = {
@@ -165,7 +171,13 @@ local function setValue(key, value)
                     increment = math.ceil(increment * 100 - 0.5) / 100
                 end
 
-                local newVal = clamp(currentValue + increment, min, max);
+				local inc_val = currentValue + increment
+				
+				if circle_param_set[key] then
+					inc_val = math.fmod(currentValue + increment + max, max)
+				end
+				
+                local newVal = clamp(inc_val, min, max);
 
                 local prievousValue = currentSetting.value
                 local deltaString = "0"
