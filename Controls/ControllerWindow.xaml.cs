@@ -2,11 +2,11 @@
 using System.Runtime.InteropServices;
 using System.Timers;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 using SpeedLR.Controls;
 using SpeedLR.Model;
 using Timer = System.Timers.Timer;
-using System.Diagnostics;
 
 namespace SpeedLR
 {
@@ -40,7 +40,7 @@ namespace SpeedLR
 
         private LRControlButton[] _stepButtons;
         private ControlButton[][] _menus;
-        private GlobalHotkey[] _hotkeys;
+        private LowLevelHotkey[] _hotkeys;
         private GlobalMouseHook _mouseHook;
         private readonly Timer _hideTimer;
         private ActiveWindowWatcher _watcher = new ActiveWindowWatcher();
@@ -275,14 +275,8 @@ namespace SpeedLR
 
             if (!IsVisible || !isLightroomActive || !isConnected)
             {
-                DeactivateHotkeys();
-
                 if (_mouseHook != null)
                     _mouseHook.Dispose();
-            }
-            else
-            {
-                ActivateHotkeys();
             }
 
             if (String.IsNullOrEmpty(_currentMenuId))
@@ -320,15 +314,19 @@ namespace SpeedLR
         {
             if (!(_hotkeys?.Length > 0))
             {
-                _hotkeys = new GlobalHotkey[]
+                _hotkeys = new LowLevelHotkey[]
                 {
-                    CreateHotkey(2, 0, (int) Keys.Escape, Escape_Pressed),
-                    CreateHotkey(3, 0, (int) Keys.Right, Right_Pressed),
-                    CreateHotkey(4, 0, (int) Keys.Left, Left_Pressed),
-                    CreateHotkey(5, 0, (int) Keys.Up, Up_Pressed),
-                    CreateHotkey(6, 0, (int) Keys.Down, Down_Pressed),
-                    CreateHotkey(7, 0, (int) Keys.Back, Back_Pressed),
-                    CreateHotkey(8, 0, (int) Keys.Return, Enter_Pressed),
+                    CreateHotkeyPress(Key.Escape, Escape_Pressed),
+                    CreateHotkeyPress(Key.Back, Key.LeftCtrl, BackCtrl_Pressed),
+                    CreateHotkeyPress(Key.LeftCtrl, Ctrl_Pressed),
+                    CreateHotkeyPress(Key.Right, Right_Pressed),
+                    CreateHotkeyPress(Key.Left, Left_Pressed),
+                    CreateHotkeyPress(Key.Up, Up_Pressed),
+                    CreateHotkeyPress(Key.Down, Down_Pressed),
+                    CreateHotkeyPress(Key.Right, Key.LeftCtrl, RightCtrl_Pressed),
+                    CreateHotkeyPress(Key.Left, Key.LeftCtrl, LeftCtrl_Pressed),
+                    CreateHotkeyPress(Key.Up, Key.LeftCtrl, UpCtrl_Pressed),
+                    CreateHotkeyPress(Key.Down, Key.LeftCtrl, DownCtrl_Pressed),
                 };
 
                 _mouseHook = new GlobalMouseHook();
@@ -344,12 +342,16 @@ namespace SpeedLR
             UpdateHooksAndControls();
         }
 
-        private GlobalHotkey CreateHotkey(int id, int modifier, int key, EventHandler clickEvent)
+        private LowLevelHotkey CreateHotkeyPress(Key key, Key modifier, ActionRef clickEvent)
         {
-            var helper = new WindowInteropHelper(this);
-            var result = new GlobalHotkey(helper.Handle, id, modifier, key);
-            result.HotKeyPressed += clickEvent;
+            var result = new LowLevelHotkey(key, modifier);
+            result.KeyPressed += clickEvent;
             return result;
+        }
+
+        private LowLevelHotkey CreateHotkeyPress(Key key, ActionRef clickEvent)
+        {
+            return CreateHotkeyPress(key, Key.None, clickEvent);
         }
 
         private bool IsClickInWindow(int x, int y)
@@ -451,31 +453,10 @@ namespace SpeedLR
             );
         }
 
-        private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            foreach (var key in _hotkeys)
-            {
-                key.ProcessWindowMessage(hwnd, msg, wParam, lParam, ref handled);
-            }
-            return IntPtr.Zero;
-        }
-
         protected override void OnClosed(EventArgs e)
         {
             DeactivateHotkeys();
             _mouseHook?.Dispose();
-        }
-
-        private void ActivateHotkeys()
-        {
-            if (_hotkeys == null)
-            {
-                return;
-            }
-            foreach (var key in _hotkeys)
-            {
-                key.Register(HwndHook);
-            }
         }
 
         private void DeactivateHotkeys()
@@ -486,7 +467,7 @@ namespace SpeedLR
             }
             foreach (var key in _hotkeys)
             {
-                key.Unregister(HwndHook);
+                key.Dispose();
             }
         }
 

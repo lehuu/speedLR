@@ -6,33 +6,24 @@ namespace SpeedLR
 {
     public partial class ControllerWindow : Window
     {
-        private void Escape_Pressed(object sender, EventArgs e)
+        private void Escape_Pressed(ref bool isHandled)
         {
             if (!IsVisible)
             {
                 return;
             }
 
-            if (InEditMode)
-            {
-                InEditMode = false;
-                return;
-            }
-
+            isHandled = true;
             Hide();
         }
 
-        private void Back_Pressed(object sender, EventArgs e)
+        private void BackCtrl_Pressed(ref bool isHandled)
         {
             switch (CurrentButton.Type)
             {
-
                 case ButtonType.LR:
-                    if (InEditMode)
-                    {
-                        Reset_Pressed();
-                        return;
-                    }
+                    Reset_Pressed();
+                    isHandled = true;
                     return;
                 case ButtonType.MENU:
                 case ButtonType.NONE:
@@ -68,16 +59,13 @@ namespace SpeedLR
                    .First().Index;
         }
 
-        private void Enter_Pressed(object sender, EventArgs e)
+        private void Ctrl_Pressed(ref bool isHandled)
         {
             switch (CurrentButton.Type)
             {
-
                 case ButtonType.MENU:
                     SwitchToMenu(CurrentButton.Data);
-                    return;
-                case ButtonType.LR:
-                    InEditMode = !InEditMode;
+                    isHandled = true;
                     return;
                 case ButtonType.NONE:
                 default:
@@ -85,88 +73,116 @@ namespace SpeedLR
             }
         }
 
-        private void Up_Pressed(object sender, EventArgs e)
+        private void Up_Pressed(ref bool isHandled)
         {
             if (!CanNavigate())
             {
-                return;
-            }
-
-            if (InEditMode)
-            {
-                SendCommand(CommandType.UP);
                 return;
             }
 
             var nextSubmenu = (CurrentMenuIndex - 1 + _menus.Length) % _menus.Length;
             ToggleButton(nextSubmenu, FindNextClosestButton(nextSubmenu));
+            isHandled = true;
         }
 
-        private void Down_Pressed(object sender, EventArgs e)
+        private void UpCtrl_Pressed(ref bool isHandled)
         {
             if (!CanNavigate())
             {
                 return;
             }
 
-            if (InEditMode)
+            SendCommand(CommandType.UP);
+            isHandled = true;
+            return;
+        }
+
+        private void Down_Pressed(ref bool isHandled)
+        {
+            if (!CanNavigate())
             {
-                SendCommand(CommandType.DOWN);
                 return;
             }
 
             var nextSubmenu = (CurrentMenuIndex + 1) % _menus.Length;
             ToggleButton(nextSubmenu, FindNextClosestButton(nextSubmenu));
+            isHandled = true;
         }
 
-        private void Right_Pressed(object sender, EventArgs e)
+        private void DownCtrl_Pressed(ref bool isHandled)
         {
             if (!CanNavigate())
             {
                 return;
             }
 
-            if (InEditMode)
-            {
-                var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
-                    .FirstOrDefault(x => x.Item.IsActive)?.Index ?? -1;
+            SendCommand(CommandType.DOWN);
+            isHandled = true;
+            return;
+        }
 
-                var nextStep = (currentStep + 1 + _stepButtons.Length) % _stepButtons.Length;
-                for (int i = 0; i < _stepButtons.Length; i++)
-                {
-                    _stepButtons[i].IsActive = i == nextStep;
-                }
+        private void Right_Pressed(ref bool isHandled)
+        {
+            if (!CanNavigate())
+            {
                 return;
             }
 
             var menuIndex = CurrentMenuIndex % _menus.Length;
 
             ToggleButton(menuIndex, (CurrentButtonIndex + 1) % _menus[menuIndex].Length);
+            isHandled = true;
         }
 
-        private void Left_Pressed(object sender, EventArgs e)
+        private void RightCtrl_Pressed(ref bool isHandled)
         {
             if (!CanNavigate())
             {
                 return;
             }
 
-            if (InEditMode)
-            {
-                var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
-                    .FirstOrDefault(x => x.Item.IsActive)?.Index ?? 0;
+            var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
+                          .FirstOrDefault(x => x.Item.IsActive)?.Index ?? -1;
 
-                var nextStep = (currentStep - 1 + _stepButtons.Length) % _stepButtons.Length;
-                for (int i = 0; i < _stepButtons.Length; i++)
-                {
-                    _stepButtons[i].IsActive = i == nextStep;
-                }
+            var nextStep = (currentStep + 1 + _stepButtons.Length) % _stepButtons.Length;
+            for (int i = 0; i < _stepButtons.Length; i++)
+            {
+                _stepButtons[i].IsActive = i == nextStep;
+            }
+            isHandled = true;
+            return;
+        }
+
+        private void Left_Pressed(ref bool isHandled)
+        {
+            if (!CanNavigate())
+            {
                 return;
             }
 
             var menuIndex = CurrentMenuIndex % _menus.Length;
 
             ToggleButton(menuIndex, (CurrentButtonIndex - 1 + _menus[menuIndex].Length) % _menus[menuIndex].Length);
+            isHandled = true;
+        }
+
+        private void LeftCtrl_Pressed(ref bool isHandled)
+        {
+            if (!CanNavigate())
+            {
+                return;
+            }
+
+            var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
+                .FirstOrDefault(x => x.Item.IsActive)?.Index ?? 0;
+
+            var nextStep = (currentStep - 1 + _stepButtons.Length) % _stepButtons.Length;
+            for (int i = 0; i < _stepButtons.Length; i++)
+            {
+                _stepButtons[i].IsActive = i == nextStep;
+            }
+            isHandled = true;
+            return;
         }
 
         private void HandleGlobalScrollUp()
@@ -214,14 +230,9 @@ namespace SpeedLR
                         {
                             if (CurrentButton.Type == ButtonType.LR && _menus[CurrentMenuIndex][CurrentButtonIndex] == clickedLRButton)
                             {
-                                InEditMode = !InEditMode;
+                                return;
                             }
-                            else
-                            {
-                                InEditMode = true;
-                                ToggleButton(i, j);
-                            }
-
+                            ToggleButton(i, j);
                         }
                     }
                 }
