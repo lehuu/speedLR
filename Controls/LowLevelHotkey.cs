@@ -10,6 +10,7 @@ public class LowLevelHotkey : IDisposable
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc _proc;
     private Key _key;
+    private Key _modifier;
 
     private DateTime? _lastPressDown;
     private DateTime? _secondLastPressDown;
@@ -22,12 +23,16 @@ public class LowLevelHotkey : IDisposable
     public event Action KeyHoldStart;
     public event Action KeyHoldEnd;
 
-    public LowLevelHotkey(Key key)
+    public LowLevelHotkey(Key key, Key modifier)
     {
         _proc = HookCallback;
         _hookId = SetHook(_proc);
         _key = key;
+        _modifier = modifier;
     }
+
+    public LowLevelHotkey(Key key) : this(key, Key.None)
+    { }
 
     public void Dispose()
     {
@@ -47,25 +52,28 @@ public class LowLevelHotkey : IDisposable
         {
             var keyInfo = (KeyboardInputStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardInputStruct));
             var key = KeyInterop.KeyFromVirtualKey(keyInfo.vkCode);
-            if (key == _key)
+            var isModifierDown = _modifier == Key.None ? true : Keyboard.IsKeyDown(_modifier);
+
+            if (key == _key && isModifierDown)
             {
                 var isKeyDown = wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN;
                 var now = DateTime.Now;
 
                 if (isKeyDown)
                 {
-                     _secondLastPressDown = _lastPressDown;
-                     _lastPressDown = now;
-                   
-                    if(!_isHeld)
+                    _secondLastPressDown = _lastPressDown;
+                    _lastPressDown = now;
+
+                    if (!_isHeld)
                     {
-                        if(_firstPressDown.HasValue && (now - _firstPressDown.Value).TotalMilliseconds < LONG_PRESS_THRESHOLD)
+                        if (_firstPressDown.HasValue && (now - _firstPressDown.Value).TotalMilliseconds < LONG_PRESS_THRESHOLD)
                         {
                             _isHeld = true;
                             _firstPressDown = null;
 
                             KeyHoldStart?.Invoke();
-                        } else
+                        }
+                        else
                         {
                             _firstPressDown = DateTime.Now;
                         }
@@ -84,7 +92,7 @@ public class LowLevelHotkey : IDisposable
                         }
                     }
 
-                    if(_isHeld)
+                    if (_isHeld)
                     {
                         KeyHoldEnd?.Invoke();
                     }
