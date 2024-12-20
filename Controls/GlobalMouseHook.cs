@@ -17,12 +17,13 @@ namespace SpeedLR.Controls
         private const int WM_RBUTTONUP = 0x0205;
         private const int WM_KEYDOWN = 0x100;
         private const int WM_KEYUP = 0x101;
-        
+
         private nint _hookID = 999;
         private LowLevelMouseProc _proc;
         private bool _isDragging = false;
         private int _lastX = 0;
-        private static int MIN_DRAG_DISTANCE = 10; 
+        private int _lastY = 0;
+        private static int MIN_DRAG_DISTANCE = 10;
 
         public event ActionRef OnMouseScrollUp;     // Event for scroll up
         public event ActionRef OnMouseScrollDown;   // Event for scroll down
@@ -75,6 +76,7 @@ namespace SpeedLR.Controls
                 {
                     _isDragging = true;
                     _lastX = hookStruct.pt.x;
+                    _lastY = hookStruct.pt.y;
 
                     if (OnMouseClickDown != null && OnMouseClickDown.Invoke(hookStruct.pt.x, hookStruct.pt.y))
                     {
@@ -92,20 +94,22 @@ namespace SpeedLR.Controls
                 }
                 else if (wParam == WM_MOUSEMOVE && _isDragging)
                 {
-                    if ((_lastX - hookStruct.pt.x) > MIN_DRAG_DISTANCE && OnMouseDragLeft?.GetInvocationList().Length > 0)
+                    if ((_lastX - hookStruct.pt.x) > MIN_DRAG_DISTANCE || (hookStruct.pt.y - _lastY) > MIN_DRAG_DISTANCE)
                     {
                         OnMouseDragLeft?.Invoke(ref isHandled);
                         _lastX = hookStruct.pt.x;
+                        _lastY = hookStruct.pt.y;
                     }
-                    else if ((hookStruct.pt.x - _lastX) > MIN_DRAG_DISTANCE && OnMouseDragRight?.GetInvocationList().Length > 0)
+                    else if ((hookStruct.pt.x - _lastX) > MIN_DRAG_DISTANCE || (_lastY - hookStruct.pt.y) > MIN_DRAG_DISTANCE)
                     {
                         OnMouseDragRight?.Invoke(ref isHandled);
                         _lastX = hookStruct.pt.x;
+                        _lastY = hookStruct.pt.y;
                     }
                 }
             }
 
-            if(isHandled)
+            if (isHandled)
             {
                 return 1;
             }
