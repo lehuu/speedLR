@@ -28,9 +28,12 @@ namespace SpeedLR.Controls
         {
         }
 
-        public bool IsLightroomActive()
+        public bool IsLightroomActive
         {
-            return GetActiveWindowTitle().Contains(LIGHTROOM_NAME);
+            get
+            {
+                return GetActiveWindowTitle().Contains(LIGHTROOM_NAME);
+            }
         }
 
         private string GetActiveWindowTitle()

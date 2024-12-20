@@ -337,7 +337,7 @@ namespace SpeedLR
                 return;
             }
 
-            if (!_watcher.IsLightroomActive())
+            if (!_watcher.IsLightroomActive)
             {
                 return;
             }

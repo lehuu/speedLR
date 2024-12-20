@@ -269,7 +269,7 @@ namespace SpeedLR
         private void UpdateHooksAndControls()
         {
             var isConnected = Connector.Instance.Status == Connector.ConnectionStatus.CONNECTED;
-            var isLightroomActive = _watcher.IsLightroomActive();
+            var isLightroomActive = _watcher.IsLightroomActive;
 
             InEditMode = false;
 
@@ -373,7 +373,7 @@ namespace SpeedLR
             {
                 return;
             }
-            if (!_watcher.IsLightroomActive())
+            if (!_watcher.IsLightroomActive)
             {
                 return;
             }

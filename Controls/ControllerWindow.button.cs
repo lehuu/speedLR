@@ -8,7 +8,7 @@ namespace SpeedLR
     {
         private void Escape_Pressed(ref bool isHandled)
         {
-            if (!IsVisible)
+            if (!CanNavigate())
             {
                 return;
             }
@@ -39,7 +39,7 @@ namespace SpeedLR
 
         private bool CanNavigate()
         {
-            return IsVisible && _menus.Length > 0;
+            return _watcher.IsLightroomActive && IsVisible && _menus.Length > 0;
         }
 
         private int FindNextClosestButton(int row)
@@ -187,7 +187,7 @@ namespace SpeedLR
 
         private void HandleGlobalScrollUp()
         {
-            if (!_watcher.IsLightroomActive())
+            if (!_watcher.IsLightroomActive)
             {
                 return;
             }
@@ -201,7 +201,7 @@ namespace SpeedLR
 
         private void HandleGlobalScrollDown()
         {
-            if (!_watcher.IsLightroomActive())
+            if (!_watcher.IsLightroomActive)
             {
                 return;
             }
