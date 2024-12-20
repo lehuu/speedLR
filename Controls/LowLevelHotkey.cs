@@ -1,27 +1,28 @@
-﻿using System.Diagnostics;
+﻿using SpeedLR.Controls;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 
 public class LowLevelHotkey : IDisposable
 {
     private static int DOUBLE_PRESS_THRESHOLD = 400;
-    private static int LONG_PRESS_THRESHOLD = 400;
+    private static int LONG_PRESS_THRESHOLD = 300;
 
     private IntPtr _hookId = IntPtr.Zero;
     private LowLevelKeyboardProc _proc;
     private Key _key;
     private Key _modifier;
-
+    
     private DateTime? _lastPressDown;
     private DateTime? _secondLastPressDown;
     private DateTime? _lastPressUp;
     private DateTime? _firstPressDown;
     private bool _isHeld = false;
 
-    public event Action KeyPressed;
-    public event Action KeyDoublePressed;
-    public event Action KeyHoldStart;
-    public event Action KeyHoldEnd;
+    public event ActionRef? KeyPressed;
+    public event ActionRef? KeyDoublePressed;
+    public event ActionRef? KeyHoldStart;
+    public event ActionRef? KeyHoldEnd;
 
     public LowLevelHotkey(Key key, Key modifier)
     {
@@ -53,6 +54,7 @@ public class LowLevelHotkey : IDisposable
             var keyInfo = (KeyboardInputStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardInputStruct));
             var key = KeyInterop.KeyFromVirtualKey(keyInfo.vkCode);
             var isModifierDown = _modifier == Key.None ? true : Keyboard.IsKeyDown(_modifier);
+            bool isHandled = false;
 
             if (key == _key && isModifierDown)
             {
@@ -71,7 +73,7 @@ public class LowLevelHotkey : IDisposable
                             _isHeld = true;
                             _firstPressDown = null;
 
-                            KeyHoldStart?.Invoke();
+                            KeyHoldStart?.Invoke(ref isHandled);
                         }
                         else
                         {
@@ -79,7 +81,7 @@ public class LowLevelHotkey : IDisposable
                         }
                     }
 
-                    KeyPressed?.Invoke();
+                    KeyPressed?.Invoke(ref isHandled);
                 }
                 else if (wParam == (IntPtr)WM_KEYUP || wParam == (IntPtr)WM_SYSKEYUP)
                 {
@@ -88,19 +90,24 @@ public class LowLevelHotkey : IDisposable
                         if ((now - _lastPressUp.Value).TotalMilliseconds < DOUBLE_PRESS_THRESHOLD
                         && (now - _secondLastPressDown.Value).TotalMilliseconds < 2 * DOUBLE_PRESS_THRESHOLD)
                         {
-                            KeyDoublePressed?.Invoke();
+                            KeyDoublePressed?.Invoke(ref isHandled);
                         }
                     }
 
                     if (_isHeld)
                     {
-                        KeyHoldEnd?.Invoke();
+                        KeyHoldEnd?.Invoke(ref isHandled);
                     }
 
                     _lastPressUp = now;
                     _isHeld = false;
                     _firstPressDown = null;
                 }
+            }
+
+            if (isHandled)
+            {
+                return 1;
             }
         }
 

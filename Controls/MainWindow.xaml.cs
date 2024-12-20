@@ -7,7 +7,6 @@ using SpeedLR.Model;
 using System.Windows.Controls;
 using SpeedLR.Controls;
 using System.Windows.Input;
-using System.Diagnostics;
 
 namespace SpeedLR
 {
@@ -249,22 +248,7 @@ namespace SpeedLR
             var helper = new WindowInteropHelper(this);
 
             _hotkeyHook = new LowLevelHotkey(Key.LeftCtrl);
-            //_hotkeyHook.KeyPressed += () =>
-            //{
-            //    Debug.WriteLine("Ctrl key was single pressed.");
-            //};
-
             _hotkeyHook.KeyDoublePressed += Ctrl_DoublePressed;
-
-            _hotkeyHook.KeyHoldStart += () =>
-            {
-                Debug.WriteLine("Ctrl key is being held.");
-            };
-
-            _hotkeyHook.KeyHoldEnd += () =>
-            {
-                Debug.WriteLine("Ctrl key stopped being held.");
-            };
         }
 
         private void SetupContextMenu()
@@ -345,7 +329,7 @@ namespace SpeedLR
 
         double _prevScale = -1;
 
-        private void Ctrl_DoublePressed()
+        private void Ctrl_DoublePressed(ref bool _)
         {
             if (_controller.IsVisible)
             {
