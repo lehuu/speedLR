@@ -6,6 +6,8 @@ using Point = System.Drawing.Point;
 using SpeedLR.Model;
 using System.Windows.Controls;
 using SpeedLR.Controls;
+using System.Windows.Input;
+using System.Diagnostics;
 
 namespace SpeedLR
 {
@@ -14,7 +16,7 @@ namespace SpeedLR
         private NotifyIcon _notifyIcon;
 
         private ControllerWindow _controller;
-        private GlobalHotkey _activatorHotkey;
+        private LowLevelHotkey _hotkeyHook;
         private PortWindow? _portWindow;
         private ActiveWindowWatcher _watcher = new ActiveWindowWatcher();
 
@@ -246,9 +248,23 @@ namespace SpeedLR
 
             var helper = new WindowInteropHelper(this);
 
-            _activatorHotkey = new GlobalHotkey(helper.Handle, 1, GlobalHotkey.MOD_CONTROL);
-            _activatorHotkey.Register(HwndHook);
-            _activatorHotkey.HotKeyDoublePressed += Ctrl_DoublePressed;
+            _hotkeyHook = new LowLevelHotkey(Key.LeftCtrl);
+            //_hotkeyHook.KeyPressed += () =>
+            //{
+            //    Debug.WriteLine("Ctrl key was single pressed.");
+            //};
+
+            _hotkeyHook.KeyDoublePressed += Ctrl_DoublePressed;
+
+            _hotkeyHook.KeyHoldStart += () =>
+            {
+                Debug.WriteLine("Ctrl key is being held.");
+            };
+
+            _hotkeyHook.KeyHoldEnd += () =>
+            {
+                Debug.WriteLine("Ctrl key stopped being held.");
+            };
         }
 
         private void SetupContextMenu()
@@ -329,7 +345,7 @@ namespace SpeedLR
 
         double _prevScale = -1;
 
-        private void Ctrl_DoublePressed(object sender, EventArgs e)
+        private void Ctrl_DoublePressed()
         {
             if (_controller.IsVisible)
             {
@@ -432,16 +448,6 @@ namespace SpeedLR
             Show();
         }
 
-        private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            if (_activatorHotkey != null)
-            {
-                _activatorHotkey.ProcessWindowMessage(hwnd, msg, wParam, lParam, ref handled); // Pass the message to the GlobalHotkey class
-            }
-            return IntPtr.Zero;
-        }
-
-
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
@@ -451,7 +457,7 @@ namespace SpeedLR
         protected override void OnClosed(EventArgs e)
         {
             Connector.Instance.CloseConnection();
-            _activatorHotkey.Unregister(HwndHook);
+            _hotkeyHook.Dispose();
         }
 
         private void MenuDropdown_Click(object sender, RoutedEventArgs e)
