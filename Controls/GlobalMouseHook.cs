@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows.Input;
 
 namespace SpeedLR.Controls
 {
@@ -23,11 +24,11 @@ namespace SpeedLR.Controls
         private int _lastX = 0;
         private static int MIN_DRAG_DISTANCE = 10; 
 
-        public event Action OnMouseScrollUp;     // Event for scroll up
-        public event Action OnMouseScrollDown;   // Event for scroll down
-        public event Action OnMiddleMouseButtonClick;
-        public event Action OnMouseDragLeft;     // Event for dragging left
-        public event Action OnMouseDragRight;    // Event for dragging right
+        public event ActionRef OnMouseScrollUp;     // Event for scroll up
+        public event ActionRef OnMouseScrollDown;   // Event for scroll down
+        public event ActionRef OnMiddleMouseButtonClick;
+        public event ActionRef OnMouseDragLeft;     // Event for dragging left
+        public event ActionRef OnMouseDragRight;    // Event for dragging right
         public event Func<int, int, bool> OnMouseClickDown;
         public event Func<int, int, bool> OnMouseClickUp;
 
@@ -47,7 +48,9 @@ namespace SpeedLR.Controls
 
         private nint HookCallback(int nCode, nint wParam, nint lParam)
         {
-            if (nCode >= 0)
+            bool isHandled = false;
+
+            if (nCode >= 0 && Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 MSLLHOOKSTRUCT hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
 
@@ -55,54 +58,56 @@ namespace SpeedLR.Controls
                 {
                     int scrollDelta = Marshal.ReadInt32(lParam + 8) >> 16;
 
-                    if (scrollDelta > 0 && OnMouseScrollUp?.GetInvocationList().Length > 0)
+                    if (scrollDelta > 0)
                     {
-                        OnMouseScrollUp?.Invoke();
-                        return 1;
+                        OnMouseScrollUp?.Invoke(ref isHandled);
                     }
-                    else if (scrollDelta < 0 && OnMouseScrollDown?.GetInvocationList().Length > 0)
+                    else if (scrollDelta < 0)
                     {
-                        OnMouseScrollDown?.Invoke();
-                        return 1;
+                        OnMouseScrollDown?.Invoke(ref isHandled);
                     }
                 }
-                else if (wParam == WM_MBUTTONDOWN && OnMiddleMouseButtonClick?.GetInvocationList().Length > 0)
+                else if (wParam == WM_MBUTTONDOWN)
                 {
-                    OnMiddleMouseButtonClick?.Invoke(); // Trigger middle mouse button event
-                    return 1;
+                    OnMiddleMouseButtonClick?.Invoke(ref isHandled); // Trigger middle mouse button event
                 }
-                //else if (wParam == WM_LBUTTONDOWN)
-                //{
-                //    _isDragging = true;
-                //    _lastX = hookStruct.pt.x;
+                else if (wParam == WM_LBUTTONDOWN)
+                {
+                    _isDragging = true;
+                    _lastX = hookStruct.pt.x;
 
-                //    if(OnMouseClickDown != null && OnMouseClickDown.Invoke(hookStruct.pt.x, hookStruct.pt.y))
-                //    {
-                //        return 1;
-                //    }
-                //}
-                //else if (wParam == WM_LBUTTONUP)
-                //{
-                //    _isDragging = false;
+                    if (OnMouseClickDown != null && OnMouseClickDown.Invoke(hookStruct.pt.x, hookStruct.pt.y))
+                    {
+                        return 1;
+                    }
+                }
+                else if (wParam == WM_LBUTTONUP)
+                {
+                    _isDragging = false;
 
-                //    if (OnMouseClickUp != null && OnMouseClickUp.Invoke(hookStruct.pt.x, hookStruct.pt.y))
-                //    {
-                //        return 1;
-                //    }
-                //}
-                //else if (wParam == WM_MOUSEMOVE && _isDragging)
-                //{
-                //    if ((_lastX - hookStruct.pt.x) > MIN_DRAG_DISTANCE  && OnMouseDragLeft?.GetInvocationList().Length > 0)
-                //    {
-                //        OnMouseDragLeft?.Invoke();
-                //        _lastX = hookStruct.pt.x;
-                //    }
-                //    else if ((hookStruct.pt.x - _lastX) > MIN_DRAG_DISTANCE && OnMouseDragRight?.GetInvocationList().Length > 0)
-                //    {
-                //        OnMouseDragRight?.Invoke();
-                //        _lastX = hookStruct.pt.x;
-                //    }
-                //}
+                    if (OnMouseClickUp != null && OnMouseClickUp.Invoke(hookStruct.pt.x, hookStruct.pt.y))
+                    {
+                        return 1;
+                    }
+                }
+                else if (wParam == WM_MOUSEMOVE && _isDragging)
+                {
+                    if ((_lastX - hookStruct.pt.x) > MIN_DRAG_DISTANCE && OnMouseDragLeft?.GetInvocationList().Length > 0)
+                    {
+                        OnMouseDragLeft?.Invoke(ref isHandled);
+                        _lastX = hookStruct.pt.x;
+                    }
+                    else if ((hookStruct.pt.x - _lastX) > MIN_DRAG_DISTANCE && OnMouseDragRight?.GetInvocationList().Length > 0)
+                    {
+                        OnMouseDragRight?.Invoke(ref isHandled);
+                        _lastX = hookStruct.pt.x;
+                    }
+                }
+            }
+
+            if(isHandled)
+            {
+                return 1;
             }
 
             return CallNextHookEx(_hookID, nCode, wParam, lParam);

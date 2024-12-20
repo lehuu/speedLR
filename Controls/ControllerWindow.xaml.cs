@@ -141,7 +141,7 @@ namespace SpeedLR
 
         private void UpdateMouseHook()
         {
-            if (String.IsNullOrEmpty(CurrentButton.Data) || !InEditMode)
+            if (String.IsNullOrEmpty(CurrentButton.Data))
             {
                 _mouseHook?.Dispose();
             }

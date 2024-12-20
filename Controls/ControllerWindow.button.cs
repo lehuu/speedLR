@@ -22,7 +22,7 @@ namespace SpeedLR
             switch (CurrentButton.Type)
             {
                 case ButtonType.LR:
-                    Reset_Pressed();
+                    SendCommand(CommandType.RESET);
                     isHandled = true;
                     return;
                 case ButtonType.MENU:
@@ -32,9 +32,10 @@ namespace SpeedLR
             }
         }
 
-        private void Reset_Pressed()
+        private void Reset_Pressed(ref bool isHandled)
         {
             SendCommand(CommandType.RESET);
+            isHandled = true;
         }
 
         private bool CanNavigate()
@@ -185,7 +186,7 @@ namespace SpeedLR
             return;
         }
 
-        private void HandleGlobalScrollUp()
+        private void HandleGlobalScrollUp(ref bool isHandled)
         {
             if (!_watcher.IsLightroomActive)
             {
@@ -197,9 +198,10 @@ namespace SpeedLR
             {
                 SendCommand(CommandType.UP);
             });
+            isHandled = true;
         }
 
-        private void HandleGlobalScrollDown()
+        private void HandleGlobalScrollDown(ref bool isHandled)
         {
             if (!_watcher.IsLightroomActive)
             {
@@ -211,6 +213,7 @@ namespace SpeedLR
             {
                 SendCommand(CommandType.DOWN);
             });
+            isHandled = true;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
