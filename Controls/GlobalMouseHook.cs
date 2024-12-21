@@ -21,9 +21,12 @@ namespace SpeedLR.Controls
         private nint _hookID = 999;
         private LowLevelMouseProc _proc;
         private bool _isDragging = false;
+        private bool _isDraggingHorizontal = false;
+        private bool _isDraggingVertical = false;
         private int _lastX = 0;
         private int _lastY = 0;
-        private static int MIN_DRAG_DISTANCE = 10;
+        private static int MIN_DRAG_X_DISTANCE = 13;
+        private static int MIN_DRAG_Y_DISTANCE = 13;
 
         public event ActionRef OnMouseScrollUp;     // Event for scroll up
         public event ActionRef OnMouseScrollDown;   // Event for scroll down
@@ -80,22 +83,75 @@ namespace SpeedLR.Controls
                 else if (wParam == WM_LBUTTONUP)
                 {
                     _isDragging = false;
+                    _isDraggingHorizontal = false;
+                    _isDraggingVertical = false;
 
                     OnMouseClickUp?.Invoke(ref isHandled);
                 }
                 else if (wParam == WM_MOUSEMOVE && _isDragging)
                 {
-                    if ((_lastX - hookStruct.pt.x) > MIN_DRAG_DISTANCE || (hookStruct.pt.y - _lastY) > MIN_DRAG_DISTANCE)
+                    var draggingLeft = (_lastX - hookStruct.pt.x) > MIN_DRAG_X_DISTANCE;
+                    var draggingRight = (hookStruct.pt.x - _lastX) > MIN_DRAG_X_DISTANCE;
+                    var draggingUp = (_lastY - hookStruct.pt.y) > MIN_DRAG_Y_DISTANCE;
+                    var draggingDown = (hookStruct.pt.y - _lastY) > MIN_DRAG_Y_DISTANCE;
+
+                    var notDragging = (!_isDraggingHorizontal && !_isDraggingVertical);
+
+                    if (notDragging)
                     {
-                        OnMouseDragLeft?.Invoke(ref isHandled);
-                        _lastX = hookStruct.pt.x;
-                        _lastY = hookStruct.pt.y;
+                        if (draggingLeft || draggingRight)
+                        {
+                            _isDraggingHorizontal = true;
+                        }
+                        if (draggingUp || draggingDown) {
+                            _isDraggingVertical = true;
+                        }
+
+                        if(_isDraggingHorizontal && _isDraggingVertical)
+                        {
+                            var verticalDistance = Math.Abs(_lastY - hookStruct.pt.y);
+                            var horizontalDistance = Math.Abs(_lastX - hookStruct.pt.x);
+
+                            if (verticalDistance > horizontalDistance)
+                            {
+                                _isDraggingHorizontal = false;
+                            } else
+                            {
+                                _isDraggingVertical = false;
+                            }
+                        }
+          
                     }
-                    else if ((hookStruct.pt.x - _lastX) > MIN_DRAG_DISTANCE || (_lastY - hookStruct.pt.y) > MIN_DRAG_DISTANCE)
+
+                    if (_isDraggingHorizontal)
                     {
-                        OnMouseDragRight?.Invoke(ref isHandled);
-                        _lastX = hookStruct.pt.x;
-                        _lastY = hookStruct.pt.y;
+                        if (draggingLeft)
+                        {
+                            OnMouseDragLeft?.Invoke(ref isHandled);
+                            _lastY = hookStruct.pt.y;
+                            _lastX = hookStruct.pt.x;
+                        }
+                        else if (draggingRight)
+                        {
+                            OnMouseDragRight?.Invoke(ref isHandled);
+                            _lastY = hookStruct.pt.y;
+                            _lastX = hookStruct.pt.x;
+                        }
+                    }
+                    else if (_isDraggingVertical)
+                    {
+                        if (draggingDown)
+                        {
+                            OnMouseDragLeft?.Invoke(ref isHandled);
+                            _lastX = hookStruct.pt.x;
+                            _lastY = hookStruct.pt.y;
+                        }
+                        else if (draggingUp)
+                        {
+                            OnMouseDragRight?.Invoke(ref isHandled);
+                            _lastX = hookStruct.pt.x;
+                            _lastY = hookStruct.pt.y;
+                        }
                     }
                 }
             }
