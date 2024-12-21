@@ -335,8 +335,8 @@ namespace SpeedLR
                 _mouseHook.OnMouseDragLeft += HandleGlobalScrollDown;
                 _mouseHook.OnMouseScrollDown += HandleGlobalScrollDown;
                 _mouseHook.OnMiddleMouseButtonClick += Reset_Pressed;
-                _mouseHook.OnMouseClickDown += IsClickInWindow;
-                _mouseHook.OnMouseClickUp += IsClickInWindow;
+                _mouseHook.OnMouseClickDown += HandleCtrlClick;
+                _mouseHook.OnMouseClickUp += HandleCtrlClick;
             }
 
             UpdateHooksAndControls();
@@ -354,13 +354,9 @@ namespace SpeedLR
             return CreateHotkeyPress(key, Key.None, clickEvent);
         }
 
-        private bool IsClickInWindow(int x, int y)
+        private void HandleCtrlClick(ref bool isHandled)
         {
-            // Scale the mouse coordinates according to DPI
-            double scale = DpiHelper.GetWindowScale(this);
-            int scaledX = (int)(x / scale);
-            int scaledY = (int)(y / scale);
-            return !(Left <= scaledX && (Left + ActualWidth >= scaledX)) || !(Top <= scaledY && (Top + ActualHeight >= scaledY));
+            isHandled = CanNavigate() && CurrentButton.Type == ButtonType.LR;
         }
 
         private void SendCommand(CommandType type)
