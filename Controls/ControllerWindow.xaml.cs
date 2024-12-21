@@ -26,6 +26,14 @@ namespace SpeedLR
             RESET
         }
 
+        private enum DirectionType
+        {
+            UP,
+            DOWN,
+            RIGHT,
+            LEFT
+        }
+
         internal class ButtonData
         {
             public string Data;
@@ -316,27 +324,27 @@ namespace SpeedLR
             {
                 _hotkeys = new LowLevelHotkey[]
                 {
-                    CreateHotkeyPress(Key.Escape, Escape_Pressed),
-                    CreateHotkeyPress(Key.Back, Key.LeftCtrl, BackCtrl_Pressed),
-                    CreateHotkeyPress(Key.LeftCtrl, Ctrl_Pressed),
-                    CreateHotkeyPress(Key.Right, Right_Pressed),
-                    CreateHotkeyPress(Key.Left, Left_Pressed),
-                    CreateHotkeyPress(Key.Up, Up_Pressed),
-                    CreateHotkeyPress(Key.Down, Down_Pressed),
-                    CreateHotkeyPress(Key.Right, Key.LeftCtrl, RightCtrl_Pressed),
-                    CreateHotkeyPress(Key.Left, Key.LeftCtrl, LeftCtrl_Pressed),
-                    CreateHotkeyPress(Key.Up, Key.LeftCtrl, UpCtrl_Pressed),
-                    CreateHotkeyPress(Key.Down, Key.LeftCtrl, DownCtrl_Pressed),
+                    CreateHotkeyPress(Key.Escape, HandleClose),
+                    CreateHotkeyPress(Key.Back, Key.LeftCtrl, HandleReset),
+                    CreateHotkeyPress(Key.LeftCtrl, HandleMenuChange),
+                    CreateHotkeyPress(Key.Right, (ref bool isHandled) => HandleArrowKeys(ref isHandled, DirectionType.RIGHT)),
+                    CreateHotkeyPress(Key.Left,  (ref bool isHandled) => HandleArrowKeys(ref isHandled, DirectionType.LEFT)),
+                    CreateHotkeyPress(Key.Up, (ref bool isHandled) => HandleArrowKeys(ref isHandled, DirectionType.UP)),
+                    CreateHotkeyPress(Key.Down, (ref bool isHandled) => HandleArrowKeys(ref isHandled, DirectionType.DOWN)),
+                    CreateHotkeyPress(Key.Right, Key.LeftCtrl, (ref bool isHandled) => HandleCtrlArrouKeys(ref isHandled, DirectionType.RIGHT)),
+                    CreateHotkeyPress(Key.Left, Key.LeftCtrl, (ref bool isHandled) => HandleCtrlArrouKeys(ref isHandled, DirectionType.LEFT)),
+                    CreateHotkeyPress(Key.Up, Key.LeftCtrl, (ref bool isHandled) => HandleCtrlArrouKeys(ref isHandled, DirectionType.UP)),
+                    CreateHotkeyPress(Key.Down, Key.LeftCtrl, (ref bool isHandled) => HandleCtrlArrouKeys(ref isHandled, DirectionType.DOWN)),
                 };
 
                 _mouseHook = new GlobalMouseHook();
-                _mouseHook.OnMouseDragRight += HandleGlobalScrollUp;
-                _mouseHook.OnMouseScrollUp += HandleGlobalScrollUp;
-                _mouseHook.OnMouseDragLeft += HandleGlobalScrollDown;
-                _mouseHook.OnMouseScrollDown += HandleGlobalScrollDown;
-                _mouseHook.OnMiddleMouseButtonClick += Reset_Pressed;
-                _mouseHook.OnMouseClickDown += HandleCtrlClick;
-                _mouseHook.OnMouseClickUp += HandleCtrlClick;
+                _mouseHook.OnMouseDragRight += (ref bool isHandled) => HandleGlobalScroll(ref isHandled, CommandType.UP);
+                _mouseHook.OnMouseScrollUp += (ref bool isHandled) => HandleGlobalScroll(ref isHandled, CommandType.UP);
+                _mouseHook.OnMouseDragLeft += (ref bool isHandled) => HandleGlobalScroll(ref isHandled, CommandType.DOWN);
+                _mouseHook.OnMouseScrollDown += (ref bool isHandled) => HandleGlobalScroll(ref isHandled, CommandType.DOWN);
+                _mouseHook.OnMiddleMouseButtonClick += HandleReset;
+                _mouseHook.OnMouseClickDown += HandleDragStartEnd;
+                _mouseHook.OnMouseClickUp += HandleDragStartEnd;
             }
 
             UpdateHooksAndControls();
@@ -354,7 +362,7 @@ namespace SpeedLR
             return CreateHotkeyPress(key, Key.None, clickEvent);
         }
 
-        private void HandleCtrlClick(ref bool isHandled)
+        private void HandleDragStartEnd(ref bool isHandled)
         {
             isHandled = CanNavigate() && CurrentButton.Type == ButtonType.LR;
         }

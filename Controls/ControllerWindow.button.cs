@@ -1,12 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using SpeedLR.Controls;
+using SpeedLR.Model;
 
 namespace SpeedLR
 {
     public partial class ControllerWindow : Window
     {
-        private void Escape_Pressed(ref bool isHandled)
+        private void HandleClose(ref bool isHandled)
         {
             if (!CanNavigate())
             {
@@ -17,23 +18,12 @@ namespace SpeedLR
             Hide();
         }
 
-        private void BackCtrl_Pressed(ref bool isHandled)
+        private void HandleReset(ref bool isHandled)
         {
-            switch (CurrentButton.Type)
+            if (!(CanNavigate() && CurrentButton.Type == ButtonType.LR))
             {
-                case ButtonType.LR:
-                    SendCommand(CommandType.RESET);
-                    isHandled = true;
-                    return;
-                case ButtonType.MENU:
-                case ButtonType.NONE:
-                default:
-                    return;
+                return;
             }
-        }
-
-        private void Reset_Pressed(ref bool isHandled)
-        {
             SendCommand(CommandType.RESET);
             isHandled = true;
         }
@@ -60,135 +50,83 @@ namespace SpeedLR
                    .First().Index;
         }
 
-        private void Ctrl_Pressed(ref bool isHandled)
+        private void HandleMenuChange(ref bool isHandled)
         {
-            switch (CurrentButton.Type)
+            if (!(CanNavigate() && CurrentButton.Type == ButtonType.MENU))
             {
-                case ButtonType.MENU:
-                    SwitchToMenu(CurrentButton.Data);
-                    isHandled = true;
-                    return;
-                case ButtonType.NONE:
-                default:
-                    return;
+                return;
             }
+
+            SwitchToMenu(CurrentButton.Data);
+            isHandled = true;
         }
 
-        private void Up_Pressed(ref bool isHandled)
+        private void HandleArrowKeys(ref bool isHandled, DirectionType direction)
         {
             if (!CanNavigate())
             {
                 return;
             }
 
-            var nextSubmenu = (CurrentMenuIndex - 1 + _menus.Length) % _menus.Length;
-            ToggleButton(nextSubmenu, FindNextClosestButton(nextSubmenu));
+            var menuDelta = (direction == DirectionType.UP || direction == DirectionType.LEFT) ? -1 : 1;
+
+            switch (direction)
+            {
+                case DirectionType.RIGHT:
+                case DirectionType.LEFT:
+                    var menuIndex = CurrentMenuIndex % _menus.Length;
+                    ToggleButton(menuIndex, (CurrentButtonIndex + menuDelta + _menus[menuIndex].Length) % _menus[menuIndex].Length);
+                    break;
+                case DirectionType.UP:
+                case DirectionType.DOWN:
+                    var nextSubmenu = (CurrentMenuIndex + menuDelta + _menus.Length) % _menus.Length;
+                    ToggleButton(nextSubmenu, FindNextClosestButton(nextSubmenu));
+                    break;
+            }
+
             isHandled = true;
         }
 
-        private void UpCtrl_Pressed(ref bool isHandled)
+
+
+        private void HandleCtrlArrouKeys(ref bool isHandled, DirectionType direction)
         {
             if (!CanNavigate())
             {
                 return;
             }
 
-            SendCommand(CommandType.UP);
-            isHandled = true;
-            return;
-        }
-
-        private void Down_Pressed(ref bool isHandled)
-        {
-            if (!CanNavigate())
+            switch (direction)
             {
-                return;
+                case DirectionType.RIGHT:
+                case DirectionType.LEFT:
+                    var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
+                          .FirstOrDefault(x => x.Item.IsActive)?.Index ?? (direction == DirectionType.RIGHT ? -1 : 0);
+
+                    var stepDelta = (direction == DirectionType.RIGHT ? 1 : -1);
+
+                    var nextStep = (currentStep + stepDelta + _stepButtons.Length) % _stepButtons.Length;
+                    for (int i = 0; i < _stepButtons.Length; i++)
+                    {
+                        _stepButtons[i].IsActive = i == nextStep;
+                    }
+
+                    break;
+                case DirectionType.UP:
+                    SendCommand(CommandType.UP);
+                    break;
+                case DirectionType.DOWN:
+                    SendCommand(CommandType.DOWN);
+                    break;
             }
 
-            var nextSubmenu = (CurrentMenuIndex + 1) % _menus.Length;
-            ToggleButton(nextSubmenu, FindNextClosestButton(nextSubmenu));
-            isHandled = true;
-        }
 
-        private void DownCtrl_Pressed(ref bool isHandled)
-        {
-            if (!CanNavigate())
-            {
-                return;
-            }
-
-            SendCommand(CommandType.DOWN);
-            isHandled = true;
-            return;
-        }
-
-        private void Right_Pressed(ref bool isHandled)
-        {
-            if (!CanNavigate())
-            {
-                return;
-            }
-
-            var menuIndex = CurrentMenuIndex % _menus.Length;
-
-            ToggleButton(menuIndex, (CurrentButtonIndex + 1) % _menus[menuIndex].Length);
             isHandled = true;
         }
 
-        private void RightCtrl_Pressed(ref bool isHandled)
+        private void HandleGlobalScroll(ref bool isHandled, CommandType direction)
         {
-            if (!CanNavigate())
-            {
-                return;
-            }
-
-            var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
-                          .FirstOrDefault(x => x.Item.IsActive)?.Index ?? -1;
-
-            var nextStep = (currentStep + 1 + _stepButtons.Length) % _stepButtons.Length;
-            for (int i = 0; i < _stepButtons.Length; i++)
-            {
-                _stepButtons[i].IsActive = i == nextStep;
-            }
-            isHandled = true;
-            return;
-        }
-
-        private void Left_Pressed(ref bool isHandled)
-        {
-            if (!CanNavigate())
-            {
-                return;
-            }
-
-            var menuIndex = CurrentMenuIndex % _menus.Length;
-
-            ToggleButton(menuIndex, (CurrentButtonIndex - 1 + _menus[menuIndex].Length) % _menus[menuIndex].Length);
-            isHandled = true;
-        }
-
-        private void LeftCtrl_Pressed(ref bool isHandled)
-        {
-            if (!CanNavigate())
-            {
-                return;
-            }
-
-            var currentStep = _stepButtons.Select((item, i) => new { Item = item, Index = i })
-                .FirstOrDefault(x => x.Item.IsActive)?.Index ?? 0;
-
-            var nextStep = (currentStep - 1 + _stepButtons.Length) % _stepButtons.Length;
-            for (int i = 0; i < _stepButtons.Length; i++)
-            {
-                _stepButtons[i].IsActive = i == nextStep;
-            }
-            isHandled = true;
-            return;
-        }
-
-        private void HandleGlobalScrollUp(ref bool isHandled)
-        {
-            if (!_watcher.IsLightroomActive)
+            if (!(CanNavigate() && CurrentButton.Type == ButtonType.LR))
             {
                 return;
             }
@@ -196,22 +134,7 @@ namespace SpeedLR
             // This will be invoked on any upward scroll globally
             Dispatcher.Invoke(() =>
             {
-                SendCommand(CommandType.UP);
-            });
-            isHandled = true;
-        }
-
-        private void HandleGlobalScrollDown(ref bool isHandled)
-        {
-            if (!_watcher.IsLightroomActive)
-            {
-                return;
-            }
-
-            // This will be invoked on any downward scroll globally
-            Dispatcher.Invoke(() =>
-            {
-                SendCommand(CommandType.DOWN);
+                SendCommand(direction);
             });
             isHandled = true;
         }
