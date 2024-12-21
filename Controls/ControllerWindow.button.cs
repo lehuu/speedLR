@@ -49,17 +49,6 @@ namespace SpeedLR
                    .First().Index;
         }
 
-        private void HandleMenuChange(ref bool isHandled)
-        {
-            if (!(CanNavigate() && CurrentButton.Type == ButtonType.MENU))
-            {
-                return;
-            }
-
-            SwitchToMenu(CurrentButton.Data);
-            isHandled = true;
-        }
-
         private void HandleArrowKeys(ref bool isHandled, DirectionType direction)
         {
             if (!CanNavigate())
@@ -90,8 +79,16 @@ namespace SpeedLR
 
         private void HandleCtrlArrouKeys(ref bool isHandled, DirectionType direction)
         {
-            if (!CanNavigate())
+            if (!CanNavigate() && CurrentButton.Type == ButtonType.NONE)
             {
+                return;
+            }
+
+            isHandled = true;
+
+            if (CurrentButton.Type == ButtonType.MENU && (direction == DirectionType.DOWN || direction == DirectionType.UP))
+            {
+                SwitchToMenu(CurrentButton.Data);
                 return;
             }
 
@@ -120,7 +117,6 @@ namespace SpeedLR
             }
 
 
-            isHandled = true;
         }
 
         private void HandleGlobalScroll(ref bool isHandled, CommandType direction)

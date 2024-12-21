@@ -338,7 +338,7 @@ namespace SpeedLR
                 {
                     CreateHotkeyPress(Key.Escape, HandleClose),
                     CreateHotkeyPress(Key.Back, Key.LeftCtrl, HandleReset),
-                    CreateHotkeyPress(Key.LeftCtrl, HandleMenuChange),
+                    CreateHotkeyPress(Key.Down, Key.LeftCtrl, (ref bool isHandled) => HandleCtrlArrouKeys(ref isHandled, DirectionType.DOWN)),
                     CreateHotkeyPress(Key.Right, (ref bool isHandled) => HandleArrowKeys(ref isHandled, DirectionType.RIGHT)),
                     CreateHotkeyPress(Key.Left,  (ref bool isHandled) => HandleArrowKeys(ref isHandled, DirectionType.LEFT)),
                     CreateHotkeyPress(Key.Up, (ref bool isHandled) => HandleArrowKeys(ref isHandled, DirectionType.UP)),
