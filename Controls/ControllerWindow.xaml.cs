@@ -192,6 +192,9 @@ namespace SpeedLR
             int menuNumbers = distinctMenus.Count();
             var isConnected = Connector.Instance.Status == Connector.ConnectionStatus.CONNECTED;
 
+            var currentMenu = CurrentMenuIndex;
+            var currentButton = CurrentButtonIndex;
+
             _menus = new ControlButton[menuNumbers][];
             for (int i = 0; i < menuNumbers; i++)
             {
@@ -237,9 +240,18 @@ namespace SpeedLR
                 }
             }
 
-            ToggleButton(-1, -1);
-        }
+            if(currentMenu >= 0 && currentMenu < _menus.Length
+                && currentButton >= 0 && currentButton < _menus[currentMenu].Length)
+            {
+                ToggleButton(currentMenu, currentButton);
+            }
+            else
+            {
+                ToggleButton(-1, -1);
+            }
 
+        }
+        
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             WindowInteropHelper helper = new WindowInteropHelper(this);
