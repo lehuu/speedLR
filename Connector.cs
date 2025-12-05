@@ -87,14 +87,17 @@ namespace SpeedLR
                 CloseConnection();
                 Status = ConnectionStatus.CONNECTING;
                 await Task.Delay(1000);
-                IPHostEntry host = Dns.GetHostEntry(address);
-                IPAddress ipAddress = host.AddressList[0];
-                var endpoint = new IPEndPoint(ipAddress, port);
-
-                _clientSocket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
-                await _clientSocket.ConnectAsync(endpoint);
-            }
+				if (IPAddress.TryParse(address, out IPAddress ipAddress))
+				{
+					var endpoint = new IPEndPoint(ipAddress, port);
+					_clientSocket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+					await _clientSocket.ConnectAsync(endpoint);
+				}
+				else
+				{
+					throw new Exception($"Invalid IP address: {address}");
+				}
+			}
             catch (Exception ex)
             {
                 throw new Exception($"Error connecting to server: {ex.Message}");
