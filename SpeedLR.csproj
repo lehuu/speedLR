@@ -1,42 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-    <UseWindowsForms>True</UseWindowsForms>
-    <ApplicationIcon>wheel.ico</ApplicationIcon>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>True</UseWindowsForms>
+		<ApplicationIcon>wheel.ico</ApplicationIcon>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="wheel.ico" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="wheel.ico" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="AvailableCommands.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="MyMenus.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="SpeedLR.lrplugin\Info.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SpeedLR.lrplugin\shutdown.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SpeedLR.lrplugin\start.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SpeedLR.lrplugin\stop.lua">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="wheel.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="env">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="AvailableCommands.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="MyMenus.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="SpeedLR.lrplugin\Info.lua">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="SpeedLR.lrplugin\shutdown.lua">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="SpeedLR.lrplugin\start.lua">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="SpeedLR.lrplugin\stop.lua">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="wheel.ico">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

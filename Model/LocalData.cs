@@ -9,16 +9,20 @@ public class LocalData
 
     private string COMMAND_PATH = "AvailableCommands.json";
     private string MENU_PATH = "MyMenus.json";
+    private string ENV_PATH = "env";
     private string PORT_PATH = "Port.txt";
-    public AvailableCommands AvailableCommands { get; private set; }
+	public AvailableCommands AvailableCommands { get; private set; }
+    
+    public PluginEnvironment Environment { get; private set; }
 
     public AvailableMenus AvailableMenus { get; set; }
     public int Port { get; set; }
 
     private LocalData()
     {
+		Environment = LoadEnvironment();
         AvailableCommands = LoadAvailableCommands();
-        AvailableMenus = LoadAvailableMenus();
+		AvailableMenus = LoadAvailableMenus();
         Port = LoadPort();
     }
 
@@ -30,7 +34,26 @@ public class LocalData
         }
     }
 
-    private AvailableCommands LoadAvailableCommands()
+	private PluginEnvironment LoadEnvironment()
+	{
+		if (File.Exists(ENV_PATH))
+		{
+			string json = File.ReadAllText(ENV_PATH);
+			try
+			{
+                var x = JsonSerializer.Deserialize<PluginEnvironment>(json);
+				return JsonSerializer.Deserialize<PluginEnvironment>(json) ?? new PluginEnvironment();
+			}
+			catch (Exception ex)
+			{
+				ErrorLogger.LogError(ex);
+				return new PluginEnvironment();
+			}
+		}
+		return new PluginEnvironment();
+	}
+
+	private AvailableCommands LoadAvailableCommands()
     {
         if (File.Exists(COMMAND_PATH))
         {
