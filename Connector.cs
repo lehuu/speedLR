@@ -74,9 +74,11 @@ namespace SpeedLR
                 await SendCommandAsync("Test");
                 Status = ConnectionStatus.CONNECTED;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorLogger.LogError(ex);
                 Status = ConnectionStatus.DISCONNECTED;
+
             }
         }
 
@@ -100,7 +102,8 @@ namespace SpeedLR
 			}
             catch (Exception ex)
             {
-                throw new Exception($"Error connecting to server: {ex.Message}");
+				ErrorLogger.LogError(ex);
+				throw new Exception($"Error connecting to server: {ex.Message}");
             }
         }
 
@@ -121,7 +124,8 @@ namespace SpeedLR
                 }
                 catch (Exception ex)
                 {
-                    Status = ConnectionStatus.DISCONNECTED;
+					ErrorLogger.LogError(ex);
+					Status = ConnectionStatus.DISCONNECTED;
                 }
             }
         }
@@ -151,7 +155,8 @@ namespace SpeedLR
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error sending command: {ex.Message}");
+				ErrorLogger.LogError(ex);
+				throw new Exception($"Error sending command: {ex.Message}");
             }
         }
 

@@ -26,9 +26,9 @@ namespace SpeedLR
                 Application.Current.Shutdown();
             }
             else
-
             {
-                base.OnStartup(e);
+				ErrorLogger.Initialize();
+				base.OnStartup(e);
             }
         }
     }

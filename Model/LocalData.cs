@@ -1,6 +1,7 @@
-﻿using SpeedLR.Model;
+﻿using System.IO;
 using System.Text.Json;
-using System.IO;
+using SpeedLR;
+using SpeedLR.Model;
 
 public class LocalData
 {
@@ -38,9 +39,10 @@ public class LocalData
             {
                 return JsonSerializer.Deserialize<AvailableCommands>(json) ?? new AvailableCommands();
             }
-            catch
+            catch (Exception ex)
             {
-                return new AvailableCommands();
+				ErrorLogger.LogError(ex);
+				return new AvailableCommands();
             }
         }
         return new AvailableCommands();
@@ -55,9 +57,10 @@ public class LocalData
                 int result = int.Parse(File.ReadAllText(PORT_PATH));
                 return result;
             }
-            catch
+            catch (Exception ex)
             {
-                return 49000;
+				ErrorLogger.LogError(ex);
+				return 49000;
             }
         }
         return 49000;
@@ -72,9 +75,10 @@ public class LocalData
             {
                 return JsonSerializer.Deserialize<AvailableMenus>(json) ?? new AvailableMenus();
             }
-            catch
+            catch (Exception ex)
             {
-                return new AvailableMenus();
+				ErrorLogger.LogError(ex);
+				return new AvailableMenus();
             }
         }
         return new AvailableMenus();
@@ -88,7 +92,8 @@ public class LocalData
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error writing {PORT_PATH}: {ex.Message}");
+			ErrorLogger.LogError(ex);
+			Console.WriteLine($"Error writing {PORT_PATH}: {ex.Message}");
         }
     }
     public void SaveAvailableMenus()
@@ -100,7 +105,8 @@ public class LocalData
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error writing {MENU_PATH}: {ex.Message}");
+			ErrorLogger.LogError(ex);
+			Console.WriteLine($"Error writing {MENU_PATH}: {ex.Message}");
         }
     }
 

@@ -23,8 +23,9 @@ namespace SpeedLR
                     LocalData.Instance.Port = int.Parse(portTextBox.Text);
                     LocalData.Instance.SavePort();
                     Confirm?.Invoke(this, EventArgs.Empty);
-                } catch {
-                    System.Console.WriteLine($"Error parsing port: {portTextBox.Text}");
+                } catch (Exception ex) {
+					ErrorLogger.LogError(ex);
+					Console.WriteLine($"Error parsing port: {portTextBox.Text}");
                 }
             }
 
