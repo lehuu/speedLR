@@ -5,7 +5,7 @@ namespace SpeedLR.Controls
 {
     public class MenuControlButton : ControlButton
     {
-        public MenuControlButton(Menu menu): base(ExtractTooltipContent(menu))
+        public MenuControlButton(LegacyMenu menu): base(ExtractTooltipContent(menu))
         {
             Content = new string(menu.Name.Split(' ')
                                       .Where(word => !string.IsNullOrEmpty(word))
@@ -14,7 +14,7 @@ namespace SpeedLR.Controls
             MenuCommand = menu.Id;
         }
 
-        private static string ExtractTooltipContent(Menu menu)
+        private static string ExtractTooltipContent(LegacyMenu menu)
         {
             return $"Open {menu.Name}";
         }

@@ -2,9 +2,9 @@
 
 namespace SpeedLR.Model
 {
-    public class Menu
+    public class LegacyMenu
     {
-        public Menu(string name) { 
+        public LegacyMenu(string name) { 
             Name = name;
             Id = Guid.NewGuid().ToString();
         }

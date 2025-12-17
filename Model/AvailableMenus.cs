@@ -4,20 +4,20 @@ namespace SpeedLR.Model
 {
     public class AvailableMenus
     {
-        private List<Menu> _menus = new List<Menu>();
+        private List<LegacyMenu> _menus = new List<LegacyMenu>();
 
         [JsonPropertyName("defaultMenu")]
         public string DefaultMenu { get; set; }
 
         [JsonPropertyName("menus")]
-        public List<Menu> Menus
+        public List<LegacyMenu> Menus
         {
             get
             {
                 if (_menus == null || _menus.Count == 0)
                 {
-                    var defaultMenu = new Model.Menu("Start");
-                    _menus = new List<Menu>() { defaultMenu };
+                    var defaultMenu = new Model.LegacyMenu("Start");
+                    _menus = new List<LegacyMenu>() { defaultMenu };
                     DefaultMenu = defaultMenu.Id;
                 }
 
@@ -29,7 +29,7 @@ namespace SpeedLR.Model
             }
         }
 
-        public void UpdateMenu(Menu menu)
+        public void UpdateMenu(LegacyMenu menu)
         {
             var existingMenuIndex = Menus.FindIndex(item => item.Id == menu.Id);
 

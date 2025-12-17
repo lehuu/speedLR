@@ -66,8 +66,8 @@ namespace SpeedLR.Controls
             }
         }
 
-        private Model.Menu? _submenu;
-        public Model.Menu? Submenu
+        private Model.LegacyMenu? _submenu;
+        public Model.LegacyMenu? Submenu
         {
             get
             {

@@ -478,7 +478,7 @@ namespace SpeedLR
         private void MenuAddButton_Click(object sender, RoutedEventArgs e)
         {
             var menuName = $"Menu_{LocalData.Instance.AvailableMenus.Menus.Count}";
-            var newMenu = new Model.Menu(menuName);
+            var newMenu = new Model.LegacyMenu(menuName);
             LocalData.Instance.AvailableMenus.UpdateMenu(newMenu);
             LocalData.Instance.SaveAvailableMenus();
             SwitchToMenu(newMenu.Id);
