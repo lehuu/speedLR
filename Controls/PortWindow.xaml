@@ -5,9 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpeedLR"
         mc:Ignorable="d"
-        Title="PortWindow" Height="120" Width="200">
-    <Grid VerticalAlignment="Top" Margin="10">
-        <TextBox x:Name="portTextBox" TextWrapping="Wrap" Height="20"/>
-        <Button x:Name="confirmButton" Content="OK" Margin="0,25,0,-25" Click="ConfirmButton_Click"/>
-    </Grid>
+        SizeToContent="Height"
+        Title="PortWindow" Width="200">
+    <StackPanel VerticalAlignment="Top" Margin="10">
+		<TextBox x:Name="portTextBox" 
+         Height="20" 
+         TextWrapping="Wrap" />
+
+		<Separator Opacity="0" />
+		<Button x:Name="confirmButton" IsDefault="True" Content="OK" Click="ConfirmButton_Click">
+			<Button.Style>
+				<Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+					<Setter Property="IsEnabled" Value="True" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding Text.Length, ElementName=portTextBox}" Value="0">
+							<Setter Property="IsEnabled" Value="False" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Button.Style>
+		</Button>
+		<Separator Opacity="0" />
+		<Button Content="Cancel" IsCancel="True" />
+	</StackPanel>
 </Window>

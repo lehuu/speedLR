@@ -16,7 +16,6 @@ namespace SpeedLR
 
 		private ControllerWindow _controller;
 		private LowLevelHotkey _hotkeyHook;
-		private PortWindow? _portWindow;
 		private ActiveWindowWatcher _watcher = new ActiveWindowWatcher();
 
 
@@ -202,22 +201,18 @@ namespace SpeedLR
 
 		private void PortButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (_portWindow != null)
+			PortWindow portWindow = new PortWindow
 			{
-				_portWindow.Close();
-				_portWindow = null;
-			}
-
-			_portWindow = new PortWindow();
-			_portWindow.Left = Left;
-			_portWindow.Top = Top;
-			_portWindow.Confirm += (s, args) =>
-			{
-				Connector.Instance.CloseConnection();
-				ConnectToServer();
+				Owner = this, // Keeps the window centered over the main app
+				WindowStartupLocation = WindowStartupLocation.CenterOwner
 			};
 
-			_portWindow.Show();
+			if (portWindow.ShowDialog() == true)
+			{
+				// This only runs if DialogResult was set to true
+				Connector.Instance.CloseConnection();
+				ConnectToServer();
+			}
 		}
 
 		private void ExitMenuItem_Click(object sender, EventArgs e)

@@ -8,7 +8,6 @@ namespace SpeedLR
     /// </summary>
     public partial class PortWindow : Window
     {
-        public EventHandler Confirm;
         public PortWindow()
         {
             InitializeComponent();
@@ -23,14 +22,17 @@ namespace SpeedLR
                 {
                     LocalData.Instance.Port = int.Parse(portTextBox.Text);
                     LocalData.Instance.SavePort();
-                    Confirm?.Invoke(this, EventArgs.Empty);
-                } catch (Exception ex) {
+					this.DialogResult = true;
+				}
+				catch (Exception ex) {
 					ErrorLogger.LogError(ex);
 					Console.WriteLine($"Error parsing port: {portTextBox.Text}");
                 }
-            }
-
-            Close();
-        }
-    }
+			}
+            else
+            {
+				this.DialogResult = false;
+			}
+		}
+	}
 }
