@@ -1,6 +1,4 @@
-﻿using SpeedLR.Model;
-
-namespace SpeedLR
+﻿namespace SpeedLR.Model
 {
     public static class ColorData
     {

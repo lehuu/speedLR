@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using SpeedLR.Utils;
 
 namespace SpeedLR
 {

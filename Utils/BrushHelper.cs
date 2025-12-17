@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media;
 using Color = System.Windows.Media.Color;
 
-namespace SpeedLR
+namespace SpeedLR.Utils
 {
     internal static class BrushHelper
     {

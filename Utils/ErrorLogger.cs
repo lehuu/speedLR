@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace SpeedLR
+namespace SpeedLR.Utils
 {
 	public static class ErrorLogger
 	{

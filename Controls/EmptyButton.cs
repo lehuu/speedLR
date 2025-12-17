@@ -4,6 +4,7 @@ using Brushes = System.Windows.Media.Brushes;
 using System.Windows.Controls;
 using SpeedLR.Model;
 using System.Windows.Media;
+using SpeedLR.Utils;
 
 namespace SpeedLR.Controls
 {

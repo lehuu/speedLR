@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using SpeedLR.Utils;
 
 namespace SpeedLR.Model
 {

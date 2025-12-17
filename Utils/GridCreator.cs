@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows;
 
-namespace SpeedLR
+namespace SpeedLR.Utils
 {
     public class GridCreator
     {

@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using System.Text;
 using Timer = System.Timers.Timer;
 
-namespace SpeedLR
+namespace SpeedLR.Utils
 {
     public class Connector
     {
