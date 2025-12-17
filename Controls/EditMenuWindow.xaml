@@ -1,0 +1,28 @@
+﻿<Window x:Class="SpeedLR.EditMenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpeedLR"
+        mc:Ignorable="d"
+        SizeToContent="Height"
+        Title="Menu" Width="200">
+    <StackPanel VerticalAlignment="Top" Margin="10">
+        <TextBox x:Name="nameTextBox" TextWrapping="Wrap" Height="20"/>
+		<Separator Opacity="0" />
+		<Button x:Name="confirmButton" IsDefault="True" Content="OK" Click="ConfirmButton_Click">
+			<Button.Style>
+				<Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+					<Setter Property="IsEnabled" Value="True" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding Text.Length, ElementName=nameTextBox}" Value="0">
+							<Setter Property="IsEnabled" Value="False" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Button.Style>
+		</Button>
+		<Separator Opacity="0" />
+		<Button Content="Cancel" IsCancel="True" />
+	</StackPanel>
+</Window>

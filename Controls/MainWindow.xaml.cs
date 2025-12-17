@@ -243,11 +243,20 @@ namespace SpeedLR
 		{
 			if (this.DataContext is MainViewModel viewModal)
 			{
-				var menuName = $"Menu_{viewModal.UserMenus.Count}";
-				var newMenu = new Model.Menu(menuName);
-				LocalData.Instance.UpdateUserMenu(newMenu);
-				LocalData.Instance.SaveUserMenus();
-				SwitchToMenu(viewModal.UserMenus.Count - 1);
+				EditMenuWindow dialog = new EditMenuWindow()
+				{
+					Owner = this,
+					WindowStartupLocation = WindowStartupLocation.CenterOwner,
+				};
+
+				if (dialog.ShowDialog() == true)
+				{
+					var menuName = dialog.ResultName;
+					var newMenu = new Model.Menu(menuName);
+					LocalData.Instance.UpdateUserMenu(newMenu);
+					LocalData.Instance.SaveUserMenus();
+					SwitchToMenu(viewModal.UserMenus.Count - 1);
+				}
 			}
 		}
 
@@ -260,6 +269,24 @@ namespace SpeedLR
 					LocalData.Instance.UserMenus.Remove(viewModal.SelectedMenu);
 					LocalData.Instance.SaveUserMenus();
 					SwitchToMenu(0);
+				}
+			}
+		}
+
+		private void EditMenu_Click(object sender, RoutedEventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal)
+			{
+				EditMenuWindow dialog = new EditMenuWindow(viewModal.SelectedMenu.Name)
+				{
+					Owner = this,
+					WindowStartupLocation = WindowStartupLocation.CenterOwner,
+				};
+
+				if (dialog.ShowDialog() == true)
+				{
+					viewModal.SelectedMenu.Name = dialog.ResultName;
+					LocalData.Instance.SaveUserMenus();
 				}
 			}
 		}

@@ -75,7 +75,6 @@
 
 		<Separator Height="4" Opacity="0"/>
 
-
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
@@ -89,9 +88,11 @@
 			<ComboBox Margin="4,0" Grid.Column="1" Width="120" Height="20" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
 
 			<StackPanel HorizontalAlignment="Left" Grid.Column="2" Orientation="Horizontal">
-				<Button FontSize="8" HorizontalAlignment="Left" Content="🗑" Width="20" Height="20" Click="DeleteMenu_Click" />
+				<Button ToolTip="Edit" FontSize="12" HorizontalAlignment="Left" Content="🖉" Width="20" Height="20" Click="EditMenu_Click" />
 				<Separator Width="4" Opacity="0"/>
-				<Button HorizontalAlignment="Left" FontSize="15" Content="+" Width="20" Height="20" Click="AddMenu_Click" />
+				<Button ToolTip="Delete" FontSize="8" HorizontalAlignment="Left" Content="🗑" Width="20" Height="20" Click="DeleteMenu_Click" />
+				<Separator Width="4" Opacity="0"/>
+				<Button ToolTip="Add" HorizontalAlignment="Left" FontSize="15" Content="+" Width="20" Height="20" Click="AddMenu_Click" />
 			</StackPanel>
 		</Grid>
 
