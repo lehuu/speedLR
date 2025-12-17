@@ -41,7 +41,6 @@ namespace SpeedLR
 				}
 
 				viewModal.SelectedMenu = viewModal.UserMenus[menuIndex];
-
 			}
 
 		}
@@ -254,7 +253,7 @@ namespace SpeedLR
 					var newMenu = new Model.Menu(menuName, viewModal.UserMenus.Count - 1);
 					viewModal.UserMenus.Add(newMenu);
 					viewModal.SaveMenus();
-					SwitchToMenu(viewModal.UserMenus.Count);
+					viewModal.SelectedMenu = newMenu;
 				}
 			}
 		}
