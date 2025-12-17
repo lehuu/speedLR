@@ -474,18 +474,21 @@ namespace SpeedLR
 			};
 			contextMenu.Items.Add(createItem);
 
-			MenuItem deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
-			deleteItem.Click += (s, args) =>
-			{
-				var indexToDelete = LocalData.Instance.UserMenus.Menus.FindIndex(m => m.Id == _currentMenuId);
-				if (indexToDelete != -1)
+            if(LocalData.Instance.UserMenus.Menus.Count > 0)
+            {
+				MenuItem deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
+				deleteItem.Click += (s, args) =>
 				{
-					LocalData.Instance.UserMenus.Menus.RemoveAt(indexToDelete);
-					LocalData.Instance.SaveUserMenus();
-					SwitchToMenu(0);
-				}
-			};
-			contextMenu.Items.Add(deleteItem);
+					var indexToDelete = LocalData.Instance.UserMenus.Menus.FindIndex(m => m.Id == _currentMenuId);
+					if (indexToDelete != -1)
+					{
+						LocalData.Instance.UserMenus.Menus.RemoveAt(indexToDelete);
+						LocalData.Instance.SaveUserMenus();
+						SwitchToMenu(0);
+					}
+				};
+				contextMenu.Items.Add(deleteItem);
+			}
 
 			contextMenu.PlacementTarget = menuDropdown;
             contextMenu.IsOpen = true;
