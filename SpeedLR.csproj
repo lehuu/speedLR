@@ -22,7 +22,10 @@
 		<None Update="AvailableCommands.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="MyMenus.json">
+		<None Update="LegacyMenus.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="UserMenus.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="SpeedLR.lrplugin\Info.lua">

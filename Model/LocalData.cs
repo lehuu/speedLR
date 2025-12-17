@@ -8,6 +8,7 @@ public interface ILocalData
 	AvailableCommands AvailableCommands { get; }
 	PluginEnvironment Environment { get; }
 	AvailableMenus AvailableMenus { get; set; }
+	UserMenus UserMenus { get; set; }
 	int Port { get; set; }
 
 	void SavePort();
@@ -18,7 +19,8 @@ public sealed class LocalData : ILocalData
 {
 	// Use private static fields for configuration constants
 	private const string CommandPath = "AvailableCommands.json";
-	private const string MenuPath = "MyMenus.json";
+	private const string LegacyMenuPath = "LegacyMenus.json";
+	private const string MenuPath = "UserMenus.json";
 	private const string EnvPath = "env";
 	private const string PortPath = "Port.txt";
 	private const int DefaultPort = 49000;
@@ -46,7 +48,8 @@ public sealed class LocalData : ILocalData
 		// Load all data upon instantiation
 		Environment = LoadDataFromFile<PluginEnvironment>(EnvPath, new PluginEnvironment());
 		AvailableCommands = LoadDataFromFile<AvailableCommands>(CommandPath, new AvailableCommands());
-		AvailableMenus = LoadDataFromFile<AvailableMenus>(MenuPath, new AvailableMenus());
+		AvailableMenus = LoadDataFromFile<AvailableMenus>(LegacyMenuPath, new AvailableMenus());
+		UserMenus = LoadDataFromFile<UserMenus>(MenuPath, new UserMenus());
 		Port = LoadPort();
 	}
 
@@ -55,6 +58,7 @@ public sealed class LocalData : ILocalData
 	public AvailableCommands AvailableCommands { get; }
 	public PluginEnvironment Environment { get; }
 	public AvailableMenus AvailableMenus { get; set; }
+	public UserMenus UserMenus { get; set; }
 	public int Port { get; set; }
 
 	// --- Private Loading Logic (Generic) ---
@@ -127,7 +131,7 @@ public sealed class LocalData : ILocalData
 	public void SaveAvailableMenus()
 	{
 		// Use a generic save helper to reduce duplication, if more save methods were needed.
-		SaveDataToFile(MenuPath, AvailableMenus);
+		SaveDataToFile(LegacyMenuPath, AvailableMenus);
 	}
 
 	// --- Private Saving Logic (Generic) ---
