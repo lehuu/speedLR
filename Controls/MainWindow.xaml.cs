@@ -452,12 +452,28 @@ namespace SpeedLR
             {
                 MenuItem menuItem = new MenuItem { Header = m.Name };
 
+                if (m.Id == _currentMenuId)
+                {
+                    menuItem.FontWeight = FontWeights.Bold;
+                }
+
                 menuItem.Click += (s, args) =>
                 {
                     SwitchToMenu(m.Id);
                 };
                 contextMenu.Items.Add(menuItem);
             });
+
+			MenuItem createItem = new MenuItem { Header = "Create", Background = Brushes.DarkSeaGreen };
+			createItem.Click += (s, args) =>
+			{
+				var menuName = $"Menu_{LocalData.Instance.AvailableMenus.Menus.Count}";
+				var newMenu = new Model.LegacyMenu(menuName);
+				LocalData.Instance.AvailableMenus.UpdateMenu(newMenu);
+				LocalData.Instance.SaveAvailableMenus();
+				SwitchToMenu(newMenu.Id);
+			};
+			contextMenu.Items.Add(createItem);
 
 			MenuItem deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
 			deleteItem.Click += (s, args) =>
@@ -470,20 +486,11 @@ namespace SpeedLR
 					SwitchToMenu(0);
 				}
 			};
-
 			contextMenu.Items.Add(deleteItem);
 
 			contextMenu.PlacementTarget = menuDropdown;
             contextMenu.IsOpen = true;
         }
 
-        private void MenuAddButton_Click(object sender, RoutedEventArgs e)
-        {
-            var menuName = $"Menu_{LocalData.Instance.AvailableMenus.Menus.Count}";
-            var newMenu = new Model.LegacyMenu(menuName);
-            LocalData.Instance.AvailableMenus.UpdateMenu(newMenu);
-            LocalData.Instance.SaveAvailableMenus();
-            SwitchToMenu(newMenu.Id);
-        }
     }
 }

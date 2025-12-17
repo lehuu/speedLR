@@ -72,8 +72,6 @@
 
 			<StackPanel HorizontalAlignment="Left" Grid.Column="2" Orientation="Horizontal">
 				<Button x:Name="menuDropdown" HorizontalAlignment="Left" Content="⯆" Width="20" Height="20" Click="MenuDropdown_Click" />
-				<Separator Width="4" Opacity="0"/>
-				<Button x:Name="menuAddButton" HorizontalAlignment="Left" Content="+" Width="20" Height="20" Click="MenuAddButton_Click" />
 			</StackPanel>
 		</Grid>
 
