@@ -8,7 +8,7 @@ public interface ILocalData
 	AvailableCommands AvailableCommands { get; }
 	PluginEnvironment Environment { get; }
 	AvailableMenus AvailableMenus { get; set; }
-	UserMenus UserMenus { get; set; }
+	List<Menu> UserMenus { get; set; }
 	int Port { get; set; }
 
 	void SavePort();
@@ -49,7 +49,7 @@ public sealed class LocalData : ILocalData
 		Environment = LoadDataFromFile<PluginEnvironment>(EnvPath, new PluginEnvironment());
 		AvailableCommands = LoadDataFromFile<AvailableCommands>(CommandPath, new AvailableCommands());
 		AvailableMenus = LoadDataFromFile<AvailableMenus>(LegacyMenuPath, new AvailableMenus());
-		UserMenus = LoadDataFromFile<UserMenus>(MenuPath, new UserMenus());
+		UserMenus = LoadDataFromFile<List<Menu>>(MenuPath, new List<Menu>());
 		Port = LoadPort();
 	}
 
@@ -58,7 +58,8 @@ public sealed class LocalData : ILocalData
 	public AvailableCommands AvailableCommands { get; }
 	public PluginEnvironment Environment { get; }
 	public AvailableMenus AvailableMenus { get; set; }
-	public UserMenus UserMenus { get; set; }
+	public List<Menu> UserMenus { get; set; }
+
 	public int Port { get; set; }
 
 	// --- Private Loading Logic (Generic) ---
@@ -132,6 +133,20 @@ public sealed class LocalData : ILocalData
 	{
 		// Use a generic save helper to reduce duplication, if more save methods were needed.
 		SaveDataToFile(MenuPath, UserMenus);
+	}
+
+	public void UpdateUserMenu(Menu menu)
+	{
+		var existingMenuIndex = UserMenus.FindIndex(item => item.Id == menu.Id);
+
+		if (existingMenuIndex != -1)
+		{
+			UserMenus[existingMenuIndex] = menu;
+		}
+		else
+		{
+			UserMenus.Add(menu);
+		}
 	}
 
 	// --- Private Saving Logic (Generic) ---

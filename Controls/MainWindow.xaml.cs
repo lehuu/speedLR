@@ -39,12 +39,12 @@ namespace SpeedLR
         private void SwitchToMenu(int menuIndex)
         {
             _isSwitching = true;
-            if (menuIndex < 0 || menuIndex >= LocalData.Instance.UserMenus.Menus.Count)
+            if (menuIndex < 0 || menuIndex >= LocalData.Instance.UserMenus.Count)
             {
                 return;
             }
 
-            var selectedMenu = LocalData.Instance.UserMenus.Menus[menuIndex];
+            var selectedMenu = LocalData.Instance.UserMenus[menuIndex];
             _currentMenuId = selectedMenu.Id;
 
             menuTextbox.Text = selectedMenu.Name;
@@ -223,7 +223,7 @@ namespace SpeedLR
 
         private void SwitchToMenu(string menuId)
         {
-            var index = LocalData.Instance.UserMenus.Menus.FindIndex(m => m.Id == menuId);
+            var index = LocalData.Instance.UserMenus.FindIndex(m => m.Id == menuId);
 
             if (index == -1)
             {
@@ -407,7 +407,7 @@ namespace SpeedLR
 
         private void TextBoxChanged(object sender, EventArgs e)
         {
-            var item = LocalData.Instance.UserMenus.Menus.FirstOrDefault(m => m.Id == _currentMenuId);
+            var item = LocalData.Instance.UserMenus.FirstOrDefault(m => m.Id == _currentMenuId);
 
             if (item == null || item.Name == menuTextbox.Text)
             {
@@ -415,7 +415,7 @@ namespace SpeedLR
             }
 
             item.Name = menuTextbox.Text;
-            LocalData.Instance.UserMenus.UpdateMenu(item);
+            LocalData.Instance.UpdateUserMenu(item);
             LocalData.Instance.SaveUserMenus();
         }
 
@@ -447,7 +447,7 @@ namespace SpeedLR
         {
             ContextMenu contextMenu = new ContextMenu();
 
-            LocalData.Instance.UserMenus.Menus.ForEach(m =>
+            LocalData.Instance.UserMenus.ForEach(m =>
             {
                 MenuItem menuItem = new MenuItem { Header = m.Name };
 
@@ -466,23 +466,23 @@ namespace SpeedLR
 			MenuItem createItem = new MenuItem { Header = "Create", Background = Brushes.DarkSeaGreen };
 			createItem.Click += (s, args) =>
 			{
-				var menuName = $"Menu_{LocalData.Instance.UserMenus.Menus.Count}";
+				var menuName = $"Menu_{LocalData.Instance.UserMenus.Count}";
 				var newMenu = new Model.Menu(menuName);
-				LocalData.Instance.UserMenus.UpdateMenu(newMenu);
-				LocalData.Instance.SaveUserMenus();
+				LocalData.Instance.UpdateUserMenu(newMenu);
+                LocalData.Instance.SaveUserMenus();
 				SwitchToMenu(newMenu.Id);
 			};
 			contextMenu.Items.Add(createItem);
 
-            if(LocalData.Instance.UserMenus.Menus.Count > 0)
+            if(LocalData.Instance.UserMenus.Count > 0)
             {
 				MenuItem deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
 				deleteItem.Click += (s, args) =>
 				{
-					var indexToDelete = LocalData.Instance.UserMenus.Menus.FindIndex(m => m.Id == _currentMenuId);
+					var indexToDelete = LocalData.Instance.UserMenus.FindIndex(m => m.Id == _currentMenuId);
 					if (indexToDelete != -1)
 					{
-						LocalData.Instance.UserMenus.Menus.RemoveAt(indexToDelete);
+						LocalData.Instance.UserMenus.RemoveAt(indexToDelete);
 						LocalData.Instance.SaveUserMenus();
 						SwitchToMenu(0);
 					}
