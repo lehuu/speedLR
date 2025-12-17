@@ -8,48 +8,78 @@
         mc:Ignorable="d"
         ShowActivated="False"
         Focusable="False"
-        Title="SpeedLr" Height="450" Width="400
+        Title="SpeedLr" Height="350" Width="400
         " ResizeMode="NoResize">
 
-    <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
+	<Window.Resources>
+		<Style TargetType="Button">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border Background="{TemplateBinding Background}" 
                                 CornerRadius="15"
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="0">
-                            <ContentPresenter HorizontalAlignment="Center" 
+							<ContentPresenter HorizontalAlignment="Center" 
                                               VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Window.Resources>
 
-    <Grid Margin="0,0,0,2">
-        <Button x:Name="connectButton" Content="Reconnect..." HorizontalAlignment="Left" Height="20" Margin="10,10,0,0" VerticalAlignment="Top" Width="125" Click="ConnectButton_Click"/>
-        <Button x:Name="portButton" Content="Port:" HorizontalAlignment="Left" Height="20" Margin="140,10,0,0" VerticalAlignment="Top" Width="125" Click="PortButton_Click"/>
+	<StackPanel Margin="4">
+		<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+			<Button x:Name="connectButton" Content="Reconnect..." Height="20" VerticalAlignment="Top" Width="125" Click="ConnectButton_Click"/>
+			<Separator Width="4" Opacity="0"/>
+			<Button x:Name="portButton" Content="Port:" Height="20" VerticalAlignment="Top" Width="125" Click="PortButton_Click"/>
+		</StackPanel>
 
-        <local:DebouncedTextBox x:Name="menuTextbox" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Text="TextBox" Width="120" Height="20" Margin="10,35,0,0"/>
-        <Button x:Name="menuDropdown" HorizontalAlignment="Left" VerticalAlignment="Top"  Content="⯆" Width="20" Height="20" Margin="135,35,0,0" Click="MenuDropdown_Click" />
-        <Button x:Name="menuDeleteButton" HorizontalAlignment="Left" VerticalAlignment="Top"  Content="🗑" Width="20" Height="20" Margin="160,35,0,0" Click="MenuDeleteButton_Click" />
-        <Button x:Name="menuAddButton" HorizontalAlignment="Left" VerticalAlignment="Top"  Content="+" Width="20" Height="20" Margin="185,35,0,0" Click="MenuAddButton_Click" />
+		<Separator Height="4" Opacity="0"/>
 
-        <Grid Width="400" Height="300" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <Button Opacity="0.5" IsEnabled="False" Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="30" Margin="0,10,0,0"/>
-            <Button Opacity="0.5" IsEnabled="False" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="165,45,0,0"/>
-            <Button Opacity="0.5" IsEnabled="False" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" VerticalAlignment="Top" Width="20" Margin="0,45,0,0"/>
-            <Button Opacity="0.5" IsEnabled="False" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="215,45,0,0">
-                <TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">+<LineBreak/>++</TextBlock>
-            </Button>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button Opacity="0.5" IsEnabled="False" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" />
+			<Separator Width="10" Opacity="0"/>
+			<Button Opacity="0.5" IsEnabled="False" Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="30"/>
+			<Separator Width="10" Opacity="0"/>
+			<Button Opacity="0.5" IsEnabled="False" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" />
+		</StackPanel>
+		<Separator Height="4" Opacity="0"/>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button Opacity="0.5" IsEnabled="False" Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" Width="20"/>
+			<Separator Width="5" Opacity="0"/>
+			<Button Opacity="0.5" IsEnabled="False" Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" Width="20" />
+			<Separator Width="5" Opacity="0"/>
+			<Button Opacity="0.5" IsEnabled="False" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" Width="20" >
+				<TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">+<LineBreak/>++</TextBlock>
+			</Button>
+		</StackPanel>
 
-            <Button Opacity="0.5" IsEnabled="False" Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="155,10,0,0"/>
-            <Button Opacity="0.5" IsEnabled="False" Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" Margin="225,10,0,0"/>
-            <Grid x:Name="buttonGrid" Width="400" Height="210" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-        </Grid>
-        <CheckBox x:Name="defaultCheckBox" Content="StartMenu" HorizontalAlignment="Left" Margin="210,37,0,0" VerticalAlignment="Top" Checked="DefaultCheckBox_Checked"/>
-    </Grid>
+		<Separator Height="4" Opacity="0"/>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+				<Button x:Name="menuDeleteButton" HorizontalAlignment="Left" Content="🗑" Width="20" Height="20" Click="MenuDeleteButton_Click" />
+			</StackPanel>
+
+			<local:DebouncedTextBox Margin="4,0" Grid.Column="1" HorizontalAlignment="Center" x:Name="menuTextbox" TextAlignment="Center" TextWrapping="Wrap" Text="TextBox" Width="120" Height="20"/>
+
+			<StackPanel HorizontalAlignment="Left" Grid.Column="2" Orientation="Horizontal">
+				<Button x:Name="menuDropdown" HorizontalAlignment="Left" Content="⯆" Width="20" Height="20" Click="MenuDropdown_Click" />
+				<Separator Width="4" Opacity="0"/>
+				<Button x:Name="menuAddButton" HorizontalAlignment="Left" Content="+" Width="20" Height="20" Click="MenuAddButton_Click" />
+			</StackPanel>
+		</Grid>
+
+		<Separator Height="4" Opacity="0"/>
+
+		<Grid x:Name="buttonGrid" Width="400" Height="210" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+	</StackPanel>
 </Window>

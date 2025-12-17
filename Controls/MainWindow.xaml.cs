@@ -48,7 +48,6 @@ namespace SpeedLR
             var selectedMenu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
             _currentMenuId = selectedMenu.Id;
 
-            defaultCheckBox.IsChecked = LocalData.Instance.AvailableMenus.DefaultMenu == selectedMenu.Id;
             menuTextbox.Text = selectedMenu.Name;
 
             if (_menuButtons == null)
@@ -483,17 +482,6 @@ namespace SpeedLR
             LocalData.Instance.AvailableMenus.UpdateMenu(newMenu);
             LocalData.Instance.SaveAvailableMenus();
             SwitchToMenu(newMenu.Id);
-        }
-
-        private void DefaultCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            if (_isSwitching)
-            {
-                return;
-            }
-
-            LocalData.Instance.AvailableMenus.DefaultMenu = (defaultCheckBox.IsChecked.HasValue && defaultCheckBox.IsChecked.Value) ? _currentMenuId : "";
-            LocalData.Instance.SaveAvailableMenus();
         }
     }
 }
