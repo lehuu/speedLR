@@ -8,11 +8,12 @@ namespace SpeedLR.Model
 	{
 		private string _name;
 		private int _position;
-		public Menu(string name)
+
+		public Menu(string name, int position)
 		{
 			Name = name;
 			Id = Guid.NewGuid().ToString();
-			Position = 0;
+			Position = position;
 		}
 
 		[JsonPropertyName("id")]

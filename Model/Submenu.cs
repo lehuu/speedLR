@@ -2,7 +2,7 @@
 {
 	public class Submenu : Menu
 	{
-		public Submenu(string name) : base(name)
+		public Submenu(string name, int position) : base(name, position)
 		{
 
 		}

@@ -10,7 +10,12 @@ namespace SpeedLR.Controls
 		private Menu _selectedMenu;
 
 		// The list of items for the ComboBox
-		public ObservableCollection<Menu> UserMenus => LocalData.Instance.UserMenus;
+		public ObservableCollection<Menu> UserMenus { get; set; }
+
+		public MainViewModel()
+		{
+			UserMenus = new ObservableCollection<Menu>(LocalData.Instance.UserMenus);
+		}
 
 		// The property bound to the selected item
 		public Menu SelectedMenu
@@ -26,6 +31,12 @@ namespace SpeedLR.Controls
 			}
 		}
 
+		public void SaveMenus()
+		{
+			LocalData.Instance.UserMenus = UserMenus.OrderBy(m => m.Position).ToList();
+			LocalData.Instance.SaveUserMenus();
+		}
+
 		public void MoveSelectedMenu(bool moveUp)
 		{
 			if (SelectedMenu == null) return;
@@ -38,7 +49,7 @@ namespace SpeedLR.Controls
 			UserMenus.Move(oldIndex, newIndex);
 
 			UpdatePositionProperties();
-			LocalData.Instance.SaveUserMenus();
+			SaveMenus();
 		}
 
 		private void UpdatePositionProperties()

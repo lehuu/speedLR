@@ -252,10 +252,10 @@ namespace SpeedLR
 				if (dialog.ShowDialog() == true)
 				{
 					var menuName = dialog.ResultName;
-					var newMenu = new Model.Menu(menuName);
-					LocalData.Instance.UpdateUserMenu(newMenu);
-					LocalData.Instance.SaveUserMenus();
-					SwitchToMenu(viewModal.UserMenus.Count - 1);
+					var newMenu = new Model.Menu(menuName, viewModal.UserMenus.Count - 1);
+					viewModal.UserMenus.Add(newMenu);
+					viewModal.SaveMenus();
+					SwitchToMenu(viewModal.UserMenus.Count);
 				}
 			}
 		}
@@ -266,8 +266,8 @@ namespace SpeedLR
 			{
 				if (viewModal.SelectedMenu != null)
 				{
-					LocalData.Instance.UserMenus.Remove(viewModal.SelectedMenu);
-					LocalData.Instance.SaveUserMenus();
+					viewModal.UserMenus.Remove(viewModal.SelectedMenu);
+					viewModal.SaveMenus();
 					SwitchToMenu(0);
 				}
 			}
@@ -286,7 +286,7 @@ namespace SpeedLR
 				if (dialog.ShowDialog() == true)
 				{
 					viewModal.SelectedMenu.Name = dialog.ResultName;
-					LocalData.Instance.SaveUserMenus();
+					viewModal.SaveMenus();
 				}
 			}
 		}
