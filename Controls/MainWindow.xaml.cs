@@ -244,43 +244,29 @@ namespace SpeedLR
 			_hotkeyHook.Dispose();
 		}
 
-		private void MenuDropdown_Click(object sender, RoutedEventArgs e)
+		private void AddMenu_Click(object sender, RoutedEventArgs e)
 		{
 			if (this.DataContext is MainViewModel viewModal)
 			{
-				ContextMenu contextMenu = new ContextMenu();
-
-				MenuItem createItem = new MenuItem { Header = "Create", Background = Brushes.DarkSeaGreen };
-				createItem.Click += (s, args) =>
-				{
-					var menuName = $"Menu_{viewModal.UserMenus.Count}";
-					var newMenu = new Model.Menu(menuName);
-					LocalData.Instance.UpdateUserMenu(newMenu);
-					LocalData.Instance.SaveUserMenus();
-					SwitchToMenu(viewModal.UserMenus.Count - 1);
-				};
-				contextMenu.Items.Add(createItem);
-
-				if (viewModal.UserMenus.Count > 0)
-				{
-					MenuItem deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
-					deleteItem.Click += (s, args) =>
-					{
-						if (viewModal.SelectedMenu != null)
-						{
-							LocalData.Instance.UserMenus.Remove(viewModal.SelectedMenu);
-							LocalData.Instance.SaveUserMenus();
-							SwitchToMenu(0);
-						}
-					};
-					contextMenu.Items.Add(deleteItem);
-				}
-
-				contextMenu.PlacementTarget = menuDropdown;
-				contextMenu.IsOpen = true;
+				var menuName = $"Menu_{viewModal.UserMenus.Count}";
+				var newMenu = new Model.Menu(menuName);
+				LocalData.Instance.UpdateUserMenu(newMenu);
+				LocalData.Instance.SaveUserMenus();
+				SwitchToMenu(viewModal.UserMenus.Count - 1);
 			}
-
 		}
 
+		private void DeleteMenu_Click(object sender, RoutedEventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal)
+			{
+				if (viewModal.SelectedMenu != null)
+				{
+					LocalData.Instance.UserMenus.Remove(viewModal.SelectedMenu);
+					LocalData.Instance.SaveUserMenus();
+					SwitchToMenu(0);
+				}
+			}
+		}
 	}
 }
