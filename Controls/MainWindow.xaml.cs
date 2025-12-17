@@ -27,8 +27,7 @@ namespace SpeedLR
         public MainWindow()
         {
             InitializeComponent();
-            var startMenuIndex = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == LocalData.Instance.AvailableMenus.DefaultMenu);
-            SwitchToMenu(startMenuIndex == -1 ? 0 : startMenuIndex);
+            SwitchToMenu(0);
 
             Loaded += (s, e) =>
             {
@@ -40,191 +39,191 @@ namespace SpeedLR
         private void SwitchToMenu(int menuIndex)
         {
             _isSwitching = true;
-            if (menuIndex < 0 || menuIndex >= LocalData.Instance.AvailableMenus.Menus.Count)
+            if (menuIndex < 0 || menuIndex >= LocalData.Instance.UserMenus.Menus.Count)
             {
                 return;
             }
 
-            var selectedMenu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
+            var selectedMenu = LocalData.Instance.UserMenus.Menus[menuIndex];
             _currentMenuId = selectedMenu.Id;
 
             menuTextbox.Text = selectedMenu.Name;
 
-            if (_menuButtons == null)
-            {
-                _menuButtons = new EmptyButton[GridCreator.MAX_ROWS, GridCreator.MAX_COLS];
-                for (int i = 0; i < GridCreator.MAX_ROWS; i++)
-                {
-                    for (int j = 0; j < GridCreator.MAX_COLS; j++)
-                    {
-                        var currentRow = i;
-                        var currentCol = j;
+            //if (_menuButtons == null)
+            //{
+            //    _menuButtons = new EmptyButton[GridCreator.MAX_ROWS, GridCreator.MAX_COLS];
+            //    for (int i = 0; i < GridCreator.MAX_ROWS; i++)
+            //    {
+            //        for (int j = 0; j < GridCreator.MAX_COLS; j++)
+            //        {
+            //            var currentRow = i;
+            //            var currentCol = j;
 
-                        EmptyButton button = new EmptyButton();
-                        button.Margin = GridCreator.Create(buttonGrid, currentCol, currentRow);
-                        _menuButtons[currentRow, currentCol] = button;
+            //            EmptyButton button = new EmptyButton();
+            //            button.Margin = GridCreator.Create(buttonGrid, currentCol, currentRow);
+            //            _menuButtons[currentRow, currentCol] = button;
 
-                        buttonGrid.Children.Add(button);
-                    }
-                }
-            }
+            //            buttonGrid.Children.Add(button);
+            //        }
+            //    }
+            //}
 
-            for (int i = 0; i < GridCreator.MAX_ROWS; i++)
-            {
-                for (int j = 0; j < GridCreator.MAX_COLS; j++)
-                {
-                    var currentRow = i;
-                    var currentCol = j;
+            //for (int i = 0; i < GridCreator.MAX_ROWS; i++)
+            //{
+            //    for (int j = 0; j < GridCreator.MAX_COLS; j++)
+            //    {
+            //        var currentRow = i;
+            //        var currentCol = j;
 
-                    EmptyButton button = _menuButtons[currentRow, currentCol];
-                    button.ResetEventsHandlers();
+            //        EmptyButton button = _menuButtons[currentRow, currentCol];
+            //        button.ResetEventsHandlers();
 
-                    button.MenuItemClick += (s, args) =>
-                    {
-                        var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
-                        var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
+            //        button.MenuItemClick += (s, args) =>
+            //        {
+            //            var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
+            //            var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
 
-                        var backgroundColor = ColorData.DEFAULT_BACKGROUND;
-                        var fontColor = ColorData.DEFAULT_FONT;
+            //            var backgroundColor = ColorData.DEFAULT_BACKGROUND;
+            //            var fontColor = ColorData.DEFAULT_FONT;
 
-                        if (existingIndex.HasValue && existingIndex.Value != -1)
-                        {
-                            backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
-                            fontColor = menu?.Buttons[existingIndex.Value].FontColor;
-                            menu?.Buttons.RemoveAt(existingIndex.Value);
-                        }
-                        menu?.Buttons.Add(new CommandButton(args.Value, currentRow, currentCol, backgroundColor, fontColor));
+            //            if (existingIndex.HasValue && existingIndex.Value != -1)
+            //            {
+            //                backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
+            //                fontColor = menu?.Buttons[existingIndex.Value].FontColor;
+            //                menu?.Buttons.RemoveAt(existingIndex.Value);
+            //            }
+            //            menu?.Buttons.Add(new CommandButton(args.Value, currentRow, currentCol, backgroundColor, fontColor));
 
-                        if (menu != null)
-                        {
-                            LocalData.Instance.AvailableMenus.UpdateMenu(menu);
-                            LocalData.Instance.SaveAvailableMenus();
-                        }
-                    };
+            //            if (menu != null)
+            //            {
+            //                LocalData.Instance.AvailableMenus.UpdateMenu(menu);
+            //                LocalData.Instance.SaveAvailableMenus();
+            //            }
+            //        };
 
-                    button.ClearClick += (s, args) =>
-                    {
-                        var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
-                        var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
-                        if (existingIndex.HasValue && existingIndex.Value != -1 && menu != null)
-                        {
-                            menu.Buttons.RemoveAt(existingIndex.Value);
-                            LocalData.Instance.AvailableMenus.UpdateMenu(menu);
-                            LocalData.Instance.SaveAvailableMenus();
-                        }
-                    };
+            //        button.ClearClick += (s, args) =>
+            //        {
+            //            var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
+            //            var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
+            //            if (existingIndex.HasValue && existingIndex.Value != -1 && menu != null)
+            //            {
+            //                menu.Buttons.RemoveAt(existingIndex.Value);
+            //                LocalData.Instance.AvailableMenus.UpdateMenu(menu);
+            //                LocalData.Instance.SaveAvailableMenus();
+            //            }
+            //        };
 
-                    button.SubmenuItemClick += (s, args) =>
-                    {
-                        var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
-                        var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
+            //        button.SubmenuItemClick += (s, args) =>
+            //        {
+            //            var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
+            //            var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
 
-                        var backgroundColor = ColorData.DEFAULT_BACKGROUND;
-                        var fontColor = ColorData.DEFAULT_FONT;
+            //            var backgroundColor = ColorData.DEFAULT_BACKGROUND;
+            //            var fontColor = ColorData.DEFAULT_FONT;
 
-                        if (existingIndex.HasValue && existingIndex.Value != -1)
-                        {
-                            backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
-                            fontColor = menu?.Buttons[existingIndex.Value].FontColor;
-                            menu?.Buttons.RemoveAt(existingIndex.Value);
-                        }
-                        menu?.Buttons.Add(new MenuButton(args, currentRow, currentCol, backgroundColor, fontColor));
+            //            if (existingIndex.HasValue && existingIndex.Value != -1)
+            //            {
+            //                backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
+            //                fontColor = menu?.Buttons[existingIndex.Value].FontColor;
+            //                menu?.Buttons.RemoveAt(existingIndex.Value);
+            //            }
+            //            menu?.Buttons.Add(new MenuButton(args, currentRow, currentCol, backgroundColor, fontColor));
 
-                        if (menu != null)
-                        {
-                            LocalData.Instance.AvailableMenus.UpdateMenu(menu);
-                            LocalData.Instance.SaveAvailableMenus();
-                        }
-                    };
+            //            if (menu != null)
+            //            {
+            //                LocalData.Instance.AvailableMenus.UpdateMenu(menu);
+            //                LocalData.Instance.SaveAvailableMenus();
+            //            }
+            //        };
 
-                    button.ColorItemClick += (s, args) =>
-                    {
-                        var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
-                        var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
+            //        button.ColorItemClick += (s, args) =>
+            //        {
+            //            var menu = LocalData.Instance.AvailableMenus.Menus[menuIndex];
+            //            var existingIndex = menu?.Buttons.FindIndex(item => item.Row == currentRow && item.Col == currentCol);
 
-                        var backgroundColor = ColorData.DEFAULT_BACKGROUND;
-                        var fontColor = ColorData.DEFAULT_FONT;
-                        Model.Command command = null;
-                        string submenu = "";
-                        bool isCommandButton = true;
+            //            var backgroundColor = ColorData.DEFAULT_BACKGROUND;
+            //            var fontColor = ColorData.DEFAULT_FONT;
+            //            Model.Command command = null;
+            //            string submenu = "";
+            //            bool isCommandButton = true;
 
-                        if (existingIndex.HasValue && existingIndex.Value != -1)
-                        {
-                            var existingButton = menu?.Buttons[existingIndex.Value];
+            //            if (existingIndex.HasValue && existingIndex.Value != -1)
+            //            {
+            //                var existingButton = menu?.Buttons[existingIndex.Value];
 
-                            if (existingButton is CommandButton castCommandButton)
-                            {
-                                command = castCommandButton.Command;
-                            }
-                            else if (existingButton is MenuButton castMenuButton)
-                            {
-                                submenu = castMenuButton.Submenu;
-                                isCommandButton = false;
-                            }
-                            backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
-                            fontColor = menu?.Buttons[existingIndex.Value].FontColor;
-                            menu?.Buttons.RemoveAt(existingIndex.Value);
-                        }
+            //                if (existingButton is CommandButton castCommandButton)
+            //                {
+            //                    command = castCommandButton.Command;
+            //                }
+            //                else if (existingButton is MenuButton castMenuButton)
+            //                {
+            //                    submenu = castMenuButton.Submenu;
+            //                    isCommandButton = false;
+            //                }
+            //                backgroundColor = menu?.Buttons[existingIndex.Value].BackgroundColor;
+            //                fontColor = menu?.Buttons[existingIndex.Value].FontColor;
+            //                menu?.Buttons.RemoveAt(existingIndex.Value);
+            //            }
 
-                        switch (args.Type)
-                        {
-                            case EmptyButton.ColorType.Background:
-                                backgroundColor = args.Value;
-                                break;
-                            case EmptyButton.ColorType.Font:
-                                fontColor = args.Value;
-                                break;
-                        }
+            //            switch (args.Type)
+            //            {
+            //                case EmptyButton.ColorType.Background:
+            //                    backgroundColor = args.Value;
+            //                    break;
+            //                case EmptyButton.ColorType.Font:
+            //                    fontColor = args.Value;
+            //                    break;
+            //            }
 
-                        if (isCommandButton)
-                        {
-                            menu?.Buttons.Add(new CommandButton(command, currentRow, currentCol, backgroundColor, fontColor));
-                        }
-                        else
-                        {
-                            menu?.Buttons.Add(new MenuButton(submenu, currentRow, currentCol, backgroundColor, fontColor));
-                        }
+            //            if (isCommandButton)
+            //            {
+            //                menu?.Buttons.Add(new CommandButton(command, currentRow, currentCol, backgroundColor, fontColor));
+            //            }
+            //            else
+            //            {
+            //                menu?.Buttons.Add(new MenuButton(submenu, currentRow, currentCol, backgroundColor, fontColor));
+            //            }
 
-                        if (menu != null)
-                        {
-                            LocalData.Instance.AvailableMenus.UpdateMenu(menu);
-                            LocalData.Instance.SaveAvailableMenus();
-                        }
-                    };
+            //            if (menu != null)
+            //            {
+            //                LocalData.Instance.AvailableMenus.UpdateMenu(menu);
+            //                LocalData.Instance.SaveAvailableMenus();
+            //            }
+            //        };
 
-                    var existingButton = selectedMenu.Buttons.FirstOrDefault(item => item.Row == currentRow && item.Col == currentCol);
-                    if (existingButton != null)
-                    {
-                        if (existingButton is CommandButton castCommandButton)
-                        {
-                            button.Command = castCommandButton.Command;
-                        }
-                        else if (existingButton is MenuButton castMenuButton)
-                        {
-                            var submenuId = castMenuButton.Submenu;
-                            var existingSubmenu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Id == submenuId);
-                            if (existingSubmenu != null)
-                            {
-                                button.Submenu = existingSubmenu;
-                            }
-                        }
-                        button.Background = BrushHelper.GetBrushFromHex(existingButton.BackgroundColor);
-                        button.Foreground = BrushHelper.GetBrushFromHex(existingButton.FontColor);
-                    }
-                    else
-                    {
-                        button.Command = null;
-                        button.Background = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_BACKGROUND);
-                        button.Foreground = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_FONT);
-                    }
-                }
-            }
+            //        var existingButton = selectedMenu.Buttons.FirstOrDefault(item => item.Row == currentRow && item.Col == currentCol);
+            //        if (existingButton != null)
+            //        {
+            //            if (existingButton is CommandButton castCommandButton)
+            //            {
+            //                button.Command = castCommandButton.Command;
+            //            }
+            //            else if (existingButton is MenuButton castMenuButton)
+            //            {
+            //                var submenuId = castMenuButton.Submenu;
+            //                var existingSubmenu = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(item => item.Id == submenuId);
+            //                if (existingSubmenu != null)
+            //                {
+            //                    button.Submenu = existingSubmenu;
+            //                }
+            //            }
+            //            button.Background = BrushHelper.GetBrushFromHex(existingButton.BackgroundColor);
+            //            button.Foreground = BrushHelper.GetBrushFromHex(existingButton.FontColor);
+            //        }
+            //        else
+            //        {
+            //            button.Command = null;
+            //            button.Background = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_BACKGROUND);
+            //            button.Foreground = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_FONT);
+            //        }
+            //    }
+            //}
             _isSwitching = false;
         }
 
         private void SwitchToMenu(string menuId)
         {
-            var index = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == menuId);
+            var index = LocalData.Instance.UserMenus.Menus.FindIndex(m => m.Id == menuId);
 
             if (index == -1)
             {
@@ -408,7 +407,7 @@ namespace SpeedLR
 
         private void TextBoxChanged(object sender, EventArgs e)
         {
-            var item = LocalData.Instance.AvailableMenus.Menus.FirstOrDefault(m => m.Id == _currentMenuId);
+            var item = LocalData.Instance.UserMenus.Menus.FirstOrDefault(m => m.Id == _currentMenuId);
 
             if (item == null || item.Name == menuTextbox.Text)
             {
@@ -416,8 +415,8 @@ namespace SpeedLR
             }
 
             item.Name = menuTextbox.Text;
-            LocalData.Instance.AvailableMenus.UpdateMenu(item);
-            LocalData.Instance.SaveAvailableMenus();
+            LocalData.Instance.UserMenus.UpdateMenu(item);
+            LocalData.Instance.SaveUserMenus();
         }
 
         private void ExitMenuItem_Click(object sender, EventArgs e)
@@ -448,7 +447,7 @@ namespace SpeedLR
         {
             ContextMenu contextMenu = new ContextMenu();
 
-            LocalData.Instance.AvailableMenus.Menus.ForEach(m =>
+            LocalData.Instance.UserMenus.Menus.ForEach(m =>
             {
                 MenuItem menuItem = new MenuItem { Header = m.Name };
 
@@ -467,10 +466,10 @@ namespace SpeedLR
 			MenuItem createItem = new MenuItem { Header = "Create", Background = Brushes.DarkSeaGreen };
 			createItem.Click += (s, args) =>
 			{
-				var menuName = $"Menu_{LocalData.Instance.AvailableMenus.Menus.Count}";
-				var newMenu = new Model.LegacyMenu(menuName);
-				LocalData.Instance.AvailableMenus.UpdateMenu(newMenu);
-				LocalData.Instance.SaveAvailableMenus();
+				var menuName = $"Menu_{LocalData.Instance.UserMenus.Menus.Count}";
+				var newMenu = new Model.Menu(menuName);
+				LocalData.Instance.UserMenus.UpdateMenu(newMenu);
+				LocalData.Instance.SaveUserMenus();
 				SwitchToMenu(newMenu.Id);
 			};
 			contextMenu.Items.Add(createItem);
@@ -478,11 +477,11 @@ namespace SpeedLR
 			MenuItem deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
 			deleteItem.Click += (s, args) =>
 			{
-				var indexToDelete = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == _currentMenuId);
+				var indexToDelete = LocalData.Instance.UserMenus.Menus.FindIndex(m => m.Id == _currentMenuId);
 				if (indexToDelete != -1)
 				{
-					LocalData.Instance.AvailableMenus.Menus.RemoveAt(indexToDelete);
-					LocalData.Instance.SaveAvailableMenus();
+					LocalData.Instance.UserMenus.Menus.RemoveAt(indexToDelete);
+					LocalData.Instance.SaveUserMenus();
 					SwitchToMenu(0);
 				}
 			};

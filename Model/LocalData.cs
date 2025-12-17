@@ -12,7 +12,7 @@ public interface ILocalData
 	int Port { get; set; }
 
 	void SavePort();
-	void SaveAvailableMenus();
+	void SaveUserMenus();
 }
 
 public sealed class LocalData : ILocalData
@@ -128,10 +128,10 @@ public sealed class LocalData : ILocalData
 		}
 	}
 
-	public void SaveAvailableMenus()
+	public void SaveUserMenus()
 	{
 		// Use a generic save helper to reduce duplication, if more save methods were needed.
-		SaveDataToFile(LegacyMenuPath, AvailableMenus);
+		SaveDataToFile(MenuPath, UserMenus);
 	}
 
 	// --- Private Saving Logic (Generic) ---
