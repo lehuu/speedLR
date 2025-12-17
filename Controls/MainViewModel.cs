@@ -7,7 +7,7 @@ namespace SpeedLR.Controls
 {
     public class MainViewModel: INotifyPropertyChanged
 	{
-		private Menu _selectedMenu;
+		private Menu? _selectedMenu;
 
 		// The list of items for the ComboBox
 		public ObservableCollection<Menu> UserMenus { get; set; }
@@ -18,7 +18,7 @@ namespace SpeedLR.Controls
 		}
 
 		// The property bound to the selected item
-		public Menu SelectedMenu
+		public Menu? SelectedMenu
 		{
 			get => _selectedMenu;
 			set
@@ -60,7 +60,7 @@ namespace SpeedLR.Controls
 			}
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 		protected void OnPropertyChanged([CallerMemberName] string name = null)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using SpeedLR.Controls;
@@ -12,10 +11,10 @@ namespace SpeedLR
 {
 	public partial class MainWindow : Window
 	{
-		private NotifyIcon _notifyIcon;
+		private NotifyIcon? _notifyIcon;
 
-		private ControllerWindow _controller;
-		private LowLevelHotkey _hotkeyHook;
+		private ControllerWindow? _controller;
+		private LowLevelHotkey? _hotkeyHook;
 		private ActiveWindowWatcher _watcher = new ActiveWindowWatcher();
 
 
@@ -218,7 +217,7 @@ namespace SpeedLR
 		private void ExitMenuItem_Click(object sender, EventArgs e)
 		{
 			// Close the application
-			_notifyIcon.Dispose(); // Release the notify icon resource
+			_notifyIcon?.Dispose(); // Release the notify icon resource
 			Application.Current.Shutdown();
 		}
 
@@ -236,7 +235,7 @@ namespace SpeedLR
 		protected override void OnClosed(EventArgs e)
 		{
 			Connector.Instance.CloseConnection();
-			_hotkeyHook.Dispose();
+			_hotkeyHook?.Dispose();
 		}
 
 		private void AddMenu_Click(object sender, RoutedEventArgs e)
@@ -275,7 +274,7 @@ namespace SpeedLR
 
 		private void EditMenu_Click(object sender, RoutedEventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal)
+			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedMenu != null)
 			{
 				EditMenuWindow dialog = new EditMenuWindow(viewModal.SelectedMenu.Name)
 				{
