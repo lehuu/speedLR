@@ -260,7 +260,7 @@ local makingReceiver = false
 local function getPortFromFile()
     local thePort = defaultReceivePort
     local pluginFolderPath = LrPathUtils.parent(_PLUGIN.path)
-    local portPath = LrPathUtils.child(pluginFolderPath, "Port.txt")
+    local portPath = LrPathUtils.child(pluginFolderPath, "port")
     if LrFileUtils.exists(portPath) then
         thePort = LrFileUtils.readFile(portPath)
     end

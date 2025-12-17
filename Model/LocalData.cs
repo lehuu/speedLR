@@ -22,7 +22,7 @@ public sealed class LocalData : ILocalData
 	private const string LegacyMenuPath = "LegacyMenus.json";
 	private const string MenuPath = "UserMenus.json";
 	private const string EnvPath = "env";
-	private const string PortPath = "Port.txt";
+	private const string PortPath = "port";
 	private const int DefaultPort = 49000;
 
 	// Standard JsonSerializerOptions, making it easier to manage settings
