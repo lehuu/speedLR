@@ -26,6 +26,29 @@ namespace SpeedLR.Controls
 			}
 		}
 
+		public void MoveSelectedMenu(bool moveUp)
+		{
+			if (SelectedMenu == null) return;
+
+			int oldIndex = UserMenus.IndexOf(SelectedMenu);
+			int newIndex = moveUp ? oldIndex - 1 : oldIndex + 1;
+
+			if (newIndex < 0 || newIndex >= UserMenus.Count) return;
+
+			UserMenus.Move(oldIndex, newIndex);
+
+			UpdatePositionProperties();
+			LocalData.Instance.SaveUserMenus();
+		}
+
+		private void UpdatePositionProperties()
+		{
+			for (int i = 0; i < UserMenus.Count; i++)
+			{
+				UserMenus[i].Position = i;
+			}
+		}
+
 		public event PropertyChangedEventHandler PropertyChanged;
 		protected void OnPropertyChanged([CallerMemberName] string name = null)
 		{

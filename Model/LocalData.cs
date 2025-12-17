@@ -55,7 +55,7 @@ public sealed class LocalData : ILocalData, INotifyPropertyChanged
 		Environment = LoadDataFromFile<PluginEnvironment>(EnvPath, new PluginEnvironment());
 		AvailableCommands = LoadDataFromFile<AvailableCommands>(CommandPath, new AvailableCommands());
 		AvailableMenus = LoadDataFromFile<AvailableMenus>(LegacyMenuPath, new AvailableMenus());
-		var menus = LoadDataFromFile<List<Menu>>(MenuPath, new List<Menu>());
+		var menus = LoadDataFromFile<List<Menu>>(MenuPath, new List<Menu>()).OrderBy(m => m.Position);
 		UserMenus = new ObservableCollection<Menu>(menus);
 
 		Port = LoadPort();

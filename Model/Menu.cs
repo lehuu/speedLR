@@ -7,6 +7,7 @@ namespace SpeedLR.Model
 	public class Menu: INotifyPropertyChanged
 	{
 		private string _name;
+		private int _position;
 		public Menu(string name)
 		{
 			Name = name;
@@ -32,7 +33,18 @@ namespace SpeedLR.Model
 		}
 
 		[JsonPropertyName("position")]
-		public int Position { get; set; }
+		public int Position
+		{
+			get => _position;
+			set
+			{
+				if (_position != value)
+				{
+					_position = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

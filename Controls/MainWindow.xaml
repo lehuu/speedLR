@@ -83,6 +83,9 @@
 			</Grid.ColumnDefinitions>
 
 			<StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
+				<Button ToolTip="Move Up" FontSize="12" HorizontalAlignment="Left" Content="⇑" Width="20" Height="20" Click="MoveUp_Click" />
+				<Separator Width="4" Opacity="0"/>
+				<Button ToolTip="Move Down" FontSize="12" HorizontalAlignment="Left" Content="⇓" Width="20" Height="20" Click="MoveDown_Click" />
 			</StackPanel>
 
 			<ComboBox Margin="4,0" Grid.Column="1" Width="120" Height="20" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />

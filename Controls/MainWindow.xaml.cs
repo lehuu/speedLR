@@ -290,5 +290,20 @@ namespace SpeedLR
 				}
 			}
 		}
+
+		private void MoveUp_Click(object sender, RoutedEventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal)
+			{
+				viewModal.MoveSelectedMenu(true);
+			}
+		}
+		private void MoveDown_Click(object sender, RoutedEventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal)
+			{
+				viewModal.MoveSelectedMenu(false);
+			}
+		}
 	}
 }
