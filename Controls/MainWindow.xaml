@@ -11,6 +11,10 @@
         Title="SpeedLr" Height="350" Width="400
         " ResizeMode="NoResize">
 
+	<Window.DataContext>
+		<local:MainViewModel />
+	</Window.DataContext>
+
 	<Window.Resources>
 		<Style TargetType="Button">
 			<Setter Property="Template">
@@ -58,6 +62,7 @@
 
 		<Separator Height="4" Opacity="0"/>
 
+
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
@@ -68,7 +73,7 @@
 			<StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
 			</StackPanel>
 
-			<local:DebouncedTextBox Margin="4,0" Grid.Column="1" HorizontalAlignment="Center" x:Name="menuTextbox" TextAlignment="Center" TextWrapping="Wrap" Text="TextBox" Width="120" Height="20"/>
+			<ComboBox Margin="4,0" Grid.Column="1" Width="120" Height="20" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
 
 			<StackPanel HorizontalAlignment="Left" Grid.Column="2" Orientation="Horizontal">
 				<Button x:Name="menuDropdown" HorizontalAlignment="Left" Content="⯆" Width="20" Height="20" Click="MenuDropdown_Click" />

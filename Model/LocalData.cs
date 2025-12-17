@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using SpeedLR.Model;
@@ -8,15 +10,19 @@ public interface ILocalData
 	AvailableCommands AvailableCommands { get; }
 	PluginEnvironment Environment { get; }
 	AvailableMenus AvailableMenus { get; set; }
-	List<Menu> UserMenus { get; set; }
+	ObservableCollection<Menu> UserMenus { get; set; }
 	int Port { get; set; }
 
 	void SavePort();
 	void SaveUserMenus();
 }
 
-public sealed class LocalData : ILocalData
+public sealed class LocalData : ILocalData, INotifyPropertyChanged
 {
+	public event PropertyChangedEventHandler? PropertyChanged;
+	private void OnPropertyChanged(string name) =>
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
 	// Use private static fields for configuration constants
 	private const string CommandPath = "AvailableCommands.json";
 	private const string LegacyMenuPath = "LegacyMenus.json";
@@ -49,7 +55,9 @@ public sealed class LocalData : ILocalData
 		Environment = LoadDataFromFile<PluginEnvironment>(EnvPath, new PluginEnvironment());
 		AvailableCommands = LoadDataFromFile<AvailableCommands>(CommandPath, new AvailableCommands());
 		AvailableMenus = LoadDataFromFile<AvailableMenus>(LegacyMenuPath, new AvailableMenus());
-		UserMenus = LoadDataFromFile<List<Menu>>(MenuPath, new List<Menu>());
+		var menus = LoadDataFromFile<List<Menu>>(MenuPath, new List<Menu>());
+		UserMenus = new ObservableCollection<Menu>(menus);
+
 		Port = LoadPort();
 	}
 
@@ -58,7 +66,19 @@ public sealed class LocalData : ILocalData
 	public AvailableCommands AvailableCommands { get; }
 	public PluginEnvironment Environment { get; }
 	public AvailableMenus AvailableMenus { get; set; }
-	public List<Menu> UserMenus { get; set; }
+
+	private ObservableCollection<Menu> _userMenus;
+	public ObservableCollection<Menu> UserMenus
+	{
+		get => _userMenus;
+		set
+		{
+			if (_userMenus == value) return;
+			_userMenus = value;
+			OnPropertyChanged(nameof(UserMenus));
+		}
+	}
+
 
 	public int Port { get; set; }
 
@@ -137,14 +157,18 @@ public sealed class LocalData : ILocalData
 
 	public void UpdateUserMenu(Menu menu)
 	{
-		var existingMenuIndex = UserMenus.FindIndex(item => item.Id == menu.Id);
+		var existingMenuIndex = UserMenus
+			.Select((item, index) => new { item, index })
+			.FirstOrDefault(x => x.item.Id == menu.Id)?.index ?? -1;
 
 		if (existingMenuIndex != -1)
 		{
+			// Replace item: triggers CollectionChanged(Replace)
 			UserMenus[existingMenuIndex] = menu;
 		}
 		else
 		{
+			// Add item: triggers CollectionChanged(Add)
 			UserMenus.Add(menu);
 		}
 	}
