@@ -459,20 +459,22 @@ namespace SpeedLR
                 contextMenu.Items.Add(menuItem);
             });
 
-            contextMenu.PlacementTarget = menuDropdown;
+			MenuItem deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
+			deleteItem.Click += (s, args) =>
+			{
+				var indexToDelete = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == _currentMenuId);
+				if (indexToDelete != -1)
+				{
+					LocalData.Instance.AvailableMenus.Menus.RemoveAt(indexToDelete);
+					LocalData.Instance.SaveAvailableMenus();
+					SwitchToMenu(0);
+				}
+			};
+
+			contextMenu.Items.Add(deleteItem);
+
+			contextMenu.PlacementTarget = menuDropdown;
             contextMenu.IsOpen = true;
-        }
-
-        private void MenuDeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            var indexToDelete = LocalData.Instance.AvailableMenus.Menus.FindIndex(m => m.Id == _currentMenuId);
-
-            if (indexToDelete != -1)
-            {
-                LocalData.Instance.AvailableMenus.Menus.RemoveAt(indexToDelete);
-                LocalData.Instance.SaveAvailableMenus();
-                SwitchToMenu(0);
-            }
         }
 
         private void MenuAddButton_Click(object sender, RoutedEventArgs e)

@@ -66,7 +66,6 @@
 			</Grid.ColumnDefinitions>
 
 			<StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button x:Name="menuDeleteButton" HorizontalAlignment="Left" Content="🗑" Width="20" Height="20" Click="MenuDeleteButton_Click" />
 			</StackPanel>
 
 			<local:DebouncedTextBox Margin="4,0" Grid.Column="1" HorizontalAlignment="Center" x:Name="menuTextbox" TextAlignment="Center" TextWrapping="Wrap" Text="TextBox" Width="120" Height="20"/>
