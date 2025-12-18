@@ -17,22 +17,26 @@
 	</Window.DataContext>
 
 	<Window.Resources>
+		<utils:ObjectToVisibilityConverter x:Key="ObjectToVis" />
 		<utils:EqualityConverter x:Key="EqualityConverter" />
+		<utils:ObjectToBoolConverter x:Key="BoolConverter" />
 		<Style TargetType="Button">
 			<Setter Property="Background" Value="#DDDDDD"/>
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="Button">
-						<Border x:Name="MainBorder" 
-                        Background="{TemplateBinding Background}" 
-                        CornerRadius="15"
-                        BorderBrush="{TemplateBinding BorderBrush}" 
-                        BorderThickness="0">
-							<ContentPresenter HorizontalAlignment="Center" 
-                                      VerticalAlignment="Center"/>
+						<Border x:Name="MainBorder"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="15"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0"
+                            Opacity="1">
+							<ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
 						</Border>
 
 						<ControlTemplate.Triggers>
+							<!-- Normal hover/press behavior -->
 							<Trigger Property="IsMouseOver" Value="True">
 								<Setter TargetName="MainBorder" Property="Background" Value="#BBBBBB"/>
 								<Setter Property="Cursor" Value="Hand"/>
@@ -40,6 +44,13 @@
 
 							<Trigger Property="IsPressed" Value="True">
 								<Setter TargetName="MainBorder" Property="Background" Value="#999999"/>
+							</Trigger>
+
+							<!-- Disabled: lower opacity and neutral background, no hover cursor -->
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter TargetName="MainBorder" Property="Opacity" Value="0.4"/>
+								<Setter TargetName="MainBorder" Property="Background" Value="#DDDDDD"/>
+								<Setter Property="Cursor" Value="Arrow"/>
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
@@ -85,96 +96,99 @@
 			</Grid.ColumnDefinitions>
 
 			<StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button ToolTip="Move Up" FontSize="12" HorizontalAlignment="Left" Content="⇑" Width="20" Height="20" Click="MoveUp_Click" />
+				<Button ToolTip="Move Up" FontSize="12" HorizontalAlignment="Left" Content="⇑" Width="20" Height="20" Click="MoveUp_Click" IsEnabled="{Binding SelectedMenu, Converter={StaticResource BoolConverter}}" />
 				<Separator Width="4" Opacity="0"/>
-				<Button ToolTip="Move Down" FontSize="12" HorizontalAlignment="Left" Content="⇓" Width="20" Height="20" Click="MoveDown_Click" />
+				<Button ToolTip="Move Down" FontSize="12" HorizontalAlignment="Left" Content="⇓" Width="20" Height="20" Click="MoveDown_Click" IsEnabled="{Binding SelectedMenu, Converter={StaticResource BoolConverter}}" />
 			</StackPanel>
 
 			<ComboBox Margin="4,0" Grid.Column="1" Width="120" Height="20" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
 
 			<StackPanel HorizontalAlignment="Left" Grid.Column="2" Orientation="Horizontal">
-				<Button ToolTip="Edit" FontSize="12" HorizontalAlignment="Left" Content="🖉" Width="20" Height="20" Click="EditMenu_Click" />
+				<Button ToolTip="Edit" FontSize="12" HorizontalAlignment="Left" Content="🖉" Width="20" Height="20" Click="EditMenu_Click" IsEnabled="{Binding SelectedMenu, Converter={StaticResource BoolConverter}}" />
 				<Separator Width="4" Opacity="0"/>
-				<Button ToolTip="Delete" FontSize="8" HorizontalAlignment="Left" Content="🗑" Width="20" Height="20" Click="DeleteMenu_Click" />
+				<Button ToolTip="Delete" FontSize="8" HorizontalAlignment="Left" Content="🗑" Width="20" Height="20" Click="DeleteMenu_Click" IsEnabled="{Binding SelectedMenu, Converter={StaticResource BoolConverter}}" />
 				<Separator Width="4" Opacity="0"/>
 				<Button ToolTip="Add" HorizontalAlignment="Left" FontSize="15" Content="+" Width="20" Height="20" Click="AddMenu_Click" />
 			</StackPanel>
 		</Grid>
 
-		<Separator Height="4" Opacity="0"/>
+		<StackPanel >
+			<StackPanel.Visibility>
+				<Binding Path="SelectedMenu" Converter="{StaticResource ObjectToVis}" />
+			</StackPanel.Visibility>
 
-		<ItemsControl ItemsSource="{Binding SelectedMenu.Submenus}">
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Center" />
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
+			<Separator Height="4" Opacity="0"/>
+			<ItemsControl ItemsSource="{Binding SelectedMenu.Submenus}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Center" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
 
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<local:SubmenuCreatorButton
-					MoveItemClick="SubmenuMove_Click"
-					DeleteClick="SubmenuDelete_Click"
-					EditClick="SubmenuEdit_Click"
-					ColorItemClick="SubmenuColor_Click"
-                    Margin="5,0,5,0"
-					Click="SubmenuButton_Click">
-						<local:SubmenuCreatorButton.Style>
-							<Style TargetType="local:SubmenuCreatorButton">
-								<Setter Property="BorderBrush" Value="Transparent" />
-								<Setter Property="BorderThickness" Value="0" />
-								<Setter Property="Width" Value="24" />
-								<Setter Property="Height" Value="24" />
-								<Setter Property="Opacity" Value="0.6"/>
-								<Setter Property="FontWeight" Value="Bold"/>
-								<Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate TargetType="{x:Type Button}">
-											<Border x:Name="border" 
-													CornerRadius="15"
-													Background="{TemplateBinding Background}"
-													Opacity="{TemplateBinding Opacity}">
-												<ContentPresenter HorizontalAlignment="Center" 
-                                          VerticalAlignment="Center" />
-											</Border>
-											<ControlTemplate.Triggers>
-												<Trigger Property="IsMouseOver"  Value="True">
-													<Setter TargetName="border" Property="Opacity" Value="1.0" />
-												</Trigger>
-											</ControlTemplate.Triggers>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<local:SubmenuCreatorButton
+								MoveItemClick="SubmenuMove_Click"
+								DeleteClick="SubmenuDelete_Click"
+								EditClick="SubmenuEdit_Click"
+								ColorItemClick="SubmenuColor_Click"
+								Margin="5,0,5,0"
+								Click="SubmenuButton_Click">
+							<local:SubmenuCreatorButton.Style>
+								<Style TargetType="local:SubmenuCreatorButton">
+									<Setter Property="BorderBrush" Value="Transparent" />
+									<Setter Property="BorderThickness" Value="0" />
+									<Setter Property="Width" Value="24" />
+									<Setter Property="Height" Value="24" />
+									<Setter Property="Opacity" Value="0.75"/>
+									<Setter Property="FontWeight" Value="Bold"/>
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="{x:Type Button}">
+												<Border x:Name="border" CornerRadius="15"
+											Background="{TemplateBinding Background}"
+											Opacity="{TemplateBinding Opacity}">
+													<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+												</Border>
+												<ControlTemplate.Triggers>
+													<Trigger Property="IsMouseOver"  Value="True">
+														<Setter TargetName="border" Property="Opacity" Value="1.0" />
+													</Trigger>
+												</ControlTemplate.Triggers>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
 
 
-								<Style.Triggers>
-									<DataTrigger Value="True">
-										<DataTrigger.Binding>
-											<MultiBinding Converter="{StaticResource EqualityConverter}">
-												<Binding />
-												<Binding Path="DataContext.SelectedSubmenu"
-														RelativeSource="{RelativeSource AncestorType=Window}" />
-											</MultiBinding>
-										</DataTrigger.Binding>
+									<Style.Triggers>
+										<DataTrigger Value="True">
+											<DataTrigger.Binding>
+												<MultiBinding Converter="{StaticResource EqualityConverter}">
+													<Binding />
+													<Binding Path="DataContext.SelectedSubmenu"
+												RelativeSource="{RelativeSource AncestorType=Window}" />
+												</MultiBinding>
+											</DataTrigger.Binding>
 
-										<Setter Property="Opacity" Value="1.0" />
-										<Setter Property="Width" Value="30" />
-										<Setter Property="Height" Value="30" />
-									</DataTrigger>
-								</Style.Triggers>
-							</Style>
-						</local:SubmenuCreatorButton.Style>
-					</local:SubmenuCreatorButton>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
+											<Setter Property="Opacity" Value="1.0" />
+											<Setter Property="Width" Value="30" />
+											<Setter Property="Height" Value="30" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</local:SubmenuCreatorButton.Style>
+						</local:SubmenuCreatorButton>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
 
-		<Separator Height="4" Opacity="0"/>
+			<Separator Height="4" Opacity="0"/>
 
-		<StackPanel x:Name="submenuGrid" Height="20" HorizontalAlignment="Center">
-			<Button Opacity="0.8" ToolTip="Add Submenu" HorizontalAlignment="Left" FontSize="15" Content="+" Width="20" Height="20" Click="AddSubenu_Click" />
+			<StackPanel x:Name="submenuGrid" Height="20" HorizontalAlignment="Center">
+				<Button Opacity="0.8" ToolTip="Add Submenu" HorizontalAlignment="Left" FontSize="15" Content="+" Width="20" Height="20" Click="AddSubenu_Click" />
+			</StackPanel>
+			<Separator Height="4" Opacity="0"/>
 		</StackPanel>
-		<Separator Height="4" Opacity="0"/>
 
 		<Grid x:Name="buttonGrid" Width="400" Height="210" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
 	</StackPanel>
