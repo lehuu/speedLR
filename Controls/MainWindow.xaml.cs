@@ -250,7 +250,7 @@ namespace SpeedLR
 				if (dialog.ShowDialog() == true)
 				{
 					var menuName = dialog.ResultName;
-					var newMenu = new Model.Menu(menuName, viewModal.UserMenus.Count - 1);
+					var newMenu = new Model.Menu(menuName, viewModal.UserMenus.Count);
 					viewModal.UserMenus.Add(newMenu);
 					viewModal.SaveMenus();
 					viewModal.SelectedMenu = newMenu;
