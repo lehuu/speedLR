@@ -382,6 +382,24 @@ namespace SpeedLR
 			}
 		}
 
+		private void SubmenuMove_Click(object sender, SubmenuCreatorButton.DirectionEventArg e)
+		{
+			if (this.DataContext is MainViewModel viewModal
+				&& ExtractSubmenuContext(sender) is Submenu submenu
+				&& viewModal.SelectedMenu != null)
+			{
+				switch (e.Direction)
+				{
+					case SubmenuCreatorButton.Direction.Left:
+						viewModal.MoveSubmenu(submenu, true);
+						break;
+					case SubmenuCreatorButton.Direction.Right:
+						viewModal.MoveSubmenu(submenu, false);
+						break;
+				}
+			}
+		}
+
 		private void SubmenuColor_Click(object sender, SubmenuCreatorButton.ColorItemEventArg e)
 		{
 			if (this.DataContext is MainViewModel viewModal

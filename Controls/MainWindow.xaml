@@ -112,6 +112,7 @@
 				<DataTemplate>
 					<local:SubmenuCreatorButton
 					Width="30"
+					MoveItemClick="SubmenuMove_Click"
 					DeleteClick="SubmenuDelete_Click"
 					EditClick="SubmenuEdit_Click"
 					ColorItemClick="SubmenuColor_Click"

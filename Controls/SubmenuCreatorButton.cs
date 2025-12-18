@@ -13,6 +13,7 @@ namespace SpeedLR.Controls
 	{
 
 		public event EventHandler<ColorItemEventArg>? ColorItemClick;
+		public event EventHandler<DirectionEventArg>? MoveItemClick;
 		public event EventHandler? DeleteClick;
 		public event EventHandler? EditClick;
 
@@ -20,6 +21,21 @@ namespace SpeedLR.Controls
 		{
 			Background,
 			Font
+		}
+		public enum Direction
+		{
+			Left,
+			Right
+		}
+
+		public class DirectionEventArg : EventArgs
+		{
+			public Direction Direction { get; set; }
+
+			public DirectionEventArg(Direction direction)
+			{
+				Direction = direction;
+			}
 		}
 
 		public class ColorItemEventArg : EventArgs
@@ -65,6 +81,21 @@ namespace SpeedLR.Controls
 		{
 			ContextMenu contextMenu = new ContextMenu();
 
+			MenuItem moveLeftItem = new MenuItem { Header = "Move Left" };
+			MenuItem moveRightItem = new MenuItem { Header = "Move Right" };
+			moveLeftItem.Click += (s, args) =>
+			{
+				Command = null;
+				MoveItemClick?.Invoke(this, new DirectionEventArg(Direction.Left));
+			};
+			contextMenu.Items.Add(moveLeftItem);
+			moveRightItem.Click += (s, args) =>
+			{
+				Command = null;
+				MoveItemClick?.Invoke(this, new DirectionEventArg(Direction.Right));
+			};
+			contextMenu.Items.Add(moveRightItem);
+
 			MenuItem fontColorItem = new MenuItem { Header = "Font Color", Background = Brushes.DarkGray };
 			MenuItem backgroundItem = new MenuItem { Header = "Background Color", Background = Brushes.DarkGray };
 			foreach (var colorGroup in ColorData.GetColorGroups())
@@ -82,8 +113,6 @@ namespace SpeedLR.Controls
 			editItem.Click += (s, args) =>
 			{
 				Command = null;
-				Background = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_BACKGROUND);
-				Foreground = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_FONT);
 				EditClick?.Invoke(this, EventArgs.Empty);
 			};
 			contextMenu.Items.Add(editItem);
@@ -92,8 +121,6 @@ namespace SpeedLR.Controls
 			deleteItem.Click += (s, args) =>
 			{
 				Command = null;
-				Background = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_BACKGROUND);
-				Foreground = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_FONT);
 				DeleteClick?.Invoke(this, EventArgs.Empty);
 			};
 			contextMenu.Items.Add(deleteItem);

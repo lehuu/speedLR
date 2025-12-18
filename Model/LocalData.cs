@@ -49,7 +49,22 @@ public sealed class LocalData : ILocalData
 		Environment = LoadDataFromFile<PluginEnvironment>(EnvPath, new PluginEnvironment());
 		AvailableCommands = LoadDataFromFile<AvailableCommands>(CommandPath, new AvailableCommands());
 		AvailableMenus = LoadDataFromFile<AvailableMenus>(LegacyMenuPath, new AvailableMenus());
-		UserMenus = LoadDataFromFile<List<Menu>>(MenuPath, new List<Menu>()).OrderBy(m => m.Position).ToList();
+		var userMenus = LoadDataFromFile<List<Menu>>(MenuPath, new List<Menu>()).OrderBy(m => m.Position).ToList();
+
+		userMenus.ForEach(menu =>
+		{
+			if (menu.Submenus != null)
+			{
+				var sortedSubmenus = menu.Submenus.OrderBy(s => s.Position).ToList();
+				menu.Submenus.Clear();
+				foreach (var item in sortedSubmenus)
+				{
+					menu.Submenus.Add(item);
+				}
+			}
+		});
+
+		UserMenus = userMenus;
 
 		Port = LoadPort();
 	}
