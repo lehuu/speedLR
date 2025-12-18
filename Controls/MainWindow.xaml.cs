@@ -5,6 +5,7 @@ using System.Windows.Interop;
 using SpeedLR.Controls;
 using SpeedLR.Model;
 using SpeedLR.Utils;
+using static SpeedLR.Controls.SubmenuCreatorButton;
 using Application = System.Windows.Application;
 using Brushes = System.Windows.Media.Brushes;
 using Point = System.Drawing.Point;
@@ -463,20 +464,24 @@ namespace SpeedLR
 
 		private void EditControlElement_Click(object sender, EventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedSubmenu != null)
+			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedSubmenu != null && (sender as FrameworkElement)?.DataContext is MenuElement element)
 			{
-				var button = sender as System.Windows.Controls.Button;
-				var actionElement = button?.DataContext as ActionElement;
-
-				var separator = sender as System.Windows.Controls.Border;
-				var separatorElement = separator?.DataContext as SeparatorElement;
-
-				if (separatorElement == null && actionElement == null)
-				{
-					return;
-				}
+				var actionElement = element as ActionElement;
 
 				ContextMenu contextMenu = new ContextMenu();
+
+				MenuItem moveUpItem = new MenuItem { Header = "Move Up" };
+				MenuItem moveDownItem = new MenuItem { Header = "Move Down" };
+				moveUpItem.Click += (s, args) =>
+				{
+					viewModal.MoveMenuItem(element, true);
+				};
+				contextMenu.Items.Add(moveUpItem);
+				moveDownItem.Click += (s, args) =>
+				{
+					viewModal.MoveMenuItem(element, false);
+				};
+				contextMenu.Items.Add(moveDownItem);
 
 				if (actionElement != null)
 				{
@@ -502,15 +507,7 @@ namespace SpeedLR
 				var deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
 				deleteItem.Click += (s, args) =>
 				{
-					if (actionElement != null)
-					{
-						viewModal.SelectedSubmenu.Items.Remove(actionElement);
-					}
-					else if (separatorElement != null)
-					{
-						viewModal.SelectedSubmenu.Items.Remove(separatorElement);
-					}
-
+					viewModal.SelectedSubmenu.Items.Remove(element);
 					viewModal.SaveMenus();
 				};
 				contextMenu.Items.Add(deleteItem);
