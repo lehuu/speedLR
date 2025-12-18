@@ -7,5 +7,10 @@
 
 		}
 
+		public string ShortName => string.Concat(
+			Name?
+				.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+				.Select(word => word[0].ToString().ToUpper()) ?? Enumerable.Empty<string>()
+		);
 	}
 }
