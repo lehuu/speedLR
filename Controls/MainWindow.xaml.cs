@@ -320,6 +320,7 @@ namespace SpeedLR
 					var menuName = dialog.ResultName;
 					var newMenu = new Model.Submenu(menuName, viewModal.SelectedMenu.Submenus.Count);
 					viewModal.SelectedMenu.Submenus.Add(newMenu);
+					viewModal.SelectedSubmenu = newMenu;
 					viewModal.SaveMenus();
 				}
 			}
@@ -376,6 +377,7 @@ namespace SpeedLR
 				&& viewModal.SelectedMenu != null)
 			{
 				viewModal.SelectedMenu.Submenus.Remove(submenu);
+				viewModal.SelectedSubmenu = viewModal.SelectedMenu.Submenus.FirstOrDefault();
 				viewModal.SaveMenus();
 			}
 		}
