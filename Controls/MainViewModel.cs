@@ -9,7 +9,7 @@ namespace SpeedLR.Controls
 	{
 		private Menu? _selectedMenu;
 		private Submenu? _selectedSubmenu;
-		private ObservableCollection<Menu>? _userMenus;
+		private ObservableCollection<Menu> _userMenus = new ObservableCollection<Menu>();
 
 		public MainViewModel()
 		{
@@ -111,14 +111,27 @@ namespace SpeedLR.Controls
 			}
 		}
 
-		public void AddMenuElement(MenuElement element)
+		public void EditMenuElement(MenuElement element)
 		{
 			if (SelectedSubmenu == null)
 			{
 				return;
 			}
 
-			SelectedSubmenu.Items.Add(element);
+			int index = SelectedSubmenu.Items.IndexOf(element);
+			if (index != -1)
+			{
+				// Remove and Re-insert is the "nuclear option" to force 
+				// WPF DataTemplates to completely re-render the control.
+				SelectedSubmenu.Items.RemoveAt(index);
+				SelectedSubmenu.Items.Insert(index, element);
+			}
+			else
+			{
+				SelectedSubmenu.Items.Add(element);
+			}
+
+			SaveMenus();
 		}
 
 		public event PropertyChangedEventHandler? PropertyChanged;

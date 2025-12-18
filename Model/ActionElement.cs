@@ -16,7 +16,7 @@ namespace SpeedLR.Model
 				{
 					_command = value;
 					OnPropertyChanged();
-					OnPropertyChanged("Name");
+					OnPropertyChanged(nameof(Name));
 				}
 			}
 		}

@@ -435,8 +435,7 @@ namespace SpeedLR
 				var separatorItem = new MenuItem { Header = "Separator" };
 				separatorItem.Click += (s, args) =>
 				{
-					viewModal.SelectedSubmenu.Items.Add(new SeparatorElement() { Position = viewModal.SelectedSubmenu.Items.Count });
-					viewModal.SaveMenus();
+					viewModal.EditMenuElement(new SeparatorElement() { Position = viewModal.SelectedSubmenu.Items.Count });
 				};
 				contextMenu.Items.Add(separatorItem);
 
@@ -449,14 +448,72 @@ namespace SpeedLR
 						MenuItem commandItem = new MenuItem { Header = command.Title };
 						commandItem.Click += (s, args) =>
 						{
-							viewModal.SelectedSubmenu.Items.Add(new ActionElement { Command = command.CommandName, Position = viewModal.SelectedSubmenu.Items.Count });
-							viewModal.SaveMenus();
+							viewModal.EditMenuElement(new ActionElement { Command = command.CommandName, Position = viewModal.SelectedSubmenu.Items.Count });
 						};
 						categoryItem.Items.Add(commandItem);
 					}
 
 					contextMenu.Items.Add(categoryItem);
 				}
+
+				contextMenu.PlacementTarget = sender as System.Windows.Controls.Button;
+				contextMenu.IsOpen = true;
+			}
+		}
+
+		private void EditControlElement_Click(object sender, EventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedSubmenu != null)
+			{
+				var button = sender as System.Windows.Controls.Button;
+				var actionElement = button?.DataContext as ActionElement;
+
+				var separator = sender as System.Windows.Controls.Border;
+				var separatorElement = separator?.DataContext as SeparatorElement;
+
+				if (separatorElement == null && actionElement == null)
+				{
+					return;
+				}
+
+				ContextMenu contextMenu = new ContextMenu();
+
+				if (actionElement != null)
+				{
+					foreach (var category in LocalData.Instance.AvailableCommands.Categories)
+					{
+						MenuItem categoryItem = new MenuItem { Header = category.Title };
+
+						foreach (var command in category.Commands)
+						{
+							MenuItem commandItem = new MenuItem { Header = command.Title };
+							commandItem.Click += (s, args) =>
+							{
+								actionElement.Command = command.CommandName;
+								viewModal.EditMenuElement(actionElement);
+							};
+							categoryItem.Items.Add(commandItem);
+						}
+
+						contextMenu.Items.Add(categoryItem);
+					}
+				}
+
+				var deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
+				deleteItem.Click += (s, args) =>
+				{
+					if (actionElement != null)
+					{
+						viewModal.SelectedSubmenu.Items.Remove(actionElement);
+					}
+					else if (separatorElement != null)
+					{
+						viewModal.SelectedSubmenu.Items.Remove(separatorElement);
+					}
+
+					viewModal.SaveMenus();
+				};
+				contextMenu.Items.Add(deleteItem);
 
 				contextMenu.PlacementTarget = sender as System.Windows.Controls.Button;
 				contextMenu.IsOpen = true;

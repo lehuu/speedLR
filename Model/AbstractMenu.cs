@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
@@ -13,12 +12,11 @@ namespace SpeedLR.Model
 		public AbstractMenu(string name, int position)
 		{
 			_name = name;
-			Id = Guid.NewGuid().ToString();
 			_position = position;
 		}
 
-		[JsonPropertyName("id")]
-		public string Id { get; set; }
+		[JsonIgnore]
+		public string Id { get; } = Guid.NewGuid().ToString();
 
 		[JsonPropertyName("name")]
 		public string Name
@@ -55,7 +53,7 @@ namespace SpeedLR.Model
 			if (other is null) return false;
 			if (ReferenceEquals(this, other)) return true;
 
-			return Id == other.Id && Name == other.Name;
+			return Id == other.Id;
 		}
 
 		public override bool Equals(object? obj)
@@ -65,7 +63,7 @@ namespace SpeedLR.Model
 
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(Id, Name);
+			return HashCode.Combine(Id);
 		}
 
 		protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
