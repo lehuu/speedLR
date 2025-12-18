@@ -16,8 +16,14 @@ namespace SpeedLR.Model
 				{
 					_command = value;
 					OnPropertyChanged();
+					OnPropertyChanged("Name");
 				}
 			}
 		}
+
+		[JsonIgnore]
+		public string Name => LocalData.Instance.AvailableCommands.Categories
+			.SelectMany(c => c.Commands)
+			.FirstOrDefault(c => c.CommandName == _command)?.Title ?? "";
 	}
 }

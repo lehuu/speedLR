@@ -62,7 +62,7 @@
 			</Setter>
 		</Style>
 		<DataTemplate DataType="{x:Type model:ActionElement}">
-			<Button Height="30" Margin="0,5" Content="{Binding Command}"/>
+			<Button Height="30" Margin="0,5" Content="{Binding Name}"/>
 		</DataTemplate>
 
 		<DataTemplate DataType="{x:Type model:SeparatorElement}">
