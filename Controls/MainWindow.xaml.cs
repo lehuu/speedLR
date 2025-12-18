@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Interop;
 using SpeedLR.Controls;
+using SpeedLR.Model;
 using SpeedLR.Utils;
 using Application = System.Windows.Application;
 using Brushes = System.Windows.Media.Brushes;
@@ -321,6 +322,17 @@ namespace SpeedLR
 					viewModal.SelectedMenu.Submenus.Add(newMenu);
 					viewModal.SaveMenus();
 				}
+			}
+		}
+
+		private void SubmenuButton_Click(object sender, RoutedEventArgs e)
+		{
+			var button = sender as System.Windows.Controls.Button;
+			var submenu = button?.DataContext as Submenu;
+
+			if (submenu != null)
+			{
+				System.Windows.MessageBox.Show($"Clicked on: {submenu.Name}");
 			}
 		}
 	}
