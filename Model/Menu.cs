@@ -1,7 +1,26 @@
-﻿namespace SpeedLR.Model
+﻿using System.Text.Json.Serialization;
+
+namespace SpeedLR.Model
 {
 	public class Menu: AbstractMenu
 	{
-		public Menu(string name, int position): base(name, position) { }
+		protected List<Submenu> _submenus;
+		public Menu(string name, int position): base(name, position) { 
+			_submenus = new List<Submenu>();
+		}
+
+		[JsonPropertyName("submenus")]
+		public List<Submenu> Submenus
+		{
+			get => _submenus;
+			set
+			{
+				if (_submenus != value)
+				{
+					_submenus = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 	}
 }
