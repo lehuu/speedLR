@@ -5,12 +5,10 @@ using SpeedLR.Model;
 
 namespace SpeedLR.Controls
 {
-    public class MainViewModel: INotifyPropertyChanged
+	public class MainViewModel : INotifyPropertyChanged
 	{
 		private Menu? _selectedMenu;
-
-		// The list of items for the ComboBox
-		public ObservableCollection<Menu> UserMenus { get; set; }
+		private ObservableCollection<Menu>? _userMenus;
 
 		public MainViewModel()
 		{
@@ -31,9 +29,24 @@ namespace SpeedLR.Controls
 			}
 		}
 
+		public ObservableCollection<Menu> UserMenus
+		{
+			get => _userMenus;
+			set
+			{
+				if (_userMenus != value)
+				{
+					_userMenus = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public void SaveMenus()
 		{
-			LocalData.Instance.UserMenus = UserMenus.OrderBy(m => m.Position).ToList();
+			UserMenus = new ObservableCollection<Menu>(UserMenus.OrderBy(m => m.Position));
+			UpdatePositionProperties();
+			LocalData.Instance.UserMenus = UserMenus.ToList();
 			LocalData.Instance.SaveUserMenus();
 		}
 
