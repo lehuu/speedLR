@@ -2,9 +2,10 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using SpeedLR.Model;
+using SpeedLR.Utils;
 using Binding = System.Windows.Data.Binding;
-using Button = System.Windows.Controls.Button;
 using Brushes = System.Windows.Media.Brushes;
+using Button = System.Windows.Controls.Button;
 
 namespace SpeedLR.Controls
 {
@@ -12,6 +13,7 @@ namespace SpeedLR.Controls
 	{
 
 		public event EventHandler<ColorItemEventArg> ColorItemClick;
+		public event EventHandler DeleteClick;
 
 		public enum ColorType
 		{
@@ -64,8 +66,6 @@ namespace SpeedLR.Controls
 
 			MenuItem fontColorItem = new MenuItem { Header = "Font Color", Background = Brushes.DarkGray };
 			MenuItem backgroundItem = new MenuItem { Header = "Background Color", Background = Brushes.DarkGray };
-
-
 			foreach (var colorGroup in ColorData.GetColorGroups())
 			{
 				fontColorItem.Items.Add(CreateColorGroupMenuItem(colorGroup, ColorType.Font));
@@ -79,8 +79,18 @@ namespace SpeedLR.Controls
 			contextMenu.Items.Add(backgroundItem);
 			contextMenu.Items.Add(fontColorItem);
 
-			contextMenu.PlacementTarget = this;
+			MenuItem deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
+			deleteItem.Click += (s, args) =>
+			{
+				Command = null;
+				Background = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_BACKGROUND);
+				Foreground = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_FONT);
+				DeleteClick?.Invoke(this, EventArgs.Empty);
+			};
 
+			contextMenu.Items.Add(deleteItem);
+
+			contextMenu.PlacementTarget = this;
 			return contextMenu;
 		}
 

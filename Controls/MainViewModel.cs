@@ -70,6 +70,10 @@ namespace SpeedLR.Controls
 			for (int i = 0; i < UserMenus.Count; i++)
 			{
 				UserMenus[i].Position = i;
+				for (int j = 0; j < UserMenus[i].Submenus.Count; j++)
+				{
+					UserMenus[i].Submenus[j].Position = j;
+				}
 			}
 		}
 

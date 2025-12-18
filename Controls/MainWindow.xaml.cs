@@ -336,6 +336,23 @@ namespace SpeedLR
 			}
 		}
 
+		private void SubmenuDelete_Click(object sender, EventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedMenu != null)
+			{
+				var button = sender as System.Windows.Controls.Button;
+				var submenu = button?.DataContext as Submenu;
+
+				if (submenu == null)
+				{
+					return;
+				}
+
+				viewModal.SelectedMenu.Submenus.Remove(submenu);
+				viewModal.SaveMenus();
+			}
+		}
+
 		private void SubmenuColor_Click(object sender, SubmenuCreatorButton.ColorItemEventArg e)
 		{
 			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedMenu != null)
@@ -366,7 +383,6 @@ namespace SpeedLR
 
 				viewModal.SaveMenus();
 			}
-
 		}
 	}
 }
