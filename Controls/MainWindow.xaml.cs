@@ -435,7 +435,7 @@ namespace SpeedLR
 				var separatorItem = new MenuItem { Header = "Separator" };
 				separatorItem.Click += (s, args) =>
 				{
-					viewModal.SelectedSubmenu.Items.Add(new SeparatorElement());
+					viewModal.SelectedSubmenu.Items.Add(new SeparatorElement() { Position = viewModal.SelectedSubmenu.Items.Count });
 					viewModal.SaveMenus();
 				};
 				contextMenu.Items.Add(separatorItem);
@@ -449,7 +449,7 @@ namespace SpeedLR
 						MenuItem commandItem = new MenuItem { Header = command.Title };
 						commandItem.Click += (s, args) =>
 						{
-							viewModal.SelectedSubmenu.Items.Add(new ActionElement { Command = command.CommandName });
+							viewModal.SelectedSubmenu.Items.Add(new ActionElement { Command = command.CommandName, Position = viewModal.SelectedSubmenu.Items.Count });
 							viewModal.SaveMenus();
 						};
 						categoryItem.Items.Add(commandItem);

@@ -8,6 +8,9 @@ namespace SpeedLR.Model
 	[JsonDerivedType(typeof(SeparatorElement), typeDiscriminator: "separator")]
 	public abstract class MenuElement
     {
+		[JsonPropertyName("Position")]
+		public int Position { get; set; }
+
 		public event PropertyChangedEventHandler? PropertyChanged;
 		protected void OnPropertyChanged([CallerMemberName] string? name = null) =>
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

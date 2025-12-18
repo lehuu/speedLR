@@ -57,9 +57,16 @@ public sealed class LocalData : ILocalData
 			{
 				var sortedSubmenus = menu.Submenus.OrderBy(s => s.Position).ToList();
 				menu.Submenus.Clear();
-				foreach (var item in sortedSubmenus)
+				foreach (var submenu in sortedSubmenus)
 				{
-					menu.Submenus.Add(item);
+					var sortedItems = submenu.Items.OrderBy(i => i.Position).ToList();
+					submenu.Items.Clear();
+					foreach (var item in sortedItems)
+					{
+						submenu.Items.Add(item);
+					}
+
+					menu.Submenus.Add(submenu);
 				}
 			}
 		});
