@@ -436,6 +436,7 @@ namespace SpeedLR
 				separatorItem.Click += (s, args) =>
 				{
 					viewModal.SelectedSubmenu.Items.Add(new SeparatorElement());
+					viewModal.SaveMenus();
 				};
 				contextMenu.Items.Add(separatorItem);
 
@@ -449,6 +450,7 @@ namespace SpeedLR
 						commandItem.Click += (s, args) =>
 						{
 							viewModal.SelectedSubmenu.Items.Add(new ActionElement { Command = command.CommandName });
+							viewModal.SaveMenus();
 						};
 						categoryItem.Items.Add(commandItem);
 					}

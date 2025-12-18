@@ -1,9 +1,12 @@
-﻿namespace SpeedLR.Model
+﻿using System.Text.Json.Serialization;
+
+namespace SpeedLR.Model
 {
 	public class ActionElement : MenuElement
 	{
 		private string _command = "";
 
+		[JsonPropertyName("Command")]
 		public string Command
 		{
 			get { return _command; }

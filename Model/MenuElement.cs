@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace SpeedLR.Model
 {
-    public abstract class MenuElement
+	[JsonDerivedType(typeof(ActionElement), typeDiscriminator: "action")]
+	[JsonDerivedType(typeof(SeparatorElement), typeDiscriminator: "separator")]
+	public abstract class MenuElement
     {
 		public event PropertyChangedEventHandler? PropertyChanged;
 		protected void OnPropertyChanged([CallerMemberName] string? name = null) =>
