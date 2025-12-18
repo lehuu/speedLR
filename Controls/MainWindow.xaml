@@ -110,12 +110,11 @@
 
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Button Content="{Binding ShortName}"
+					<local:SubmenuCreatorButton
 					Width="30"
 					Height="30"
                     Margin="5,0,5,0"
-					Click="SubmenuButton_Click"
-                    Tag="{Binding Id}"/>
+					Click="SubmenuButton_Click"/>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
