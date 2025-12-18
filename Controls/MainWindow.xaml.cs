@@ -335,5 +335,38 @@ namespace SpeedLR
 				System.Windows.MessageBox.Show($"Clicked on: {submenu.Name}");
 			}
 		}
+
+		private void SubmenuColor_Click(object sender, SubmenuCreatorButton.ColorItemEventArg e)
+		{
+			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedMenu != null)
+			{
+				var button = sender as System.Windows.Controls.Button;
+				var submenu = button?.DataContext as Submenu;
+
+				if (submenu == null)
+				{
+					return;
+				}
+				var subMenuIndex = viewModal.SelectedMenu.Submenus.IndexOf(submenu);
+
+				if (subMenuIndex < 0)
+				{
+					return;
+				}
+
+				switch (e.Type)
+				{
+					case SubmenuCreatorButton.ColorType.Background:
+						viewModal.SelectedMenu.Submenus[subMenuIndex].BackgroundColor = e.Value;
+						break;
+					case SubmenuCreatorButton.ColorType.Font:
+						viewModal.SelectedMenu.Submenus[subMenuIndex].FontColor = e.Value;
+						break;
+				}
+
+				viewModal.SaveMenus();
+			}
+
+		}
 	}
 }

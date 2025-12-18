@@ -26,7 +26,11 @@ namespace SpeedLR.Model
 			}
 			set
 			{
-				_backgroundColor = value;
+				if (_backgroundColor != value)
+				{
+					_backgroundColor = value;
+					OnPropertyChanged();
+				}
 			}
 		}
 
@@ -39,7 +43,11 @@ namespace SpeedLR.Model
 			}
 			set
 			{
-				_fontColor = value;
+				if (_fontColor != value)
+				{
+					_fontColor = value;
+					OnPropertyChanged();
+				}
 			}
 		}
 	}

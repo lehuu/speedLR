@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
 namespace SpeedLR.Model
 {
-	public abstract class AbstractMenu: INotifyPropertyChanged
+	public abstract class AbstractMenu: INotifyPropertyChanged, IEquatable<AbstractMenu>
 	{
 		protected string _name;
 		protected int _position;
@@ -48,6 +49,25 @@ namespace SpeedLR.Model
 		}
 
 		public event PropertyChangedEventHandler? PropertyChanged;
+
+		public bool Equals(AbstractMenu? other)
+		{
+			if (other is null) return false;
+			if (ReferenceEquals(this, other)) return true;
+
+			return Id == other.Id && Name == other.Name;
+		}
+
+		public override bool Equals(object? obj)
+		{
+			return Equals(obj as AbstractMenu);
+		}
+
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(Id, Name);
+		}
+
 		protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
