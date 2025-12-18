@@ -8,8 +8,8 @@
         mc:Ignorable="d"
         ShowActivated="False"
         Focusable="False"
-        Title="SpeedLr" Height="350" Width="400
-        " ResizeMode="NoResize">
+        Title="SpeedLr" Width="400" Height="400"
+		ResizeMode="NoResize">
 
 	<Window.DataContext>
 		<local:MainViewModel />
@@ -99,6 +99,10 @@
 			</StackPanel>
 		</Grid>
 
+		<Separator Height="4" Opacity="0"/>
+		<StackPanel x:Name="submenuGrid" Height="20" HorizontalAlignment="Center">
+			<Button Opacity="0.8" ToolTip="Add Submenu" HorizontalAlignment="Left" FontSize="15" Content="+" Width="20" Height="20" Click="AddSubenu_Click" />
+		</StackPanel>
 		<Separator Height="4" Opacity="0"/>
 
 		<Grid x:Name="buttonGrid" Width="400" Height="210" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>

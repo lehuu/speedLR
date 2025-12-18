@@ -303,5 +303,25 @@ namespace SpeedLR
 				viewModal.MoveSelectedMenu(false);
 			}
 		}
+
+		private void AddSubenu_Click(object sender, RoutedEventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedMenu != null)
+			{
+				EditMenuWindow dialog = new EditMenuWindow()
+				{
+					Owner = this,
+					WindowStartupLocation = WindowStartupLocation.CenterOwner,
+				};
+
+				if (dialog.ShowDialog() == true)
+				{
+					var menuName = dialog.ResultName;
+					var newMenu = new Model.Submenu(menuName, viewModal.SelectedMenu.Submenus.Count);
+					viewModal.SelectedMenu.Submenus.Add(newMenu);
+					viewModal.SaveMenus();
+				}
+			}
+		}
 	}
 }
