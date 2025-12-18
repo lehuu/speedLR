@@ -10,7 +10,10 @@
         mc:Ignorable="d"
         ShowActivated="False"
         Focusable="False"
-        Title="SpeedLr" Width="400" Height="400"
+		SizeToContent="Height"
+        Height="Auto"
+        Title="SpeedLr" Width="400"
+		MinHeight="400"
 		ResizeMode="NoResize">
 
 	<Window.DataContext>

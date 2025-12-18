@@ -23,14 +23,12 @@ namespace SpeedLR
 		public MainWindow()
 		{
 			InitializeComponent();
+			var helper = new System.Windows.Interop.WindowInteropHelper(this);
+			var handle = helper.EnsureHandle();
+
 			this.DataContext = new MainViewModel();
 
 			SwitchToMenu(0);
-
-			Loaded += (s, e) =>
-			{
-				Hide();
-			};
 		}
 
 		private void SwitchToMenu(int menuIndex)

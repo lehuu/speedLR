@@ -1,6 +1,4 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 using SpeedLR.Utils;
 using Application = System.Windows.Application;
 
@@ -30,7 +28,8 @@ namespace SpeedLR
             {
 				ErrorLogger.Initialize();
 				base.OnStartup(e);
-            }
+				MainWindow mw = new MainWindow();
+			}
         }
     }
 
