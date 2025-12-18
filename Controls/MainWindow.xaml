@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpeedLR.Controls"
+        xmlns:utils="clr-namespace:SpeedLR.Utils"
         Closing="MainWindow_Closing"
         mc:Ignorable="d"
         ShowActivated="False"
@@ -16,6 +17,7 @@
 	</Window.DataContext>
 
 	<Window.Resources>
+		<utils:EqualityConverter x:Key="EqualityConverter" />
 		<Style TargetType="Button">
 			<Setter Property="Background" Value="#DDDDDD"/>
 			<Setter Property="Template">
@@ -111,14 +113,58 @@
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<local:SubmenuCreatorButton
-					Width="30"
 					MoveItemClick="SubmenuMove_Click"
 					DeleteClick="SubmenuDelete_Click"
 					EditClick="SubmenuEdit_Click"
 					ColorItemClick="SubmenuColor_Click"
-					Height="30"
                     Margin="5,0,5,0"
-					Click="SubmenuButton_Click"/>
+					Click="SubmenuButton_Click">
+						<local:SubmenuCreatorButton.Style>
+							<Style TargetType="local:SubmenuCreatorButton">
+								<Setter Property="BorderBrush" Value="Transparent" />
+								<Setter Property="BorderThickness" Value="0" />
+								<Setter Property="Width" Value="24" />
+								<Setter Property="Height" Value="24" />
+								<Setter Property="Opacity" Value="0.6"/>
+								<Setter Property="FontWeight" Value="Bold"/>
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="{x:Type Button}">
+											<Border x:Name="border" 
+													CornerRadius="15"
+													Background="{TemplateBinding Background}"
+													Opacity="{TemplateBinding Opacity}">
+												<ContentPresenter HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+											</Border>
+											<ControlTemplate.Triggers>
+												<Trigger Property="IsMouseOver"  Value="True">
+													<Setter TargetName="border" Property="Opacity" Value="1.0" />
+												</Trigger>
+											</ControlTemplate.Triggers>
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+
+
+								<Style.Triggers>
+									<DataTrigger Value="True">
+										<DataTrigger.Binding>
+											<MultiBinding Converter="{StaticResource EqualityConverter}">
+												<Binding />
+												<Binding Path="DataContext.SelectedSubmenu"
+														RelativeSource="{RelativeSource AncestorType=Window}" />
+											</MultiBinding>
+										</DataTrigger.Binding>
+
+										<Setter Property="Opacity" Value="1.0" />
+										<Setter Property="Width" Value="30" />
+										<Setter Property="Height" Value="30" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</local:SubmenuCreatorButton.Style>
+					</local:SubmenuCreatorButton>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>

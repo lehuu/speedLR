@@ -8,6 +8,7 @@ namespace SpeedLR.Controls
 	public class MainViewModel : INotifyPropertyChanged
 	{
 		private Menu? _selectedMenu;
+		private Submenu? _selectedSubmenu;
 		private ObservableCollection<Menu>? _userMenus;
 
 		public MainViewModel()
@@ -15,7 +16,19 @@ namespace SpeedLR.Controls
 			UserMenus = new ObservableCollection<Menu>(LocalData.Instance.UserMenus);
 		}
 
-		// The property bound to the selected item
+		public Submenu? SelectedSubmenu
+		{
+			get => _selectedSubmenu;
+			set
+			{
+				if (_selectedSubmenu != value)
+				{
+					_selectedSubmenu = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public Menu? SelectedMenu
 		{
 			get => _selectedMenu;
@@ -24,6 +37,7 @@ namespace SpeedLR.Controls
 				if (_selectedMenu != value)
 				{
 					_selectedMenu = value;
+					SelectedSubmenu = value?.Submenus.FirstOrDefault();
 					OnPropertyChanged();
 				}
 			}

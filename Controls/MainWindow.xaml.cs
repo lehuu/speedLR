@@ -325,23 +325,21 @@ namespace SpeedLR
 			}
 		}
 
-		private void SubmenuButton_Click(object sender, RoutedEventArgs e)
-		{
-			var button = sender as System.Windows.Controls.Button;
-			var submenu = button?.DataContext as Submenu;
-
-			if (submenu != null)
-			{
-				System.Windows.MessageBox.Show($"Clicked on: {submenu.Name}");
-			}
-		}
-
 		private Submenu? ExtractSubmenuContext(object sender)
 		{
 			var button = sender as System.Windows.Controls.Button;
 			var submenu = button?.DataContext as Submenu;
 
 			return submenu;
+		}
+
+
+		private void SubmenuButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal && ExtractSubmenuContext(sender) is Submenu submenu)
+			{
+				viewModal.SelectedSubmenu = submenu;
+			}
 		}
 
 		private void SubmenuEdit_Click(object sender, EventArgs e)

@@ -52,13 +52,6 @@ namespace SpeedLR.Controls
 
 		public SubmenuCreatorButton()
 		{
-			Style style = (Style)FindResource("EmptyButtonStyle");
-
-			if (style != null)
-			{
-				Style = style;
-			}
-
 			this.DataContextChanged += OnDataContextChanged;
 			this.ContextMenu = CreateContextMenu();
 		}
