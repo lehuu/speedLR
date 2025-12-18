@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using SpeedLR.Controls;
@@ -424,6 +425,41 @@ namespace SpeedLR
 				}
 
 				viewModal.SaveMenus();
+			}
+		}
+
+		private void CreateControlElement_Click(object sender, EventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedSubmenu != null)
+			{
+				ContextMenu contextMenu = new ContextMenu();
+
+				var separatorItem = new MenuItem { Header = "Separator" };
+				separatorItem.Click += (s, args) =>
+				{
+					viewModal.SelectedSubmenu.Items.Add(new SeparatorElement());
+				};
+				contextMenu.Items.Add(separatorItem);
+
+				foreach (var category in LocalData.Instance.AvailableCommands.Categories)
+				{
+					MenuItem categoryItem = new MenuItem { Header = category.Title };
+
+					foreach (var command in category.Commands)
+					{
+						MenuItem commandItem = new MenuItem { Header = command.Title };
+						commandItem.Click += (s, args) =>
+						{
+							viewModal.SelectedSubmenu.Items.Add(new ActionElement { Command = command.CommandName });
+						};
+						categoryItem.Items.Add(commandItem);
+					}
+
+					contextMenu.Items.Add(categoryItem);
+				}
+
+				contextMenu.PlacementTarget = sender as System.Windows.Controls.Button;
+				contextMenu.IsOpen = true;
 			}
 		}
 	}

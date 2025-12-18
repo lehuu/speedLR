@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using System.Collections.ObjectModel;
 
 namespace SpeedLR.Model
 {
@@ -6,10 +7,9 @@ namespace SpeedLR.Model
 	{
 		private string _backgroundColor = "#D3D3D3";
 		private string _fontColor = "#000000";
+		private ObservableCollection<MenuElement> _items = new ObservableCollection<MenuElement>();
 		public Submenu(string name, int position) : base(name, position)
-		{
-
-		}
+		{ }
 
 		[JsonIgnore]
 		public string ShortName => string.Concat(
@@ -28,6 +28,8 @@ namespace SpeedLR.Model
 				OnPropertyChanged(nameof(ShortName));
 			}
 		}
+
+
 
 		[JsonPropertyName("bgColor")]
 		public string BackgroundColor
@@ -58,6 +60,23 @@ namespace SpeedLR.Model
 				if (_fontColor != value)
 				{
 					_fontColor = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		[JsonPropertyName("items")]
+		public ObservableCollection<MenuElement> Items
+		{
+			get
+			{
+				return _items;
+			}
+			set
+			{
+				if (_items != value)
+				{
+					_items = value;
 					OnPropertyChanged();
 				}
 			}

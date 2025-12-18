@@ -106,6 +106,16 @@ namespace SpeedLR.Controls
 			}
 		}
 
+		public void AddMenuElement(MenuElement element)
+		{
+			if (SelectedSubmenu == null)
+			{
+				return;
+			}
+
+			SelectedSubmenu.Items.Add(element);
+		}
+
 		public event PropertyChangedEventHandler? PropertyChanged;
 		protected void OnPropertyChanged([CallerMemberName] string name = null)
 		{

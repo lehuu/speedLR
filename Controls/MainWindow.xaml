@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpeedLR.Controls"
         xmlns:utils="clr-namespace:SpeedLR.Utils"
+        xmlns:model="clr-namespace:SpeedLR.Model"
         Closing="MainWindow_Closing"
         mc:Ignorable="d"
         ShowActivated="False"
@@ -57,6 +58,13 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		<DataTemplate DataType="{x:Type model:ActionElement}">
+			<Button Height="30" Margin="0,5" Content="{Binding Command}"/>
+		</DataTemplate>
+
+		<DataTemplate DataType="{x:Type model:SeparatorElement}">
+			<Separator Margin="0, 10"/>
+		</DataTemplate>
 	</Window.Resources>
 
 	<StackPanel Margin="4">
@@ -112,12 +120,10 @@
 			</StackPanel>
 		</Grid>
 
-		<StackPanel >
+		<StackPanel Margin="0,10,0,0">
 			<StackPanel.Visibility>
 				<Binding Path="SelectedMenu" Converter="{StaticResource ObjectToVis}" />
 			</StackPanel.Visibility>
-
-			<Separator Height="4" Opacity="0"/>
 			<ItemsControl ItemsSource="{Binding SelectedMenu.Submenus}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
@@ -187,9 +193,17 @@
 			<StackPanel x:Name="submenuGrid" Height="20" HorizontalAlignment="Center">
 				<Button Opacity="0.8" ToolTip="Add Submenu" HorizontalAlignment="Left" FontSize="15" Content="+" Width="20" Height="20" Click="AddSubenu_Click" />
 			</StackPanel>
-			<Separator Height="4" Opacity="0"/>
 		</StackPanel>
 
-		<Grid x:Name="buttonGrid" Width="400" Height="210" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+		<StackPanel Margin="0,10,0,0" Visibility="{Binding SelectedSubmenu, Converter={StaticResource ObjectToVis}}">
+			<ItemsControl ItemsSource="{Binding SelectedSubmenu.Items}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+			</ItemsControl>
+			<Button Height="30" Margin="0,10,0,0" Click="CreateControlElement_Click">+</Button>
+		</StackPanel>
 	</StackPanel>
 </Window>
