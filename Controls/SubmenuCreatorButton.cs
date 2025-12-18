@@ -12,8 +12,9 @@ namespace SpeedLR.Controls
 	class SubmenuCreatorButton : Button
 	{
 
-		public event EventHandler<ColorItemEventArg> ColorItemClick;
-		public event EventHandler DeleteClick;
+		public event EventHandler<ColorItemEventArg>? ColorItemClick;
+		public event EventHandler? DeleteClick;
+		public event EventHandler? EditClick;
 
 		public enum ColorType
 		{
@@ -70,14 +71,22 @@ namespace SpeedLR.Controls
 			{
 				fontColorItem.Items.Add(CreateColorGroupMenuItem(colorGroup, ColorType.Font));
 			}
-
 			foreach (var colorGroup in ColorData.GetColorGroups())
 			{
 				backgroundItem.Items.Add(CreateColorGroupMenuItem(colorGroup, ColorType.Background));
 			}
-
 			contextMenu.Items.Add(backgroundItem);
 			contextMenu.Items.Add(fontColorItem);
+
+			MenuItem editItem = new MenuItem { Header = "Edit" };
+			editItem.Click += (s, args) =>
+			{
+				Command = null;
+				Background = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_BACKGROUND);
+				Foreground = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_FONT);
+				EditClick?.Invoke(this, EventArgs.Empty);
+			};
+			contextMenu.Items.Add(editItem);
 
 			MenuItem deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
 			deleteItem.Click += (s, args) =>
@@ -87,7 +96,6 @@ namespace SpeedLR.Controls
 				Foreground = BrushHelper.GetBrushFromHex(ColorData.DEFAULT_FONT);
 				DeleteClick?.Invoke(this, EventArgs.Empty);
 			};
-
 			contextMenu.Items.Add(deleteItem);
 
 			contextMenu.PlacementTarget = this;

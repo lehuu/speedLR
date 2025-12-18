@@ -11,11 +11,23 @@ namespace SpeedLR.Model
 
 		}
 
+		[JsonIgnore]
 		public string ShortName => string.Concat(
 			Name?
 				.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
 				.Select(word => word[0].ToString().ToUpper()) ?? Enumerable.Empty<string>()
 		);
+
+		[JsonPropertyName("name")]
+		public new string Name
+		{
+			get => base.Name;
+			set
+			{
+				base.Name = value;
+				OnPropertyChanged(nameof(ShortName));
+			}
+		}
 
 		[JsonPropertyName("bgColor")]
 		public string BackgroundColor

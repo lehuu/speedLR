@@ -113,6 +113,7 @@
 					<local:SubmenuCreatorButton
 					Width="30"
 					DeleteClick="SubmenuDelete_Click"
+					EditClick="SubmenuEdit_Click"
 					ColorItemClick="SubmenuColor_Click"
 					Height="30"
                     Margin="5,0,5,0"

@@ -336,18 +336,47 @@ namespace SpeedLR
 			}
 		}
 
-		private void SubmenuDelete_Click(object sender, EventArgs e)
+		private Submenu? ExtractSubmenuContext(object sender)
 		{
-			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedMenu != null)
-			{
-				var button = sender as System.Windows.Controls.Button;
-				var submenu = button?.DataContext as Submenu;
+			var button = sender as System.Windows.Controls.Button;
+			var submenu = button?.DataContext as Submenu;
 
-				if (submenu == null)
+			return submenu;
+		}
+
+		private void SubmenuEdit_Click(object sender, EventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal
+				&& ExtractSubmenuContext(sender) is Submenu submenu
+				&& viewModal.SelectedMenu != null)
+			{
+				var subMenuIndex = viewModal.SelectedMenu.Submenus.IndexOf(submenu);
+				if (subMenuIndex < 0)
 				{
 					return;
 				}
 
+				EditMenuWindow dialog = new EditMenuWindow(submenu.Name)
+				{
+					Owner = this,
+					WindowStartupLocation = WindowStartupLocation.CenterOwner,
+				};
+
+				if (dialog.ShowDialog() == true)
+				{
+					var menuName = dialog.ResultName;
+					viewModal.SelectedMenu.Submenus[subMenuIndex].Name = menuName;
+					viewModal.SaveMenus();
+				}
+			}
+		}
+
+		private void SubmenuDelete_Click(object sender, EventArgs e)
+		{
+			if (this.DataContext is MainViewModel viewModal
+				&& ExtractSubmenuContext(sender) is Submenu submenu
+				&& viewModal.SelectedMenu != null)
+			{
 				viewModal.SelectedMenu.Submenus.Remove(submenu);
 				viewModal.SaveMenus();
 			}
@@ -355,15 +384,10 @@ namespace SpeedLR
 
 		private void SubmenuColor_Click(object sender, SubmenuCreatorButton.ColorItemEventArg e)
 		{
-			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedMenu != null)
+			if (this.DataContext is MainViewModel viewModal
+				&& ExtractSubmenuContext(sender) is Submenu submenu
+				&& viewModal.SelectedMenu != null)
 			{
-				var button = sender as System.Windows.Controls.Button;
-				var submenu = button?.DataContext as Submenu;
-
-				if (submenu == null)
-				{
-					return;
-				}
 				var subMenuIndex = viewModal.SelectedMenu.Submenus.IndexOf(submenu);
 
 				if (subMenuIndex < 0)
