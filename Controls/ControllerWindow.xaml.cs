@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using SpeedLR.Utils;
 using Point = System.Drawing.Point;
 
@@ -76,6 +77,13 @@ namespace SpeedLR.Controls
 		private void HideButton_Click(object sender, RoutedEventArgs e)
 		{
 			Hide();
+		}
+		private void DragButton_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.ChangedButton == MouseButton.Left)
+			{
+				this.DragMove();
+			}
 		}
 	}
 }
