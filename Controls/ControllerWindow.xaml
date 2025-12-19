@@ -43,5 +43,7 @@
 				<TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">+<LineBreak/>++</TextBlock>
 			</ToggleButton>
 		</StackPanel>
+		<Separator Height="6" Opacity="0"/>
+		<ComboBox Width="120" Height="20" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
 	</StackPanel>
 </Window>

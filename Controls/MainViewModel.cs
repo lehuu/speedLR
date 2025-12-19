@@ -14,6 +14,7 @@ namespace SpeedLR.Controls
 		public MainViewModel()
 		{
 			UserMenus = new ObservableCollection<Menu>(LocalData.Instance.UserMenus);
+			SelectedMenu = UserMenus.FirstOrDefault();
 		}
 
 		public Submenu? SelectedSubmenu

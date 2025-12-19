@@ -27,8 +27,6 @@ namespace SpeedLR
 			var handle = helper.EnsureHandle();
 
 			this.DataContext = new MainViewModel();
-
-			SwitchToMenu(0);
 		}
 
 		private void SwitchToMenu(int menuIndex)
