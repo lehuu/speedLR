@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpeedLR.Controls"
+        xmlns:utils="clr-namespace:SpeedLR.Utils"
         mc:Ignorable="d"
         Focusable="False"
         Background="Transparent"
@@ -13,23 +14,34 @@
 	<Window.DataContext>
 		<local:ControllerViewModel />
 	</Window.DataContext>
+
+	<Window.Resources>
+		<utils:EnumToBooleanConverter x:Key="EnumToBool" />
+	</Window.Resources>
+
 	<StackPanel Margin="4">
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 			<Button Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" PreviewMouseDown="DragButton_MouseDown" />
 			<Separator Width="10" Opacity="0"/>
 			<Button Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="30" Click="HideButton_Click"/>
 			<Separator Width="10" Opacity="0"/>
-			<Button Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" />
+			<ToggleButton Content="▼" 
+				  IsChecked="{Binding IsPinned}"
+				  TextElement.FontSize="8pt" 
+				  HorizontalAlignment="Left" 
+				  Height="20" 
+				  VerticalAlignment="Top" 
+				  Width="20" />
 		</StackPanel>
 		<Separator Height="4" Opacity="0"/>
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" Width="20"/>
+			<ToggleButton Content="+" TextElement.FontSize="8pt" Height="20" Width="20" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Single}" />
 			<Separator Width="5" Opacity="0"/>
-			<Button Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" Width="20" />
+			<ToggleButton Content="++" TextElement.FontSize="8pt" Height="20" Width="20" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Double}" />
 			<Separator Width="5" Opacity="0"/>
-			<Button TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" Width="20" >
+			<ToggleButton VerticalContentAlignment="Center" TextElement.FontSize="8pt" Height="20" Width="20" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Triple}">
 				<TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">+<LineBreak/>++</TextBlock>
-			</Button>
+			</ToggleButton>
 		</StackPanel>
 	</StackPanel>
 </Window>

@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 
 namespace SpeedLR.Controls
 {
     class ControllerViewModel: INotifyPropertyChanged
 	{
+		public enum StepMode { Single, Double, Triple }
+
 		private bool _isPinned;
 		public bool IsPinned
 		{
@@ -14,6 +17,20 @@ namespace SpeedLR.Controls
 				if (_isPinned != value)
 				{
 					_isPinned = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private StepMode _stepSize = StepMode.Single;
+		public StepMode StepSize
+		{
+			get => _stepSize;
+			set
+			{
+				if (_stepSize != value)
+				{
+					_stepSize = value;
 					OnPropertyChanged();
 				}
 			}
