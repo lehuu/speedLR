@@ -73,5 +73,9 @@ namespace SpeedLR.Controls
 			Left = x;
 			Top = y;
 		}
+		private void HideButton_Click(object sender, RoutedEventArgs e)
+		{
+			Hide();
+		}
 	}
 }

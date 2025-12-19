@@ -17,7 +17,7 @@
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 			<Button Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" />
 			<Separator Width="10" Opacity="0"/>
-			<Button Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="30"/>
+			<Button Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="30" Click="HideButton_Click"/>
 			<Separator Width="10" Opacity="0"/>
 			<Button Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" />
 		</StackPanel>
