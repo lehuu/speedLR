@@ -12,7 +12,7 @@ using Timer = System.Timers.Timer;
 namespace SpeedLR
 {
 
-    public partial class ControllerWindow : Window, INotifyPropertyChanged
+    public partial class LegacyControllerWindow : Window, INotifyPropertyChanged
     {
         internal enum ButtonType
         {
@@ -59,11 +59,11 @@ namespace SpeedLR
 
         private string _currentMenuId = "";
 
-        public ControllerWindow()
+        public LegacyControllerWindow()
         {
             InitializeComponent();
             Loaded += Window_Loaded;
-            IsVisibleChanged += ControllerWindow_IsVisibleChanged;
+            IsVisibleChanged += LegacyControllerWindow_IsVisibleChanged;
             _hideTimer = new Timer(500);
             _hideTimer.AutoReset = false;
             _hideTimer.Elapsed += OnHideElapsed;
@@ -331,7 +331,7 @@ namespace SpeedLR
             Dispatcher.Invoke(() => UpdateHooksAndControls());
         }
 
-        private void ControllerWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void LegacyControllerWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (!(_hotkeys?.Length > 0))
             {
@@ -426,7 +426,7 @@ namespace SpeedLR
             });
         }
 
-        private void ControllerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void LegacyControllerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
             Hide();

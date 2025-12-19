@@ -4,7 +4,7 @@ using SpeedLR.Controls;
 
 namespace SpeedLR
 {
-    public partial class ControllerWindow : Window
+    public partial class LegacyControllerWindow : Window
     {
         private void HandleClose(ref bool isHandled)
         {

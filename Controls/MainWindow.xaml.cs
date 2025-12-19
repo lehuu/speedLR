@@ -16,7 +16,7 @@ namespace SpeedLR
 	{
 		private NotifyIcon? _notifyIcon;
 
-		private ControllerWindow? _controller;
+		private LegacyControllerWindow? _controller;
 		private LowLevelHotkey? _hotkeyHook;
 		private ActiveWindowWatcher _watcher = new ActiveWindowWatcher();
 
@@ -55,7 +55,7 @@ namespace SpeedLR
 
 			SetupContextMenu();
 
-			_controller = new ControllerWindow();
+			_controller = new LegacyControllerWindow();
 
 			var helper = new WindowInteropHelper(this);
 
