@@ -1,0 +1,35 @@
+﻿<Window x:Class="SpeedLR.Controls.ControllerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpeedLR.Controls"
+        mc:Ignorable="d"
+        Focusable="False"
+        Background="Transparent"
+        SizeToContent="Height"
+        Closing="ControllerWindow_Closing" WindowStyle="None" AllowsTransparency="True"
+        Topmost="True" ShowInTaskbar="False" MinHeight="400" Height="Auto" Width="400" ResizeMode="NoResize">
+	<Window.DataContext>
+		<local:ControllerViewModel />
+	</Window.DataContext>
+	<StackPanel Margin="4">
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" />
+			<Separator Width="10" Opacity="0"/>
+			<Button Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="30"/>
+			<Separator Width="10" Opacity="0"/>
+			<Button Content="▼" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" />
+		</StackPanel>
+		<Separator Height="4" Opacity="0"/>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+			<Button Content="+" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" Width="20"/>
+			<Separator Width="5" Opacity="0"/>
+			<Button Content="++" TextElement.FontSize="8pt" HorizontalAlignment="Center" Height="20" Width="20" />
+			<Separator Width="5" Opacity="0"/>
+			<Button TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" Width="20" >
+				<TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">+<LineBreak/>++</TextBlock>
+			</Button>
+		</StackPanel>
+	</StackPanel>
+</Window>

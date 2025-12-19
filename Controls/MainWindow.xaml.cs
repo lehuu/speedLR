@@ -5,7 +5,6 @@ using System.Windows.Interop;
 using SpeedLR.Controls;
 using SpeedLR.Model;
 using SpeedLR.Utils;
-using static SpeedLR.Controls.SubmenuCreatorButton;
 using Application = System.Windows.Application;
 using Brushes = System.Windows.Media.Brushes;
 using Point = System.Drawing.Point;
@@ -16,7 +15,7 @@ namespace SpeedLR
 	{
 		private NotifyIcon? _notifyIcon;
 
-		private LegacyControllerWindow? _controller;
+		private ControllerWindow? _controller;
 		private LowLevelHotkey? _hotkeyHook;
 		private ActiveWindowWatcher _watcher = new ActiveWindowWatcher();
 
@@ -55,7 +54,7 @@ namespace SpeedLR
 
 			SetupContextMenu();
 
-			_controller = new LegacyControllerWindow();
+			_controller = new ControllerWindow();
 
 			var helper = new WindowInteropHelper(this);
 
@@ -143,50 +142,7 @@ namespace SpeedLR
 
 		private void Ctrl_DoublePressed(ref bool _)
 		{
-			if (_controller.IsVisible)
-			{
-				_controller.Hide();
-				return;
-			}
-
-			if (!_watcher.IsLightroomActive)
-			{
-				return;
-			}
-
-			if (_controller.IsPinned)
-			{
-				_controller.Show();
-				return;
-			}
-
-			Point mousePosition = System.Windows.Forms.Control.MousePosition;
-			Screen screen = Screen.FromPoint(mousePosition);
-			var scale = DpiHelper.GetDpiScaleFactorForMousePosition();
-
-			var formWidth = _controller.Width;
-			var formHeight = _controller.Height;
-
-			var topLeft = (new System.Windows.Point(screen.WorkingArea.Left / scale, screen.WorkingArea.Top / scale));
-			var bottomRight = (new System.Windows.Point(screen.WorkingArea.Right / scale, screen.WorkingArea.Bottom / scale));
-
-			var x = mousePosition.X / scale - formWidth / 2;
-			var y = mousePosition.Y / scale - formHeight / 2;
-
-			x = Math.Max(topLeft.X, Math.Min(x, bottomRight.X - formWidth));
-			y = Math.Max(topLeft.Y, Math.Min(y, bottomRight.Y - formHeight));
-
-			if (_prevScale > 0)
-			{
-				x = x * scale / _prevScale;
-				y = y * scale / _prevScale;
-			}
-			_prevScale = scale;
-
-			_controller.Left = x;
-			_controller.Top = y;
-
-			_controller.Show();
+			_controller?.ToggleVisibility(_watcher.IsLightroomActive);
 		}
 
 		private void ConnectButton_Click(object sender, RoutedEventArgs e)
