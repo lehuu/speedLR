@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using SpeedLR.Model;
 using Binding = System.Windows.Data.Binding;
@@ -8,7 +9,7 @@ using Button = System.Windows.Controls.Button;
 
 namespace SpeedLR.Controls
 {
-	class SubmenuCreatorButton : Button
+	class SubmenuCreatorButton : ToggleButton
 	{
 
 		public event EventHandler<ColorItemEventArg>? ColorItemClick;

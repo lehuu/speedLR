@@ -145,48 +145,46 @@
 								DeleteClick="SubmenuDelete_Click"
 								EditClick="SubmenuEdit_Click"
 								ColorItemClick="SubmenuColor_Click"
-								Margin="5,0,5,0"
 								Click="SubmenuButton_Click">
+							<local:SubmenuCreatorButton.IsChecked>
+								<MultiBinding Converter="{StaticResource EqualityConverter}">
+									<Binding Path="." />
+									<Binding Path="DataContext.SelectedSubmenu" 
+                                 RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+								</MultiBinding>
+							</local:SubmenuCreatorButton.IsChecked>
+
 							<local:SubmenuCreatorButton.Style>
 								<Style TargetType="local:SubmenuCreatorButton">
-									<Setter Property="BorderBrush" Value="Transparent" />
-									<Setter Property="BorderThickness" Value="0" />
-									<Setter Property="Width" Value="24" />
-									<Setter Property="Height" Value="24" />
-									<Setter Property="Opacity" Value="0.75"/>
-									<Setter Property="FontWeight" Value="Bold"/>
+									<Setter Property="HorizontalContentAlignment" Value="Center"/>
+									<Setter Property="VerticalContentAlignment" Value="Center"/>
+									<Setter Property="BorderBrush" Value="Transparent"/>
+									<Setter Property="BorderThickness" Value="0"/>
+
 									<Setter Property="Template">
 										<Setter.Value>
-											<ControlTemplate TargetType="{x:Type Button}">
-												<Border x:Name="border" CornerRadius="15"
-											Background="{TemplateBinding Background}"
-											Opacity="{TemplateBinding Opacity}">
-													<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-												</Border>
-												<ControlTemplate.Triggers>
-													<Trigger Property="IsMouseOver"  Value="True">
-														<Setter TargetName="border" Property="Opacity" Value="1.0" />
-													</Trigger>
-												</ControlTemplate.Triggers>
+											<ControlTemplate TargetType="local:SubmenuCreatorButton">
+												<Grid>
+													<Ellipse x:Name="BackgroundEllipse" Fill="{TemplateBinding Background}"/>
+													<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+												</Grid>
 											</ControlTemplate>
 										</Setter.Value>
 									</Setter>
 
-
 									<Style.Triggers>
-										<DataTrigger Value="True">
-											<DataTrigger.Binding>
-												<MultiBinding Converter="{StaticResource EqualityConverter}">
-													<Binding />
-													<Binding Path="DataContext.SelectedSubmenu"
-												RelativeSource="{RelativeSource AncestorType=Window}" />
-												</MultiBinding>
-											</DataTrigger.Binding>
-
-											<Setter Property="Opacity" Value="1.0" />
-											<Setter Property="Width" Value="30" />
-											<Setter Property="Height" Value="30" />
-										</DataTrigger>
+										<Trigger Property="IsChecked" Value="True">
+											<Setter Property="Width" Value="30"/>
+											<Setter Property="Height" Value="30"/>
+											<Setter Property="Opacity" Value="1"/>
+											<Setter Property="Margin" Value="3,0,3,0"/>
+										</Trigger>
+										<Trigger Property="IsChecked" Value="False">
+											<Setter Property="Width" Value="24"/>
+											<Setter Property="Height" Value="24"/>
+											<Setter Property="Opacity" Value="0.6"/>
+											<Setter Property="Margin" Value="6,0,6,0"/>
+										</Trigger>
 									</Style.Triggers>
 								</Style>
 							</local:SubmenuCreatorButton.Style>
