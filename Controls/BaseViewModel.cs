@@ -28,11 +28,8 @@ namespace SpeedLR.Controls
 			get => _selectedSubmenu;
 			set
 			{
-				if (_selectedSubmenu != value)
-				{
-					_selectedSubmenu = value;
-					OnPropertyChanged();
-				}
+				_selectedSubmenu = value;
+				OnPropertyChanged();
 			}
 		}
 
@@ -41,12 +38,9 @@ namespace SpeedLR.Controls
 			get => _selectedMenu;
 			set
 			{
-				if (_selectedMenu != value)
-				{
-					_selectedMenu = value;
-					SelectedSubmenu = value?.Submenus.FirstOrDefault();
-					OnPropertyChanged();
-				}
+				_selectedMenu = value;
+				SelectedSubmenu = value?.Submenus.FirstOrDefault();
+				OnPropertyChanged();
 			}
 		}
 
@@ -55,11 +49,8 @@ namespace SpeedLR.Controls
 			get => _userMenus;
 			set
 			{
-				if (_userMenus != value)
-				{
-					_userMenus = value;
-					OnPropertyChanged();
-				}
+				_userMenus = value;
+				OnPropertyChanged();
 			}
 		}
 

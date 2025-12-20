@@ -134,7 +134,10 @@
 			<ItemsControl ItemsSource="{Binding SelectedMenu.Submenus}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
-						<WrapPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Center" />
+						<StackPanel 
+						VerticalAlignment="Center" 
+						Orientation="Horizontal" 
+						Height="30" HorizontalAlignment="Center" />
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 
@@ -145,50 +148,8 @@
 								DeleteClick="SubmenuDelete_Click"
 								EditClick="SubmenuEdit_Click"
 								ColorItemClick="SubmenuColor_Click"
-								Click="SubmenuButton_Click">
-							<local:SubmenuCreatorButton.IsChecked>
-								<MultiBinding Converter="{StaticResource EqualityConverter}">
-									<Binding Path="." />
-									<Binding Path="DataContext.SelectedSubmenu" 
-                                 RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
-								</MultiBinding>
-							</local:SubmenuCreatorButton.IsChecked>
-
-							<local:SubmenuCreatorButton.Style>
-								<Style TargetType="local:SubmenuCreatorButton">
-									<Setter Property="HorizontalContentAlignment" Value="Center"/>
-									<Setter Property="VerticalContentAlignment" Value="Center"/>
-									<Setter Property="BorderBrush" Value="Transparent"/>
-									<Setter Property="BorderThickness" Value="0"/>
-
-									<Setter Property="Template">
-										<Setter.Value>
-											<ControlTemplate TargetType="local:SubmenuCreatorButton">
-												<Grid>
-													<Ellipse x:Name="BackgroundEllipse" Fill="{TemplateBinding Background}"/>
-													<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-												</Grid>
-											</ControlTemplate>
-										</Setter.Value>
-									</Setter>
-
-									<Style.Triggers>
-										<Trigger Property="IsChecked" Value="True">
-											<Setter Property="Width" Value="30"/>
-											<Setter Property="Height" Value="30"/>
-											<Setter Property="Opacity" Value="1"/>
-											<Setter Property="Margin" Value="3,0,3,0"/>
-										</Trigger>
-										<Trigger Property="IsChecked" Value="False">
-											<Setter Property="Width" Value="24"/>
-											<Setter Property="Height" Value="24"/>
-											<Setter Property="Opacity" Value="0.6"/>
-											<Setter Property="Margin" Value="6,0,6,0"/>
-										</Trigger>
-									</Style.Triggers>
-								</Style>
-							</local:SubmenuCreatorButton.Style>
-						</local:SubmenuCreatorButton>
+								Click="SubmenuButton_Click"
+								Style="{StaticResource SubmenuButtonStyle}"/>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>

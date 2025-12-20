@@ -1,15 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
 using SpeedLR.Model;
-using Binding = System.Windows.Data.Binding;
 using Brushes = System.Windows.Media.Brushes;
-using Button = System.Windows.Controls.Button;
 
 namespace SpeedLR.Controls
 {
-	class SubmenuCreatorButton : ToggleButton
+	class SubmenuCreatorButton : SubmenuButton
 	{
 
 		public event EventHandler<ColorItemEventArg>? ColorItemClick;
@@ -50,24 +46,9 @@ namespace SpeedLR.Controls
 			}
 		}
 
-		public SubmenuCreatorButton()
+		public SubmenuCreatorButton() : base()
 		{
-			this.DataContextChanged += OnDataContextChanged;
 			this.ContextMenu = CreateContextMenu();
-		}
-
-		private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-		{
-			if (e.NewValue is Submenu submenu)
-			{
-				this.SetBinding(Button.ContentProperty, new Binding("ShortName"));
-				this.SetBinding(Button.ToolTipProperty, new Binding("Name"));
-				this.SetBinding(Button.BackgroundProperty, new Binding("BackgroundColor"));
-				this.SetBinding(Button.ForegroundProperty, new Binding("FontColor"));
-
-				ToolTipService.SetInitialShowDelay(this, 0);
-				ToolTipService.SetShowDuration(this, int.MaxValue);
-			}
 		}
 
 		private ContextMenu CreateContextMenu()

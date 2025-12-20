@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:local="clr-namespace:SpeedLR.Controls"
+					xmlns:utils="clr-namespace:SpeedLR.Utils">
+	<utils:EqualityConverter x:Key="EqualityConverter"/>
+
+	<Style x:Key="SubmenuButtonStyle" TargetType="{x:Type local:SubmenuButton}">
+		<Setter Property="Submenu" Value="{Binding .}"/>
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="IsChecked">
+			<Setter.Value>
+				<MultiBinding Converter="{StaticResource EqualityConverter}" Mode="OneWay">
+					<Binding Path="Submenu" RelativeSource="{RelativeSource Self}" />
+					<Binding Path="DataContext.SelectedSubmenu" 
+                             RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+				</MultiBinding>
+			</Setter.Value>
+		</Setter>
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:SubmenuCreatorButton">
+					<Grid>
+						<Ellipse x:Name="BackgroundEllipse" Fill="{TemplateBinding Background}"/>
+						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+
+		<Style.Triggers>
+			<Trigger Property="IsChecked" Value="True">
+				<Setter Property="Width" Value="30"/>
+				<Setter Property="Height" Value="30"/>
+				<Setter Property="Opacity" Value="1"/>
+				<Setter Property="Margin" Value="3,0,3,0"/>
+			</Trigger>
+			<Trigger Property="IsChecked" Value="False">
+				<Setter Property="Width" Value="24"/>
+				<Setter Property="Height" Value="24"/>
+				<Setter Property="Opacity" Value="0.6"/>
+				<Setter Property="Margin" Value="6,0,6,0"/>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+</ResourceDictionary>
