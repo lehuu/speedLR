@@ -282,12 +282,11 @@ namespace SpeedLR
 
 		private Submenu? ExtractSubmenuContext(object sender)
 		{
-			var button = sender as System.Windows.Controls.Button;
+			var button = sender as SubmenuCreatorButton;
 			var submenu = button?.DataContext as Submenu;
 
 			return submenu;
 		}
-
 
 		private void SubmenuButton_Click(object sender, RoutedEventArgs e)
 		{

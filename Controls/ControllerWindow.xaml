@@ -17,6 +17,9 @@
 
 	<Window.Resources>
 		<utils:EnumToBooleanConverter x:Key="EnumToBool" />
+		<utils:ObjectToVisibilityConverter x:Key="ObjectToVis" />
+		<utils:EqualityConverter x:Key="EqualityConverter" />
+		<utils:ObjectToBoolConverter x:Key="BoolConverter" />
 	</Window.Resources>
 
 	<StackPanel Margin="4">
@@ -45,5 +48,63 @@
 		</StackPanel>
 		<Separator Height="6" Opacity="0"/>
 		<ComboBox Width="120" Height="20" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
+		<Separator Height="6" Opacity="0"/>
+		<ItemsControl ItemsSource="{Binding SelectedMenu.Submenus}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Center" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Button Margin="5,0,5,0" Click="SubmenuButton_Click" Content="{Binding ShortName}">
+						<Button.Style>
+							<Style TargetType="Button">
+								<Setter Property="BorderBrush" Value="Transparent" />
+								<Setter Property="BorderThickness" Value="0" />
+								<Setter Property="Width" Value="24" />
+								<Setter Property="Height" Value="24" />
+								<Setter Property="Opacity" Value="0.75"/>
+								<Setter Property="FontWeight" Value="Bold"/>
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="{x:Type Button}">
+											<Border x:Name="border" CornerRadius="15" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}">
+												<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+											</Border>
+											<ControlTemplate.Triggers>
+												<Trigger Property="IsMouseOver"  Value="True">
+													<Setter TargetName="border" Property="Opacity" Value="1.0" />
+												</Trigger>
+											</ControlTemplate.Triggers>
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+
+
+								<Style.Triggers>
+									<DataTrigger Value="True">
+										<DataTrigger.Binding>
+											<MultiBinding Converter="{StaticResource EqualityConverter}">
+												<Binding />
+												<Binding Path="DataContext.SelectedSubmenu"
+											RelativeSource="{RelativeSource AncestorType=Window}" />
+											</MultiBinding>
+										</DataTrigger.Binding>
+
+										<Setter Property="Opacity" Value="1.0" />
+										<Setter Property="Width" Value="30" />
+										<Setter Property="Height" Value="30" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Button.Style>
+					</Button>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+
+
 	</StackPanel>
 </Window>

@@ -1,5 +1,7 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using SpeedLR.Model;
 using SpeedLR.Utils;
 using Point = System.Drawing.Point;
 
@@ -83,6 +85,22 @@ namespace SpeedLR.Controls
 			if (e.ChangedButton == MouseButton.Left)
 			{
 				this.DragMove();
+			}
+		}
+
+		private Submenu? ExtractSubmenuContext(object sender)
+		{
+			var button = sender as System.Windows.Controls.Button;
+			var submenu = button?.DataContext as Submenu;
+
+			return submenu;
+		}
+
+		private void SubmenuButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (this.DataContext is ControllerViewModel viewModal && ExtractSubmenuContext(sender) is Submenu submenu)
+			{
+				viewModal.SelectedSubmenu = submenu;
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
+using Binding = System.Windows.Data.Binding;
 
 namespace SpeedLR.Utils
 {
@@ -14,8 +15,9 @@ namespace SpeedLR.Utils
 			return Equals(left, right);
 		}
 
-		public object[] ConvertBack(object value, Type[] targetTypes,
-									object parameter, CultureInfo culture)
-			=> throw new NotSupportedException();
+		public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+		{
+			return new object[] { Binding.DoNothing, Binding.DoNothing };
+		}
 	}
 }

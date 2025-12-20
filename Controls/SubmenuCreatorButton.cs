@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using SpeedLR.Model;
-using SpeedLR.Utils;
 using Binding = System.Windows.Data.Binding;
 using Brushes = System.Windows.Media.Brushes;
 using Button = System.Windows.Controls.Button;
