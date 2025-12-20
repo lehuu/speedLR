@@ -10,7 +10,8 @@
         Background="Transparent"
         SizeToContent="Height"
         Closing="ControllerWindow_Closing" WindowStyle="None" AllowsTransparency="True"
-        Topmost="True" ShowInTaskbar="False" MinHeight="400" Height="Auto" Width="400" ResizeMode="NoResize">
+        Topmost="True" ShowInTaskbar="False" MinHeight="400" Height="Auto" Width="400" ResizeMode="NoResize"
+		d:DataContext="{d:DesignInstance local:ControllerViewModel}">
 	<Window.DataContext>
 		<local:ControllerViewModel />
 	</Window.DataContext>
@@ -18,89 +19,47 @@
 	<Window.Resources>
 		<utils:EnumToBooleanConverter x:Key="EnumToBool" />
 		<utils:ObjectToVisibilityConverter x:Key="ObjectToVis" />
-		<utils:EqualityConverter x:Key="EqualityConverter" />
 		<utils:ObjectToBoolConverter x:Key="BoolConverter" />
 	</Window.Resources>
 
 	<StackPanel Margin="4">
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button Content="≡" TextElement.FontSize="8pt" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="20" PreviewMouseDown="DragButton_MouseDown" />
+			<Button Content="≡" Style="{StaticResource SmallRoundButtonStyle}" VerticalAlignment="Top" PreviewMouseDown="DragButton_MouseDown" />
 			<Separator Width="10" Opacity="0"/>
-			<Button Content="X" HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Width="30" Click="HideButton_Click"/>
+			<Button Content="X" Style="{StaticResource MediumRoundButtonStyle}" Click="HideButton_Click"/>
 			<Separator Width="10" Opacity="0"/>
-			<ToggleButton Content="▼" 
+			<ToggleButton Style="{StaticResource SmallRoundToggleButtonStyle}" Content="▼" 
 				  IsChecked="{Binding IsPinned}"
-				  TextElement.FontSize="8pt" 
-				  HorizontalAlignment="Left" 
-				  Height="20" 
-				  VerticalAlignment="Top" 
-				  Width="20" />
+				  VerticalAlignment="Top"/>
 		</StackPanel>
 		<Separator Height="4" Opacity="0"/>
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-			<ToggleButton Content="+" TextElement.FontSize="8pt" Height="20" Width="20" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Single}" />
-			<Separator Width="5" Opacity="0"/>
-			<ToggleButton Content="++" TextElement.FontSize="8pt" Height="20" Width="20" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Double}" />
-			<Separator Width="5" Opacity="0"/>
-			<ToggleButton VerticalContentAlignment="Center" TextElement.FontSize="8pt" Height="20" Width="20" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Triple}">
+			<ToggleButton Content="+" Style="{StaticResource SmallRoundToggleButtonStyle}" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Single}" />
+			<Separator Width="6" Opacity="0"/>
+			<ToggleButton Content="++" Style="{StaticResource SmallRoundToggleButtonStyle}" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Double}" />
+			<Separator Width="6" Opacity="0"/>
+			<ToggleButton Style="{StaticResource SmallRoundToggleButtonStyle}" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Triple}">
 				<TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">+<LineBreak/>++</TextBlock>
 			</ToggleButton>
 		</StackPanel>
 		<Separator Height="6" Opacity="0"/>
-		<ComboBox Width="120" Height="20" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
+		<ComboBox HorizontalContentAlignment="Center" Width="120" Height="20" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
 		<Separator Height="6" Opacity="0"/>
 		<ItemsControl ItemsSource="{Binding SelectedMenu.Submenus}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
-					<WrapPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Center" />
+					<StackPanel 
+						VerticalAlignment="Center" 
+						Orientation="Horizontal" 
+						Height="30" HorizontalAlignment="Center" />
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Button Margin="5,0,5,0" Click="SubmenuButton_Click" Content="{Binding ShortName}">
-						<Button.Style>
-							<Style TargetType="Button">
-								<Setter Property="BorderBrush" Value="Transparent" />
-								<Setter Property="BorderThickness" Value="0" />
-								<Setter Property="Width" Value="24" />
-								<Setter Property="Height" Value="24" />
-								<Setter Property="Opacity" Value="0.75"/>
-								<Setter Property="FontWeight" Value="Bold"/>
-								<Setter Property="Template">
-									<Setter.Value>
-										<ControlTemplate TargetType="{x:Type Button}">
-											<Border x:Name="border" CornerRadius="15" Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}">
-												<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-											</Border>
-											<ControlTemplate.Triggers>
-												<Trigger Property="IsMouseOver"  Value="True">
-													<Setter TargetName="border" Property="Opacity" Value="1.0" />
-												</Trigger>
-											</ControlTemplate.Triggers>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-
-
-								<Style.Triggers>
-									<DataTrigger Value="True">
-										<DataTrigger.Binding>
-											<MultiBinding Converter="{StaticResource EqualityConverter}">
-												<Binding />
-												<Binding Path="DataContext.SelectedSubmenu"
-											RelativeSource="{RelativeSource AncestorType=Window}" />
-											</MultiBinding>
-										</DataTrigger.Binding>
-
-										<Setter Property="Opacity" Value="1.0" />
-										<Setter Property="Width" Value="30" />
-										<Setter Property="Height" Value="30" />
-									</DataTrigger>
-								</Style.Triggers>
-							</Style>
-						</Button.Style>
-					</Button>
+					<local:SubmenuButton
+								Click="SubmenuButton_Click"
+								Style="{StaticResource SubmenuButtonStyle}"/>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>

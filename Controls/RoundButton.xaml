@@ -1,0 +1,126 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:local="clr-namespace:SpeedLR.Controls">
+
+	<Style x:Key="ButtonBaseStyle" TargetType="{x:Type ButtonBase}">
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Background" Value="#DDDDDD"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ButtonBase">
+					<Border x:Name="MainBorder"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="15">
+						<ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+					</Border>
+
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsPressed" Value="True">
+							<Setter Property="Background" Value="#999999"/>
+						</Trigger>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter Property="Background" Value="#DDDDDD"/>
+							<Setter Property="Opacity" Value="0.4"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="BaseRoundButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBaseStyle}">
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Background" Value="#DDDDDD"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Border x:Name="MainBorder"
+						Background="{TemplateBinding Background}"
+						CornerRadius="15"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="0"
+						Opacity="1">
+						<ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+					</Border>
+
+					<ControlTemplate.Triggers>
+						<!-- Normal hover/press behavior -->
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter TargetName="MainBorder" Property="Background" Value="#BBBBBB"/>
+							<Setter Property="Cursor" Value="Hand"/>
+						</Trigger>
+
+						<Trigger Property="IsPressed" Value="True">
+							<Setter TargetName="MainBorder" Property="Background" Value="#999999"/>
+						</Trigger>
+
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter TargetName="MainBorder" Property="Background" Value="#DDDDDD"/>
+							<Setter TargetName="MainBorder" Property="Opacity" Value="0.4"/>
+							<Setter Property="Cursor" Value="Arrow"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="MediumFullButtonStyle" TargetType="{x:Type Button}" 
+           BasedOn="{StaticResource BaseRoundButtonStyle}">
+		<Setter Property="Height" Value="30"/>
+	</Style>
+
+	<Style x:Key="SmallFullButtonStyle" TargetType="{x:Type Button}" 
+           BasedOn="{StaticResource BaseRoundButtonStyle}">
+		<Setter Property="Height" Value="20"/>
+	</Style>
+
+	<Style x:Key="MediumRoundButtonStyle" TargetType="{x:Type Button}" 
+           BasedOn="{StaticResource BaseRoundButtonStyle}">
+		<Setter Property="Width" Value="30"/>
+		<Setter Property="Height" Value="30"/>
+	</Style>
+
+	<Style x:Key="SmallRoundButtonStyle" TargetType="{x:Type Button}" 
+           BasedOn="{StaticResource BaseRoundButtonStyle}">
+		<Setter Property="Width" Value="20"/>
+		<Setter Property="Height" Value="20"/>
+	</Style>
+
+	<Style x:Key="SmallRoundToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ButtonBaseStyle}">
+		<Setter Property="Width" Value="20"/>
+		<Setter Property="Height" Value="20"/>
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="Cursor" Value="Hand"/>
+			</Trigger>
+			<Trigger Property="IsChecked" Value="True">
+				<Setter Property="Background" Value="Orange"/>
+			</Trigger>
+			<MultiTrigger>
+				<MultiTrigger.Conditions>
+					<Condition Property="IsChecked" Value="True"/>
+					<Condition Property="IsMouseOver" Value="True"/>
+				</MultiTrigger.Conditions>
+				<Setter Property="Background" Value="DarkOrange"/>
+			</MultiTrigger>
+			<MultiTrigger>
+				<MultiTrigger.Conditions>
+					<Condition Property="IsChecked" Value="False"/>
+					<Condition Property="IsMouseOver" Value="True"/>
+				</MultiTrigger.Conditions>
+				<Setter Property="Background" Value="#999999"/>
+			</MultiTrigger>
+		</Style.Triggers>
+	</Style>
+</ResourceDictionary>

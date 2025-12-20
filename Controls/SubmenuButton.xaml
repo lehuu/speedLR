@@ -22,7 +22,7 @@
 
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="local:SubmenuCreatorButton">
+				<ControlTemplate TargetType="local:SubmenuButton">
 					<Grid>
 						<Ellipse x:Name="BackgroundEllipse" Fill="{TemplateBinding Background}"/>
 						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -32,6 +32,9 @@
 		</Setter>
 
 		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="Cursor" Value="Hand"/>
+			</Trigger>
 			<Trigger Property="IsChecked" Value="True">
 				<Setter Property="Width" Value="30"/>
 				<Setter Property="Height" Value="30"/>

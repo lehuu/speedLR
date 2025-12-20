@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using SpeedLR.Model;
 using SpeedLR.Utils;
@@ -12,6 +11,7 @@ namespace SpeedLR.Controls
 	/// </summary>
 	public partial class ControllerWindow : Window
 	{
+		public ControllerViewModel ViewModel => (ControllerViewModel)DataContext;
 		public ControllerWindow()
 		{
 			InitializeComponent();
@@ -19,9 +19,6 @@ namespace SpeedLR.Controls
 
 		public void ToggleVisibility(bool isLightroomActive)
 		{
-			var vm = DataContext as ControllerViewModel;
-			if (vm == null) return;
-
 			if (this.IsVisible)
 			{
 				this.Hide();
@@ -30,7 +27,7 @@ namespace SpeedLR.Controls
 
 			if (!isLightroomActive) return;
 
-			if (vm.IsPinned)
+			if (ViewModel.IsPinned)
 			{
 				this.Show();
 				return;
@@ -90,17 +87,15 @@ namespace SpeedLR.Controls
 
 		private Submenu? ExtractSubmenuContext(object sender)
 		{
-			var button = sender as System.Windows.Controls.Button;
-			var submenu = button?.DataContext as Submenu;
-
-			return submenu;
+			var button = sender as SubmenuButton;
+			return button?.Submenu;
 		}
 
 		private void SubmenuButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (this.DataContext is ControllerViewModel viewModal && ExtractSubmenuContext(sender) is Submenu submenu)
+			if (ExtractSubmenuContext(sender) is Submenu submenu)
 			{
-				viewModal.SelectedSubmenu = submenu;
+				ViewModel.SelectedSubmenu = submenu;
 			}
 		}
 	}
