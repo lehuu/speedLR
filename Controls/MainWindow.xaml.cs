@@ -7,12 +7,13 @@ using SpeedLR.Model;
 using SpeedLR.Utils;
 using Application = System.Windows.Application;
 using Brushes = System.Windows.Media.Brushes;
-using Point = System.Drawing.Point;
 
 namespace SpeedLR
 {
 	public partial class MainWindow : Window
 	{
+		public MainViewModel ViewModel => (MainViewModel)DataContext;
+
 		private NotifyIcon? _notifyIcon;
 
 		private ControllerWindow? _controller;
@@ -31,14 +32,14 @@ namespace SpeedLR
 
 		private void SwitchToMenu(int menuIndex)
 		{
-			if (this.DataContext is MainViewModel viewModal)
+			if (this.DataContext is MainViewModel ViewModel)
 			{
-				if (menuIndex < 0 || menuIndex >= viewModal.UserMenus.Count)
+				if (menuIndex < 0 || menuIndex >= ViewModel.UserMenus.Count)
 				{
 					return;
 				}
 
-				viewModal.SelectedMenu = viewModal.UserMenus[menuIndex];
+				ViewModel.SelectedMenu = ViewModel.UserMenus[menuIndex];
 			}
 
 		}
@@ -194,115 +195,108 @@ namespace SpeedLR
 
 		private void AddMenu_Click(object sender, RoutedEventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal)
+			EditMenuWindow dialog = new EditMenuWindow()
 			{
-				EditMenuWindow dialog = new EditMenuWindow()
-				{
-					Owner = this,
-					WindowStartupLocation = WindowStartupLocation.CenterOwner,
-				};
+				Owner = this,
+				WindowStartupLocation = WindowStartupLocation.CenterOwner,
+			};
 
-				if (dialog.ShowDialog() == true)
-				{
-					var menuName = dialog.ResultName;
-					var newMenu = new Model.Menu(menuName, viewModal.UserMenus.Count);
-					viewModal.UserMenus.Add(newMenu);
-					viewModal.SaveMenus();
-					viewModal.SelectedMenu = newMenu;
-				}
+			if (dialog.ShowDialog() == true)
+			{
+				var menuName = dialog.ResultName;
+				var newMenu = new Model.Menu(menuName, ViewModel.UserMenus.Count);
+				ViewModel.UserMenus.Add(newMenu);
+				ViewModel.SaveMenus();
+				ViewModel.SelectedMenu = newMenu;
 			}
 		}
 
 		private void DeleteMenu_Click(object sender, RoutedEventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal)
+			if (ViewModel.SelectedMenu != null)
 			{
-				if (viewModal.SelectedMenu != null)
-				{
-					viewModal.UserMenus.Remove(viewModal.SelectedMenu);
-					viewModal.SaveMenus();
-					SwitchToMenu(0);
-				}
+				ViewModel.UserMenus.Remove(ViewModel.SelectedMenu);
+				ViewModel.SaveMenus();
+				SwitchToMenu(0);
 			}
 		}
 
 		private void EditMenu_Click(object sender, RoutedEventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedMenu != null)
+			if (ViewModel.SelectedMenu == null)
 			{
-				EditMenuWindow dialog = new EditMenuWindow(viewModal.SelectedMenu.Name)
-				{
-					Owner = this,
-					WindowStartupLocation = WindowStartupLocation.CenterOwner,
-				};
+				return;
+			}
 
-				if (dialog.ShowDialog() == true)
-				{
-					viewModal.SelectedMenu.Name = dialog.ResultName;
-					viewModal.SaveMenus();
-				}
+			EditMenuWindow dialog = new EditMenuWindow(ViewModel.SelectedMenu.Name)
+			{
+				Owner = this,
+				WindowStartupLocation = WindowStartupLocation.CenterOwner,
+			};
+
+			if (dialog.ShowDialog() == true)
+			{
+				ViewModel.SelectedMenu.Name = dialog.ResultName;
+				ViewModel.SaveMenus();
 			}
 		}
 
 		private void MoveUp_Click(object sender, RoutedEventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal)
-			{
-				viewModal.MoveSelectedMenu(true);
-			}
+			ViewModel.MoveSelectedMenu(true);
 		}
 		private void MoveDown_Click(object sender, RoutedEventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal)
-			{
-				viewModal.MoveSelectedMenu(false);
-			}
+			ViewModel.MoveSelectedMenu(false);
 		}
 
 		private void AddSubenu_Click(object sender, RoutedEventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedMenu != null)
+			if (ViewModel.SelectedMenu == null)
 			{
-				EditMenuWindow dialog = new EditMenuWindow()
-				{
-					Owner = this,
-					WindowStartupLocation = WindowStartupLocation.CenterOwner,
-				};
+				return;
+			}
 
-				if (dialog.ShowDialog() == true)
-				{
-					var menuName = dialog.ResultName;
-					var newMenu = new Model.Submenu(menuName, viewModal.SelectedMenu.Submenus.Count);
-					viewModal.SelectedMenu.Submenus.Add(newMenu);
-					viewModal.SelectedSubmenu = newMenu;
-					viewModal.SaveMenus();
-				}
+			EditMenuWindow dialog = new EditMenuWindow()
+			{
+				Owner = this,
+				WindowStartupLocation = WindowStartupLocation.CenterOwner,
+			};
+
+			if (dialog.ShowDialog() == true)
+			{
+				var menuName = dialog.ResultName;
+				var newMenu = new Model.Submenu(menuName, ViewModel.SelectedMenu.Submenus.Count);
+				ViewModel.SelectedMenu.Submenus.Add(newMenu);
+				ViewModel.SelectedSubmenu = newMenu;
+				ViewModel.SaveMenus();
 			}
 		}
 
 		private Submenu? ExtractSubmenuContext(object sender)
 		{
 			var button = sender as SubmenuCreatorButton;
-			var submenu = button?.DataContext as Submenu;
-
-			return submenu;
+			return button?.Submenu;
 		}
 
 		private void SubmenuButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal && ExtractSubmenuContext(sender) is Submenu submenu)
+			if (ExtractSubmenuContext(sender) is Submenu submenu)
 			{
-				viewModal.SelectedSubmenu = submenu;
+				ViewModel.SelectedSubmenu = submenu;
 			}
 		}
 
 		private void SubmenuEdit_Click(object sender, EventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal
-				&& ExtractSubmenuContext(sender) is Submenu submenu
-				&& viewModal.SelectedMenu != null)
+			if (ViewModel.SelectedMenu == null)
 			{
-				var subMenuIndex = viewModal.SelectedMenu.Submenus.IndexOf(submenu);
+				return;
+			}
+
+			if (ExtractSubmenuContext(sender) is Submenu submenu)
+			{
+				var subMenuIndex = ViewModel.SelectedMenu.Submenus.IndexOf(submenu);
 				if (subMenuIndex < 0)
 				{
 					return;
@@ -317,37 +311,43 @@ namespace SpeedLR
 				if (dialog.ShowDialog() == true)
 				{
 					var menuName = dialog.ResultName;
-					viewModal.SelectedMenu.Submenus[subMenuIndex].Name = menuName;
-					viewModal.SaveMenus();
+					ViewModel.SelectedMenu.Submenus[subMenuIndex].Name = menuName;
+					ViewModel.SaveMenus();
 				}
 			}
 		}
 
 		private void SubmenuDelete_Click(object sender, EventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal
-				&& ExtractSubmenuContext(sender) is Submenu submenu
-				&& viewModal.SelectedMenu != null)
+			if (ViewModel.SelectedMenu == null)
 			{
-				viewModal.SelectedMenu.Submenus.Remove(submenu);
-				viewModal.SelectedSubmenu = viewModal.SelectedMenu.Submenus.FirstOrDefault();
-				viewModal.SaveMenus();
+				return;
+			}
+
+			if (ExtractSubmenuContext(sender) is Submenu submenu)
+			{
+				ViewModel.SelectedMenu.Submenus.Remove(submenu);
+				ViewModel.SelectedSubmenu = ViewModel.SelectedMenu.Submenus.FirstOrDefault();
+				ViewModel.SaveMenus();
 			}
 		}
 
 		private void SubmenuMove_Click(object sender, SubmenuCreatorButton.DirectionEventArg e)
 		{
-			if (this.DataContext is MainViewModel viewModal
-				&& ExtractSubmenuContext(sender) is Submenu submenu
-				&& viewModal.SelectedMenu != null)
+			if (ViewModel.SelectedMenu == null)
+			{
+				return;
+			}
+
+			if (ExtractSubmenuContext(sender) is Submenu submenu)
 			{
 				switch (e.Direction)
 				{
 					case SubmenuCreatorButton.Direction.Left:
-						viewModal.MoveSubmenu(submenu, true);
+						ViewModel.MoveSubmenu(submenu, true);
 						break;
 					case SubmenuCreatorButton.Direction.Right:
-						viewModal.MoveSubmenu(submenu, false);
+						ViewModel.MoveSubmenu(submenu, false);
 						break;
 				}
 			}
@@ -355,11 +355,14 @@ namespace SpeedLR
 
 		private void SubmenuColor_Click(object sender, SubmenuCreatorButton.ColorItemEventArg e)
 		{
-			if (this.DataContext is MainViewModel viewModal
-				&& ExtractSubmenuContext(sender) is Submenu submenu
-				&& viewModal.SelectedMenu != null)
+			if (ViewModel.SelectedMenu == null)
 			{
-				var subMenuIndex = viewModal.SelectedMenu.Submenus.IndexOf(submenu);
+				return;
+			}
+
+			if (ExtractSubmenuContext(sender) is Submenu submenu)
+			{
+				var subMenuIndex = ViewModel.SelectedMenu.Submenus.IndexOf(submenu);
 
 				if (subMenuIndex < 0)
 				{
@@ -369,55 +372,62 @@ namespace SpeedLR
 				switch (e.Type)
 				{
 					case SubmenuCreatorButton.ColorType.Background:
-						viewModal.SelectedMenu.Submenus[subMenuIndex].BackgroundColor = e.Value;
+						ViewModel.SelectedMenu.Submenus[subMenuIndex].BackgroundColor = e.Value;
 						break;
 					case SubmenuCreatorButton.ColorType.Font:
-						viewModal.SelectedMenu.Submenus[subMenuIndex].FontColor = e.Value;
+						ViewModel.SelectedMenu.Submenus[subMenuIndex].FontColor = e.Value;
 						break;
 				}
 
-				viewModal.SaveMenus();
+				ViewModel.SaveMenus();
 			}
 		}
 
 		private void CreateControlElement_Click(object sender, EventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedSubmenu != null)
+			if (ViewModel.SelectedMenu == null)
 			{
-				ContextMenu contextMenu = new ContextMenu();
+				return;
+			}
 
-				var separatorItem = new MenuItem { Header = "Separator" };
-				separatorItem.Click += (s, args) =>
+			ContextMenu contextMenu = new ContextMenu();
+
+			var separatorItem = new MenuItem { Header = "Separator" };
+			separatorItem.Click += (s, args) =>
+			{
+				ViewModel.EditMenuElement(new SeparatorElement() { Position = ViewModel.SelectedSubmenu.Items.Count });
+			};
+			contextMenu.Items.Add(separatorItem);
+
+			foreach (var category in LocalData.Instance.AvailableCommands.Categories)
+			{
+				MenuItem categoryItem = new MenuItem { Header = category.Title };
+
+				foreach (var command in category.Commands)
 				{
-					viewModal.EditMenuElement(new SeparatorElement() { Position = viewModal.SelectedSubmenu.Items.Count });
-				};
-				contextMenu.Items.Add(separatorItem);
-
-				foreach (var category in LocalData.Instance.AvailableCommands.Categories)
-				{
-					MenuItem categoryItem = new MenuItem { Header = category.Title };
-
-					foreach (var command in category.Commands)
+					MenuItem commandItem = new MenuItem { Header = command.Title };
+					commandItem.Click += (s, args) =>
 					{
-						MenuItem commandItem = new MenuItem { Header = command.Title };
-						commandItem.Click += (s, args) =>
-						{
-							viewModal.EditMenuElement(new ActionElement { Command = command.CommandName, Position = viewModal.SelectedSubmenu.Items.Count });
-						};
-						categoryItem.Items.Add(commandItem);
-					}
-
-					contextMenu.Items.Add(categoryItem);
+						ViewModel.EditMenuElement(new ActionElement { Command = command.CommandName, Position = ViewModel.SelectedSubmenu.Items.Count });
+					};
+					categoryItem.Items.Add(commandItem);
 				}
 
-				contextMenu.PlacementTarget = sender as System.Windows.Controls.Button;
-				contextMenu.IsOpen = true;
+				contextMenu.Items.Add(categoryItem);
 			}
+
+			contextMenu.PlacementTarget = sender as System.Windows.Controls.Button;
+			contextMenu.IsOpen = true;
 		}
 
 		private void EditControlElement_Click(object sender, EventArgs e)
 		{
-			if (this.DataContext is MainViewModel viewModal && viewModal.SelectedSubmenu != null && (sender as FrameworkElement)?.DataContext is MenuElement element)
+			if (ViewModel.SelectedMenu == null)
+			{
+				return;
+			}
+
+			if ((sender as FrameworkElement)?.DataContext is MenuElement element)
 			{
 				var actionElement = element as ActionElement;
 
@@ -427,12 +437,12 @@ namespace SpeedLR
 				MenuItem moveDownItem = new MenuItem { Header = "Move Down" };
 				moveUpItem.Click += (s, args) =>
 				{
-					viewModal.MoveMenuItem(element, true);
+					ViewModel.MoveMenuItem(element, true);
 				};
 				contextMenu.Items.Add(moveUpItem);
 				moveDownItem.Click += (s, args) =>
 				{
-					viewModal.MoveMenuItem(element, false);
+					ViewModel.MoveMenuItem(element, false);
 				};
 				contextMenu.Items.Add(moveDownItem);
 
@@ -448,7 +458,7 @@ namespace SpeedLR
 							commandItem.Click += (s, args) =>
 							{
 								actionElement.Command = command.CommandName;
-								viewModal.EditMenuElement(actionElement);
+								ViewModel.EditMenuElement(actionElement);
 							};
 							categoryItem.Items.Add(commandItem);
 						}
@@ -460,8 +470,8 @@ namespace SpeedLR
 				var deleteItem = new MenuItem { Header = "Delete", Background = Brushes.IndianRed };
 				deleteItem.Click += (s, args) =>
 				{
-					viewModal.SelectedSubmenu.Items.Remove(element);
-					viewModal.SaveMenus();
+					ViewModel.SelectedSubmenu.Items.Remove(element);
+					ViewModel.SaveMenus();
 				};
 				contextMenu.Items.Add(deleteItem);
 
