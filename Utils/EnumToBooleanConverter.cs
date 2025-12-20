@@ -13,7 +13,7 @@ namespace SpeedLR.Utils
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return (bool)value ? Enum.Parse(targetType, parameter?.ToString() ?? "") : Binding.DoNothing;
+			return Enum.Parse(targetType, parameter?.ToString() ?? "");
 		}
 	}
 }
