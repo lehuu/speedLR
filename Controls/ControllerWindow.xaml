@@ -11,7 +11,7 @@
         Background="Transparent"
         SizeToContent="Height"
         Closing="ControllerWindow_Closing" WindowStyle="None" AllowsTransparency="True"
-        Topmost="True" ShowInTaskbar="False" MinHeight="400" Height="Auto" Width="400" ResizeMode="NoResize"
+        Topmost="True" ShowInTaskbar="False" MinHeight="400" Height="Auto" Width="300" ResizeMode="NoResize"
 		d:DataContext="{d:DesignInstance local:ControllerViewModel}">
 	<Window.DataContext>
 		<local:ControllerViewModel />
