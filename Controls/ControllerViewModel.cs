@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.ObjectModel;
 using SpeedLR.Model;
 
 namespace SpeedLR.Controls
@@ -28,9 +29,9 @@ namespace SpeedLR.Controls
 			}
 		}
 
-		private ActionElement _selectedAction;
+		private ActionElement? _selectedAction;
 
-		public ActionElement SelectedAction
+		public ActionElement? SelectedAction
 		{
 			get => _selectedAction;
 			set
@@ -40,8 +41,23 @@ namespace SpeedLR.Controls
 			}
 		}
 
+		public override Submenu? SelectedSubmenu
+		{
+			get => _selectedSubmenu;
+			set
+			{
+				_selectedSubmenu = value;
+				OnPropertyChanged();
+				SelectedAction = FindFirstActionItem(value?.Items);
+			}
+		}
+
 		public ControllerViewModel() : base()
 		{
+			SelectedAction = FindFirstActionItem(SelectedSubmenu?.Items);
 		}
+
+		public ActionElement? FindFirstActionItem(ObservableCollection<MenuElement>? list) =>
+			list?.OfType<ActionElement>().FirstOrDefault();
 	}
 }

@@ -19,7 +19,7 @@ namespace SpeedLR.Model
 		public string Id { get; } = Guid.NewGuid().ToString();
 
 		[JsonPropertyName("name")]
-		public string Name
+		public virtual string Name
 		{
 			get => _name;
 			set

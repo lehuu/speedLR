@@ -19,7 +19,7 @@ namespace SpeedLR.Model
 		);
 
 		[JsonPropertyName("name")]
-		public new string Name
+		public override string Name
 		{
 			get => base.Name;
 			set

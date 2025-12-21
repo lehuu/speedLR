@@ -7,9 +7,9 @@ namespace SpeedLR.Controls
 {
 	public class BaseViewModel : INotifyPropertyChanged
 	{
-		private Menu? _selectedMenu;
-		private Submenu? _selectedSubmenu;
-		private ObservableCollection<Menu> _userMenus = new ObservableCollection<Menu>();
+		protected Menu? _selectedMenu;
+		protected Submenu? _selectedSubmenu;
+		protected ObservableCollection<Menu> _userMenus = new ObservableCollection<Menu>();
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 		protected void OnPropertyChanged([CallerMemberName] string name = null)
@@ -23,7 +23,7 @@ namespace SpeedLR.Controls
 			SelectedMenu = UserMenus.FirstOrDefault();
 		}
 
-		public Submenu? SelectedSubmenu
+		public virtual Submenu? SelectedSubmenu
 		{
 			get => _selectedSubmenu;
 			set
@@ -39,8 +39,8 @@ namespace SpeedLR.Controls
 			set
 			{
 				_selectedMenu = value;
-				SelectedSubmenu = value?.Submenus.FirstOrDefault();
 				OnPropertyChanged();
+				SelectedSubmenu = value?.Submenus.FirstOrDefault();
 			}
 		}
 
