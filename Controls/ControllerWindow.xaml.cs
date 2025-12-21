@@ -85,17 +85,19 @@ namespace SpeedLR.Controls
 			}
 		}
 
-		private Submenu? ExtractSubmenuContext(object sender)
-		{
-			var button = sender as SubmenuButton;
-			return button?.Submenu;
-		}
-
 		private void SubmenuButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (ExtractSubmenuContext(sender) is Submenu submenu)
+			if ((sender as SubmenuButton)?.Submenu is Submenu submenu)
 			{
 				ViewModel.SelectedSubmenu = submenu;
+			}
+		}
+
+		private void ActionButton_Click(object sender, RoutedEventArgs e)
+		{
+			if ( (sender as ActionButton)?.Action is ActionElement action)
+			{
+				ViewModel.SelectedAction = action;
 			}
 		}
 	}

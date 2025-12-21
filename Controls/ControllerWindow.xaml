@@ -22,7 +22,7 @@
 		<utils:ObjectToVisibilityConverter x:Key="ObjectToVis" />
 		<utils:ObjectToBoolConverter x:Key="BoolConverter" />
 		<DataTemplate DataType="{x:Type model:ActionElement}">
-			<local:ActionButton Style="{StaticResource ActionButtonStyle}" Margin="0,5"/>
+			<local:ActionButton Style="{StaticResource ActionButtonStyle}" Click="ActionButton_Click" Margin="0,5"/>
 		</DataTemplate>
 
 		<DataTemplate DataType="{x:Type model:SeparatorElement}">

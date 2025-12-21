@@ -11,6 +11,16 @@
 		<Setter Property="BorderBrush" Value="Transparent"/>
 		<Setter Property="BorderThickness" Value="0"/>
 		<Setter Property="Height" Value="30"/>
+
+		<Setter Property="IsChecked">
+			<Setter.Value>
+				<MultiBinding Converter="{StaticResource EqualityConverter}" Mode="OneWay">
+					<Binding Path="Action" RelativeSource="{RelativeSource Self}" />
+					<Binding Path="DataContext.SelectedAction" 
+                             RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+				</MultiBinding>
+			</Setter.Value>
+		</Setter>
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:ActionButton">
@@ -27,6 +37,8 @@
 					<ControlTemplate.Triggers>
 						<!-- Normal hover/press behavior -->
 						<Trigger Property="IsMouseOver" Value="True">
+							<Setter TargetName="MainBorder" Property="Background" Value="White"/>
+							<Setter Property="Opacity" Value="0.85"/>
 							<Setter Property="Cursor" Value="Hand"/>
 						</Trigger>
 

@@ -1,4 +1,6 @@
 ﻿
+using SpeedLR.Model;
+
 namespace SpeedLR.Controls
 {
 	public class ControllerViewModel : BaseViewModel
@@ -22,6 +24,18 @@ namespace SpeedLR.Controls
 			set
 			{
 				_stepSize = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private ActionElement _selectedAction;
+
+		public ActionElement SelectedAction
+		{
+			get => _selectedAction;
+			set
+			{
+				_selectedAction = value;
 				OnPropertyChanged();
 			}
 		}
