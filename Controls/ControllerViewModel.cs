@@ -46,18 +46,32 @@ namespace SpeedLR.Controls
 			get => _selectedSubmenu;
 			set
 			{
+				SelectedAction = FindDefaultActionItem(_selectedSubmenu?.Items ?? new ObservableCollection<MenuElement>(), value?.Items ?? new ObservableCollection<MenuElement>());
 				_selectedSubmenu = value;
 				OnPropertyChanged();
-				SelectedAction = FindFirstActionItem(value?.Items);
 			}
 		}
 
 		public ControllerViewModel() : base()
 		{
-			SelectedAction = FindFirstActionItem(SelectedSubmenu?.Items);
+			SelectedAction = SelectedSubmenu?.Items.OfType<ActionElement>().FirstOrDefault();
 		}
 
-		public ActionElement? FindFirstActionItem(ObservableCollection<MenuElement>? list) =>
-			list?.OfType<ActionElement>().FirstOrDefault();
+		public ActionElement? FindDefaultActionItem(ObservableCollection<MenuElement> oldList, ObservableCollection<MenuElement> newList)
+		{
+			if (SelectedAction == null || newList.Count == 0)
+			{
+				return newList.OfType<ActionElement>().FirstOrDefault();
+			}
+
+			var oldActionList = oldList.OfType<ActionElement>().ToList();
+			var newActionList = newList.OfType<ActionElement>().ToList();
+
+			var oldPosition = oldActionList.IndexOf(SelectedAction);
+
+			var normalizedIndex = Math.Max(0, Math.Min(newActionList.Count - 1, oldPosition));
+
+			return newActionList[normalizedIndex];
+		}
 	}
 }
