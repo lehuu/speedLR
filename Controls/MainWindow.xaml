@@ -79,7 +79,7 @@
 				<Button Style="{StaticResource SmallRoundButtonStyle}" ToolTip="Move Down" FontSize="12" Content="⇓" Click="MoveDown_Click" IsEnabled="{Binding SelectedMenu, Converter={StaticResource BoolConverter}}" />
 			</StackPanel>
 
-			<ComboBox HorizontalContentAlignment="Center" Margin="4,0" Grid.Column="1" Width="120" Height="20" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
+			<ComboBox Margin="4,0" Grid.Column="1" Width="120" Style="{StaticResource ComboboxStyle}" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
 
 			<StackPanel HorizontalAlignment="Left" Grid.Column="2" Orientation="Horizontal">
 				<Button Style="{StaticResource SmallRoundButtonStyle}" ToolTip="Edit" Content="🖉" Click="EditMenu_Click" IsEnabled="{Binding SelectedMenu, Converter={StaticResource BoolConverter}}" />

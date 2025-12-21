@@ -23,7 +23,7 @@
 		<utils:ObjectToBoolConverter x:Key="BoolConverter" />
 		<DataTemplate DataType="{x:Type model:ActionElement}">
 			<local:ActionButton Style="{StaticResource ActionButtonStyle}" Click="ActionButton_Click" Margin="0,5"/>
-		</DataTemplate>
+				</DataTemplate>
 
 		<DataTemplate DataType="{x:Type model:SeparatorElement}">
 			<Separator Margin="0, 10" />
@@ -51,7 +51,7 @@
 			</ToggleButton>
 		</StackPanel>
 		<Separator Height="6" Opacity="0"/>
-		<ComboBox HorizontalContentAlignment="Center" Width="120" Height="20" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
+		<ComboBox Style="{StaticResource ComboboxStyle}" Width="120" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
 		<Separator Height="6" Opacity="0"/>
 		<ItemsControl ItemsSource="{Binding SelectedMenu.Submenus}">
 			<ItemsControl.ItemsPanel>

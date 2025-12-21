@@ -8,6 +8,7 @@
 				<ResourceDictionary Source="/Controls/SubmenuButton.xaml"/>
 				<ResourceDictionary Source="/Controls/RoundButton.xaml"/>
 				<ResourceDictionary Source="/Controls/ActionButton.xaml"/>
+				<ResourceDictionary Source="/Controls/Combobox.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
