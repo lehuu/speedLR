@@ -14,7 +14,7 @@ namespace SpeedLR.Utils
             CONNECTED
         }
 
-        private static Connector _instance;
+        private static Connector _instance = new Connector();
         private Socket _clientSocket;
         private DateTime _lastSendTime = DateTime.MinValue;
         private double _maxRequestsPerSecond = 16;
@@ -31,10 +31,6 @@ namespace SpeedLR.Utils
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = new Connector();
-                }
                 return _instance;
             }
         }

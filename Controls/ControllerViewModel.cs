@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.ObjectModel;
 using SpeedLR.Model;
+using SpeedLR.Utils;
 
 namespace SpeedLR.Controls
 {
@@ -16,6 +17,8 @@ namespace SpeedLR.Controls
 				OnPropertyChanged();
 			}
 		}
+
+		public bool IsConnected => Connector.Instance.Status == Connector.ConnectionStatus.CONNECTED;
 
 		public enum StepMode { Single, Double, Triple }
 		private StepMode _stepSize = StepMode.Single;
@@ -55,6 +58,7 @@ namespace SpeedLR.Controls
 		public ControllerViewModel() : base()
 		{
 			SelectedAction = SelectedSubmenu?.Items.OfType<ActionElement>().FirstOrDefault();
+			Connector.Instance.ConnectionChanged += (s, e) => OnPropertyChanged(nameof(IsConnected));
 		}
 
 		public ActionElement? FindDefaultActionItem(ObservableCollection<MenuElement> oldList, ObservableCollection<MenuElement> newList)

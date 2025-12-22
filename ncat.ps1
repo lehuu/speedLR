@@ -1,1 +1,1 @@
-﻿ncat localhost 49000 -l
+﻿ncat 49000 -l
