@@ -51,10 +51,10 @@
 				</ToggleButton>
 			</StackPanel>
 		</local:ScrollableBorder>
-		<local:ScrollableBorder>
+		<local:ScrollableBorder Scrolled="Menu_Scroll">
 			<ComboBox Style="{StaticResource ComboboxStyle}" Width="120" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
 		</local:ScrollableBorder>
-		<local:ScrollableBorder>
+		<local:ScrollableBorder Scrolled="Submenu_Scroll">
 			<ItemsControl ItemsSource="{Binding SelectedMenu.Submenus}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
@@ -74,7 +74,7 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</local:ScrollableBorder>
-		<local:ScrollableBorder>
+		<local:ScrollableBorder Scrolled="Command_Scroll">
 			<StackPanel Visibility="{Binding SelectedSubmenu, Converter={StaticResource ObjectToVis}}">
 				<ItemsControl ItemsSource="{Binding SelectedSubmenu.Items}">
 					<ItemsControl.ItemsPanel>

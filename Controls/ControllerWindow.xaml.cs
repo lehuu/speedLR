@@ -96,7 +96,7 @@ namespace SpeedLR.Controls
 
 		private void ActionButton_Click(object sender, RoutedEventArgs e)
 		{
-			if ( (sender as ActionButton)?.Action is ActionElement action)
+			if ((sender as ActionButton)?.Action is ActionElement action)
 			{
 				ViewModel.SelectedAction = action;
 			}
@@ -119,6 +119,48 @@ namespace SpeedLR.Controls
 			}
 
 			ViewModel.StepSize = (StepMode)currentIndex;
+			e.Handled = true;
+		}
+
+		private void Menu_Scroll(object sender, MouseWheelEventArgs e)
+		{
+			int count = ViewModel.UserMenus.Count;
+			int currentIndex = ViewModel.SelectedMenu != null ? ViewModel.UserMenus.IndexOf(ViewModel.SelectedMenu) : -1;
+
+			if (e.Delta > 0)
+			{
+				currentIndex = (currentIndex - 1 + count) % count;
+			}
+			else
+			{
+				currentIndex = (currentIndex + 1) % count;
+			}
+			ViewModel.SelectedMenu = ViewModel.UserMenus[currentIndex];
+
+			e.Handled = true;
+		}
+
+		private void Submenu_Scroll(object sender, MouseWheelEventArgs e)
+		{
+			if (e.Delta > 0)
+			{
+			}
+			else
+			{
+			}
+
+			e.Handled = true;
+		}
+
+		private void Command_Scroll(object sender, MouseWheelEventArgs e)
+		{
+			if (e.Delta > 0)
+			{
+			}
+			else
+			{
+			}
+
 			e.Handled = true;
 		}
 	}
