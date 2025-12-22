@@ -121,6 +121,11 @@ namespace SpeedLR.Controls
 			ViewModel.StepSize = (StepMode)currentIndex;
 		}
 
+		private void Stepper_LeftRight(int direction)
+		{
+			Stepper_Scroll(-1 * direction);
+		}
+
 		private void Menu_Scroll(int direction)
 		{
 			int count = ViewModel.UserMenus.Count;
@@ -135,6 +140,11 @@ namespace SpeedLR.Controls
 				currentIndex = (currentIndex + 1) % count;
 			}
 			ViewModel.SelectedMenu = ViewModel.UserMenus[currentIndex];
+		}
+
+		private void Menu_LeftRight(int direction)
+		{
+			Menu_Scroll(-1 * direction);
 		}
 
 		private void Submenu_Scroll(int direction)
@@ -160,6 +170,11 @@ namespace SpeedLR.Controls
 			ViewModel.SelectedSubmenu = ViewModel.SelectedMenu.Submenus[currentIndex];
 		}
 
+		private void Submenu_LeftRight(int direction)
+		{
+			Submenu_Scroll(-1 * direction);
+		}
+
 		private void Command_Scroll(int direction)
 		{
 			if (!ViewModel.IsConnected || ViewModel.SelectedAction == null)
@@ -179,6 +194,35 @@ namespace SpeedLR.Controls
 			{
 				Connector.Instance.SendCommandAsync(ViewModel.SelectedAction.Command + "=-" + stepPercentage);
 			}
+		}
+
+		private void Command_UpDown(int direction)
+		{
+			if (ViewModel.SelectedSubmenu == null)
+			{
+				return;
+			}
+
+			var actionItems = ViewModel.SelectedSubmenu.Items.OfType<ActionElement>().ToList();
+			int count = actionItems?.Count ?? 0;
+
+			if (count == 0 || actionItems == null)
+			{
+				return;
+			}
+
+			int currentIndex = ViewModel.SelectedAction != null ? actionItems.IndexOf(ViewModel.SelectedAction) : -1;
+
+			if (direction > 0)
+			{
+				currentIndex = (currentIndex - 1 + count) % count;
+			}
+			else
+			{
+				currentIndex = (currentIndex + 1) % count;
+			}
+
+			ViewModel.SelectedAction = actionItems[currentIndex];
 		}
 
 		private void Command_Reset()

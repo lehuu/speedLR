@@ -12,6 +12,11 @@ namespace SpeedLR.Controls
 		public static readonly DependencyProperty ScrollThresholdProperty =
 			DependencyProperty.Register(nameof(ScrollThreshold), typeof(int), typeof(ScrollableBorder), new PropertyMetadata(120));
 
+		public ScrollableBorder()
+		{
+			Focusable = true;
+		}
+
 		public int ScrollThreshold
 		{
 			get => (int)GetValue(ScrollThresholdProperty);
@@ -68,6 +73,56 @@ namespace SpeedLR.Controls
 				e.Handled = true; // Prevents the event from bubbling up
 			}
 			base.OnMouseDown(e);
+		}
+
+		protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
+		{
+			base.OnMouseEnter(e);
+			// Take focus automatically when the mouse enters the area
+			this.Focus();
+		}
+
+		protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
+		{
+			base.OnMouseLeave(e);
+			// Release focus when the mouse leaves so other controls can work
+			Keyboard.ClearFocus();
+		}
+
+		public event Action<int>? UpDown;
+		public event Action<int>? LeftRight;
+		public event Action? ResetKey;
+
+		protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
+		{
+			// Only respond if the mouse is actually over the element
+			if (!IsMouseOver) return;
+
+			switch (e.Key)
+			{
+				case Key.Up:
+					UpDown?.Invoke(1);
+					e.Handled = true;
+					break;
+				case Key.Down:
+					UpDown?.Invoke(-1);
+					e.Handled = true;
+					break;
+				case Key.Left:
+					LeftRight?.Invoke(-1);
+					e.Handled = true;
+					break;
+				case Key.Right:
+					LeftRight?.Invoke(1);
+					e.Handled = true;
+					break;
+				case Key.Back:
+					ResetKey?.Invoke();
+					e.Handled = true;
+					break;
+			}
+
+			base.OnKeyDown(e);
 		}
 	}
 }
