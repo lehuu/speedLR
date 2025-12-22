@@ -33,7 +33,7 @@ namespace SpeedLR.Controls
 			}
 		}
 
-		public Menu? SelectedMenu
+		public virtual Menu? SelectedMenu
 		{
 			get => _selectedMenu;
 			set

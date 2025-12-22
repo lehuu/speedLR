@@ -18,6 +18,8 @@ namespace SpeedLR.Controls
 			}
 		}
 
+		public Dictionary<string, string> DefaultSubmenuMap { get; set; } = new Dictionary<string, string>();
+
 		public bool IsConnected => Connector.Instance.Status == Connector.ConnectionStatus.CONNECTED;
 
 		public enum StepMode { Single, Double, Triple }
@@ -51,7 +53,36 @@ namespace SpeedLR.Controls
 			{
 				SelectedAction = FindDefaultActionItem(_selectedSubmenu?.Items ?? new ObservableCollection<MenuElement>(), value?.Items ?? new ObservableCollection<MenuElement>());
 				_selectedSubmenu = value;
+
+				if (value == null)
+				{
+					DefaultSubmenuMap.Remove(SelectedMenu?.Id ?? "");
+				}
+				else
+				{
+					DefaultSubmenuMap[SelectedMenu?.Id ?? ""] = value.Id;
+				}
+
 				OnPropertyChanged();
+			}
+		}
+
+		public override Menu? SelectedMenu
+		{
+			get => _selectedMenu;
+			set
+			{
+				_selectedMenu = value;
+				OnPropertyChanged();
+
+				if (value != null && DefaultSubmenuMap.ContainsKey(value.Id))
+				{
+					SelectedSubmenu = value?.Submenus.FirstOrDefault(s => s.Id == DefaultSubmenuMap[value.Id]);
+				}
+				else
+				{
+					SelectedSubmenu = value?.Submenus.FirstOrDefault();
+				}
 			}
 		}
 
