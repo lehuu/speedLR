@@ -6,6 +6,7 @@
 
 	<Style x:Key="SubmenuButtonStyle" TargetType="{x:Type local:SubmenuButton}">
 		<Setter Property="Submenu" Value="{Binding .}"/>
+		<Setter Property="Focusable" Value="False"/>
 		<Setter Property="HorizontalContentAlignment" Value="Center"/>
 		<Setter Property="VerticalContentAlignment" Value="Center"/>
 		<Setter Property="BorderBrush" Value="Transparent"/>

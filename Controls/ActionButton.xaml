@@ -6,6 +6,7 @@
 
 	<Style x:Key="ActionButtonStyle" TargetType="{x:Type local:ActionButton}">
 		<Setter Property="Action" Value="{Binding .}"/>
+		<Setter Property="Focusable" Value="False"/>
 		<Setter Property="HorizontalContentAlignment" Value="Center"/>
 		<Setter Property="VerticalContentAlignment" Value="Center"/>
 		<Setter Property="BorderBrush" Value="Transparent"/>

@@ -5,6 +5,7 @@
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
 
 	<Style x:Key="ComboboxStyle" TargetType="ComboBox">
+		<Setter Property="Focusable" Value="False"/>
 		<Setter Property="MinHeight" Value="30"/>
 		<Setter Property="FontSize" Value="18"/>
 		<Setter Property="FontWeight" Value="Medium"/>
