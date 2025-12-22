@@ -26,6 +26,12 @@ namespace SpeedLR.Controls
 		public event Action<int>? ScrollStep;
 		protected override void OnMouseWheel(MouseWheelEventArgs e)
 		{
+			if (ScrollStep == null)
+			{
+				base.OnMouseWheel(e);
+				return;
+			}
+
 			// 1. Detect if the input is from a trackpad (Precision Scrolling)
 			// A delta that isn't a multiple of 120 is the most accurate 
 			// indicator of a precision touch device/trackpad in WPF.
@@ -67,6 +73,11 @@ namespace SpeedLR.Controls
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
+			if (MiddleClick == null)
+			{
+				base.OnMouseDown(e);
+				return;
+			}
 			if (e.ChangedButton == MouseButton.Middle)
 			{
 				MiddleClick?.Invoke();
@@ -78,15 +89,22 @@ namespace SpeedLR.Controls
 		protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
 		{
 			base.OnMouseEnter(e);
-			// Take focus automatically when the mouse enters the area
-			this.Focus();
+
+			if (Focusable)
+			{
+				this.Focus();
+			}
+		
 		}
 
 		protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
 		{
 			base.OnMouseLeave(e);
-			// Release focus when the mouse leaves so other controls can work
-			Keyboard.ClearFocus();
+			if (Focusable)
+			{
+				// Release focus when the mouse leaves so other controls can work
+				Keyboard.ClearFocus();
+			}
 		}
 
 		public event Action<int>? UpDown;
@@ -101,22 +119,42 @@ namespace SpeedLR.Controls
 			switch (e.Key)
 			{
 				case Key.Up:
+					if (UpDown == null)
+					{
+						break;
+					}
 					UpDown?.Invoke(1);
 					e.Handled = true;
 					break;
 				case Key.Down:
+					if (UpDown == null)
+					{
+						break;
+					}
 					UpDown?.Invoke(-1);
 					e.Handled = true;
 					break;
 				case Key.Left:
+					if (LeftRight == null)
+					{
+						break;
+					}
 					LeftRight?.Invoke(-1);
 					e.Handled = true;
 					break;
 				case Key.Right:
+					if (LeftRight == null)
+					{
+						break;
+					}
 					LeftRight?.Invoke(1);
 					e.Handled = true;
 					break;
 				case Key.Back:
+					if (ResetKey == null)
+					{
+						break;
+					}
 					ResetKey?.Invoke();
 					e.Handled = true;
 					break;

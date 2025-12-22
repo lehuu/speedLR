@@ -142,11 +142,6 @@ namespace SpeedLR.Controls
 			ViewModel.SelectedMenu = ViewModel.UserMenus[currentIndex];
 		}
 
-		private void Menu_LeftRight(int direction)
-		{
-			Menu_Scroll(-1 * direction);
-		}
-
 		private void Submenu_Scroll(int direction)
 		{
 			int count = ViewModel.SelectedMenu?.Submenus.Count ?? 0;
