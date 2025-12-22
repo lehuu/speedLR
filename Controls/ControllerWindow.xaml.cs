@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System.Timers;
+using System.Windows;
 using System.Windows.Input;
 using SpeedLR.Model;
 using SpeedLR.Utils;
 using static SpeedLR.Controls.ControllerViewModel;
 using Point = System.Drawing.Point;
+using Timer = System.Timers.Timer;
 
 namespace SpeedLR.Controls
 {
@@ -13,9 +15,13 @@ namespace SpeedLR.Controls
 	public partial class ControllerWindow : Window
 	{
 		public ControllerViewModel ViewModel => (ControllerViewModel)DataContext;
+        private readonly Timer _hideTimer;
 		public ControllerWindow()
 		{
 			InitializeComponent();
+			_hideTimer = new Timer(500);
+			_hideTimer.AutoReset = false;
+			_hideTimer.Elapsed += OnHideElapsed;
 		}
 
 		public void ToggleVisibility(bool isLightroomActive)
@@ -181,6 +187,8 @@ namespace SpeedLR.Controls
 
 			var stepPercentage = steps[(int)ViewModel.StepSize];
 
+			Opacity = 0.01;
+
 			if (direction > 0)
 			{
 				Connector.Instance.SendCommandAsync(ViewModel.SelectedAction.Command + "=+" + stepPercentage);
@@ -189,6 +197,9 @@ namespace SpeedLR.Controls
 			{
 				Connector.Instance.SendCommandAsync(ViewModel.SelectedAction.Command + "=-" + stepPercentage);
 			}
+
+			_hideTimer.Stop();
+			_hideTimer.Start();
 		}
 
 		private void Command_UpDown(int direction)
@@ -237,6 +248,14 @@ namespace SpeedLR.Controls
 		private void Submenu_Reset()
 		{
 			ViewModel.SelectedSubmenu = ViewModel.SelectedMenu?.Submenus.FirstOrDefault();
+		}
+
+		private void OnHideElapsed(object sender, ElapsedEventArgs e)
+		{
+			Dispatcher.Invoke(() =>
+			{
+				Opacity = 1;
+			});
 		}
 	}
 }
