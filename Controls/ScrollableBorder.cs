@@ -102,7 +102,6 @@ namespace SpeedLR.Controls
 			base.OnMouseLeave(e);
 			if (Focusable)
 			{
-				// Release focus when the mouse leaves so other controls can work
 				Keyboard.ClearFocus();
 			}
 		}
@@ -113,9 +112,6 @@ namespace SpeedLR.Controls
 
 		protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
 		{
-			// Only respond if the mouse is actually over the element
-			if (!IsMouseOver) return;
-
 			switch (e.Key)
 			{
 				case Key.Up:
