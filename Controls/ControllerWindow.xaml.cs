@@ -142,12 +142,25 @@ namespace SpeedLR.Controls
 
 		private void Submenu_Scroll(object sender, MouseWheelEventArgs e)
 		{
+			int count = ViewModel.SelectedMenu?.Submenus.Count ?? 0;
+
+			if (count == 0 || ViewModel.SelectedMenu == null)
+			{
+				return;
+			}
+
+			int currentIndex = ViewModel.SelectedSubmenu != null ? ViewModel.SelectedMenu.Submenus.IndexOf(ViewModel.SelectedSubmenu) : -1;
+
 			if (e.Delta > 0)
 			{
+				currentIndex = (currentIndex - 1 + count) % count;
 			}
 			else
 			{
+				currentIndex = (currentIndex + 1) % count;
 			}
+
+			ViewModel.SelectedSubmenu = ViewModel.SelectedMenu.Submenus[currentIndex];
 
 			e.Handled = true;
 		}
