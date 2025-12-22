@@ -9,6 +9,7 @@
 				<ResourceDictionary Source="/Controls/RoundButton.xaml"/>
 				<ResourceDictionary Source="/Controls/ActionButton.xaml"/>
 				<ResourceDictionary Source="/Controls/Combobox.xaml"/>
+				<ResourceDictionary Source="/Controls/HoverContainerStyle.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
