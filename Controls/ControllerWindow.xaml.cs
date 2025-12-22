@@ -102,32 +102,31 @@ namespace SpeedLR.Controls
 			}
 		}
 
-		private void Stepper_Scroll(object sender, MouseWheelEventArgs e)
+		private void Stepper_Scroll(int direction)
 		{
 			var values = (StepMode[])Enum.GetValues(typeof(StepMode));
 			int count = values.Length;
 
 			int currentIndex = (int)ViewModel.StepSize;
 
-			if (e.Delta > 0)
-			{
-				currentIndex = (currentIndex + 1) % count;
-			}
-			else
+			if (direction > 0)
 			{
 				currentIndex = (currentIndex - 1 + count) % count;
 			}
+			else
+			{
+				currentIndex = (currentIndex + 1) % count;
+			}
 
 			ViewModel.StepSize = (StepMode)currentIndex;
-			e.Handled = true;
 		}
 
-		private void Menu_Scroll(object sender, MouseWheelEventArgs e)
+		private void Menu_Scroll(int direction)
 		{
 			int count = ViewModel.UserMenus.Count;
 			int currentIndex = ViewModel.SelectedMenu != null ? ViewModel.UserMenus.IndexOf(ViewModel.SelectedMenu) : -1;
 
-			if (e.Delta > 0)
+			if (direction > 0)
 			{
 				currentIndex = (currentIndex - 1 + count) % count;
 			}
@@ -136,11 +135,9 @@ namespace SpeedLR.Controls
 				currentIndex = (currentIndex + 1) % count;
 			}
 			ViewModel.SelectedMenu = ViewModel.UserMenus[currentIndex];
-
-			e.Handled = true;
 		}
 
-		private void Submenu_Scroll(object sender, MouseWheelEventArgs e)
+		private void Submenu_Scroll(int direction)
 		{
 			int count = ViewModel.SelectedMenu?.Submenus.Count ?? 0;
 
@@ -151,7 +148,7 @@ namespace SpeedLR.Controls
 
 			int currentIndex = ViewModel.SelectedSubmenu != null ? ViewModel.SelectedMenu.Submenus.IndexOf(ViewModel.SelectedSubmenu) : -1;
 
-			if (e.Delta > 0)
+			if (direction > 0)
 			{
 				currentIndex = (currentIndex - 1 + count) % count;
 			}
@@ -161,20 +158,16 @@ namespace SpeedLR.Controls
 			}
 
 			ViewModel.SelectedSubmenu = ViewModel.SelectedMenu.Submenus[currentIndex];
-
-			e.Handled = true;
 		}
 
-		private void Command_Scroll(object sender, MouseWheelEventArgs e)
+		private void Command_Scroll(int direction)
 		{
-			if (e.Delta > 0)
+			if (direction > 0)
 			{
 			}
 			else
 			{
 			}
-
-			e.Handled = true;
 		}
 	}
 }
