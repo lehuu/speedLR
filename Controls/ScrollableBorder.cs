@@ -19,7 +19,6 @@ namespace SpeedLR.Controls
 		}
 
 		public event Action<int>? ScrollStep;
-
 		protected override void OnMouseWheel(MouseWheelEventArgs e)
 		{
 			// 1. Detect if the input is from a trackpad (Precision Scrolling)
@@ -57,6 +56,18 @@ namespace SpeedLR.Controls
 
 			e.Handled = true;
 			base.OnMouseWheel(e);
+		}
+
+		public event Action? MiddleClick;
+
+		protected override void OnMouseDown(MouseButtonEventArgs e)
+		{
+			if (e.ChangedButton == MouseButton.Middle)
+			{
+				MiddleClick?.Invoke();
+				e.Handled = true; // Prevents the event from bubbling up
+			}
+			base.OnMouseDown(e);
 		}
 	}
 }

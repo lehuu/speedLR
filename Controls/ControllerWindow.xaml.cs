@@ -180,5 +180,24 @@ namespace SpeedLR.Controls
 				Connector.Instance.SendCommandAsync(ViewModel.SelectedAction.Command + "=-" + stepPercentage);
 			}
 		}
+
+		private void Command_Reset()
+		{
+			Connector.Instance.SendCommandAsync(ViewModel.SelectedAction.Command + "=reset");
+		}
+
+		private void Step_Reset()
+		{
+			ViewModel.StepSize = 0;
+		}
+		private void Menu_Reset()
+		{
+			ViewModel.SelectedMenu = ViewModel.UserMenus.FirstOrDefault();
+		}
+
+		private void Submenu_Reset()
+		{
+			ViewModel.SelectedSubmenu = ViewModel.SelectedMenu?.Submenus.FirstOrDefault();
+		}
 	}
 }
