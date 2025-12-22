@@ -15,17 +15,20 @@ namespace SpeedLR.Utils
         }
 
         private static Connector _instance = new Connector();
-        private Socket _clientSocket;
+        private Socket? _clientSocket;
         private DateTime _lastSendTime = DateTime.MinValue;
         private double _maxRequestsPerSecond = 16;
         private Timer _connectionTimer;
 
-        public event EventHandler<ConnectionStatus> ConnectionChanged;
+        public event EventHandler<ConnectionStatus>? ConnectionChanged;
 
         private Connector()
         {
-            InitializeTimer();
-        }
+			_connectionTimer = new Timer(10000); // 10 seconds in milliseconds
+			_connectionTimer.Elapsed += (sender, e) => CheckConnection();
+			_connectionTimer.AutoReset = true;
+			_connectionTimer.Start();
+		}
 
         public static Connector Instance
         {
@@ -48,14 +51,6 @@ namespace SpeedLR.Utils
                     ConnectionChanged?.Invoke(this, value);
                 }
             }
-        }
-
-        private void InitializeTimer()
-        {
-            _connectionTimer = new Timer(10000); // 10 seconds in milliseconds
-            _connectionTimer.Elapsed += (sender, e) => CheckConnection();
-            _connectionTimer.AutoReset = true;
-            _connectionTimer.Start();
         }
 
         private async void CheckConnection()
@@ -85,7 +80,7 @@ namespace SpeedLR.Utils
                 CloseConnection();
                 Status = ConnectionStatus.CONNECTING;
                 await Task.Delay(1000);
-				if (IPAddress.TryParse(address, out IPAddress ipAddress))
+				if (IPAddress.TryParse(address, out IPAddress? ipAddress))
 				{
 					var endpoint = new IPEndPoint(ipAddress, port);
 					_clientSocket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
