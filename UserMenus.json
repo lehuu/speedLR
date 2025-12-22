@@ -1,7 +1,574 @@
 [
-{
-	"id": "123",
-	"name": "Basic",
-	"position": 4
-}
+  {
+    "submenus": [
+      {
+        "name": "Global",
+        "bgColor": "#D3D3D3",
+        "fontColor": "#000000",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "Temperature",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "Tint",
+            "Position": 1
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 2
+          },
+          {
+            "$type": "action",
+            "Command": "Exposure",
+            "Position": 3
+          },
+          {
+            "$type": "action",
+            "Command": "Contrast",
+            "Position": 4
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 5
+          },
+          {
+            "$type": "action",
+            "Command": "Highlights",
+            "Position": 6
+          },
+          {
+            "$type": "action",
+            "Command": "Shadows",
+            "Position": 7
+          },
+          {
+            "$type": "action",
+            "Command": "Whites",
+            "Position": 8
+          },
+          {
+            "$type": "action",
+            "Command": "Blacks",
+            "Position": 9
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 10
+          },
+          {
+            "$type": "action",
+            "Command": "Texture",
+            "Position": 11
+          },
+          {
+            "$type": "action",
+            "Command": "Clarity",
+            "Position": 12
+          },
+          {
+            "$type": "action",
+            "Command": "Dehaze",
+            "Position": 13
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 14
+          },
+          {
+            "$type": "action",
+            "Command": "Vibrance",
+            "Position": 15
+          },
+          {
+            "$type": "action",
+            "Command": "Saturation",
+            "Position": 16
+          }
+        ],
+        "position": 0
+      },
+      {
+        "name": "Local",
+        "bgColor": "#CCCCCC",
+        "fontColor": "#000000",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "local_Temperature",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "local_Tint",
+            "Position": 1
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 2
+          },
+          {
+            "$type": "action",
+            "Command": "local_Exposure",
+            "Position": 3
+          },
+          {
+            "$type": "action",
+            "Command": "local_Contrast",
+            "Position": 4
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 5
+          },
+          {
+            "$type": "action",
+            "Command": "local_Highlights",
+            "Position": 6
+          },
+          {
+            "$type": "action",
+            "Command": "local_Shadows",
+            "Position": 7
+          },
+          {
+            "$type": "action",
+            "Command": "local_Whites",
+            "Position": 8
+          },
+          {
+            "$type": "action",
+            "Command": "local_Blacks",
+            "Position": 9
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 10
+          },
+          {
+            "$type": "action",
+            "Command": "local_Texture",
+            "Position": 11
+          },
+          {
+            "$type": "action",
+            "Command": "local_Clarity",
+            "Position": 12
+          },
+          {
+            "$type": "action",
+            "Command": "local_Dehaze",
+            "Position": 13
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 14
+          },
+          {
+            "$type": "action",
+            "Command": "local_Saturation",
+            "Position": 15
+          }
+        ],
+        "position": 1
+      },
+      {
+        "name": "Profile",
+        "bgColor": "#D3D3D3",
+        "fontColor": "#000000",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "PresetAmount",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "ProfileAmount",
+            "Position": 1
+          }
+        ],
+        "position": 2
+      }
+    ],
+    "name": "Basic",
+    "position": 0
+  },
+  {
+    "submenus": [
+      {
+        "name": "Red",
+        "bgColor": "#B71C1C",
+        "fontColor": "#F2F2F2",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "HueAdjustmentRed",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "SaturationAdjustmentRed",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "LuminanceAdjustmentRed",
+            "Position": 2
+          }
+        ],
+        "position": 0
+      },
+      {
+        "name": "Orange",
+        "bgColor": "#EF6C00",
+        "fontColor": "#FFFFFF",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "HueAdjustmentOrange",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "SaturationAdjustmentOrange",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "LuminanceAdjustmentOrange",
+            "Position": 2
+          }
+        ],
+        "position": 1
+      },
+      {
+        "name": "Yellow",
+        "bgColor": "#FFEB3B",
+        "fontColor": "#000000",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "HueAdjustmentYellow",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "SaturationAdjustmentYellow",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "LuminanceAdjustmentYellow",
+            "Position": 2
+          }
+        ],
+        "position": 2
+      },
+      {
+        "name": "Green",
+        "bgColor": "#43A047",
+        "fontColor": "#FFFFFF",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "HueAdjustmentGreen",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "SaturationAdjustmentGreen",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "LuminanceAdjustmentGreen",
+            "Position": 2
+          }
+        ],
+        "position": 3
+      },
+      {
+        "name": "Aqua",
+        "bgColor": "#00ACC1",
+        "fontColor": "#FFFFFF",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "HueAdjustmentAqua",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "SaturationAdjustmentAqua",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "LuminanceAdjustmentAqua",
+            "Position": 2
+          }
+        ],
+        "position": 4
+      },
+      {
+        "name": "Blue",
+        "bgColor": "#1E88E5",
+        "fontColor": "#FFFFFF",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "HueAdjustmentBlue",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "SaturationAdjustmentBlue",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "LuminanceAdjustmentBlue",
+            "Position": 2
+          }
+        ],
+        "position": 5
+      },
+      {
+        "name": "Purple",
+        "bgColor": "#AB47BC",
+        "fontColor": "#FFFFFF",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "HueAdjustmentPurple",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "SaturationAdjustmentPurple",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "LuminanceAdjustmentPurple",
+            "Position": 2
+          }
+        ],
+        "position": 6
+      },
+      {
+        "name": "Magenta",
+        "bgColor": "#D81B60",
+        "fontColor": "#FFFFFF",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "HueAdjustmentMagenta",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "SaturationAdjustmentMagenta",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "LuminanceAdjustmentMagenta",
+            "Position": 2
+          }
+        ],
+        "position": 7
+      }
+    ],
+    "name": "HSL",
+    "position": 1
+  },
+  {
+    "submenus": [
+      {
+        "name": "Shadows",
+        "bgColor": "#D3D3D3",
+        "fontColor": "#000000",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "SplitToningShadowHue",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "SplitToningShadowSaturation",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "ColorGradeShadowLum",
+            "Position": 2
+          }
+        ],
+        "position": 0
+      },
+      {
+        "name": "Midtones",
+        "bgColor": "#D3D3D3",
+        "fontColor": "#000000",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "ColorGradeMidtoneHue",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "ColorGradeMidtoneSat",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "ColorGradeMidtoneLum",
+            "Position": 2
+          }
+        ],
+        "position": 1
+      },
+      {
+        "name": "Highlights",
+        "bgColor": "#D3D3D3",
+        "fontColor": "#000000",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "SplitToningHighlightHue",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "SplitToningHighlightSaturation",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "ColorGradeHighlightLum",
+            "Position": 2
+          }
+        ],
+        "position": 2
+      },
+      {
+        "name": "Global",
+        "bgColor": "#D3D3D3",
+        "fontColor": "#000000",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "ColorGradeGlobalHue",
+            "Position": 0
+          },
+          {
+            "$type": "action",
+            "Command": "ColorGradeGlobalSat",
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "ColorGradeGlobalLum",
+            "Position": 2
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 3
+          },
+          {
+            "$type": "action",
+            "Command": "ColorGradeBlending",
+            "Position": 4
+          },
+          {
+            "$type": "action",
+            "Command": "SplitToningBalance",
+            "Position": 5
+          }
+        ],
+        "position": 3
+      }
+    ],
+    "name": "Color Grading",
+    "position": 2
+  },
+  {
+    "submenus": [
+      {
+        "name": "Basic",
+        "bgColor": "#D3D3D3",
+        "fontColor": "#000000",
+        "items": [
+          {
+            "$type": "action",
+            "Command": "ShadowTint",
+            "Position": 0
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 1
+          },
+          {
+            "$type": "action",
+            "Command": "RedHue",
+            "Position": 2
+          },
+          {
+            "$type": "action",
+            "Command": "RedSaturation",
+            "Position": 3
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 4
+          },
+          {
+            "$type": "action",
+            "Command": "GreenHue",
+            "Position": 5
+          },
+          {
+            "$type": "action",
+            "Command": "GreenSaturation",
+            "Position": 6
+          },
+          {
+            "$type": "separator",
+            "isSeparator": true,
+            "Position": 7
+          },
+          {
+            "$type": "action",
+            "Command": "BlueHue",
+            "Position": 8
+          },
+          {
+            "$type": "action",
+            "Command": "BlueSaturation",
+            "Position": 9
+          }
+        ],
+        "position": 0
+      }
+    ],
+    "name": "Calibration",
+    "position": 3
+  }
 ]
