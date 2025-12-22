@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using SpeedLR.Model;
 using SpeedLR.Utils;
+using static SpeedLR.Controls.ControllerViewModel;
 using Point = System.Drawing.Point;
 
 namespace SpeedLR.Controls
@@ -99,6 +100,26 @@ namespace SpeedLR.Controls
 			{
 				ViewModel.SelectedAction = action;
 			}
+		}
+
+		private void Stepper_Scroll(object sender, MouseWheelEventArgs e)
+		{
+			var values = (StepMode[])Enum.GetValues(typeof(StepMode));
+			int count = values.Length;
+
+			int currentIndex = (int)ViewModel.StepSize;
+
+			if (e.Delta > 0)
+			{
+				currentIndex = (currentIndex + 1) % count;
+			}
+			else
+			{
+				currentIndex = (currentIndex - 1 + count) % count;
+			}
+
+			ViewModel.StepSize = (StepMode)currentIndex;
+			e.Handled = true;
 		}
 	}
 }

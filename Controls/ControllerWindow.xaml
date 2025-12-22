@@ -40,7 +40,7 @@
 				  IsChecked="{Binding IsPinned}"
 				  VerticalAlignment="Top"/>
 		</StackPanel>
-		<Border Style="{StaticResource HoverContainerStyle}">
+		<local:ScrollableBorder Scrolled="Stepper_Scroll">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 				<ToggleButton Content="+" Style="{StaticResource SmallRoundToggleButtonStyle}" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Single}" />
 				<Separator Width="6" Background="Transparent"/>
@@ -50,11 +50,11 @@
 					<TextBlock LineStackingStrategy="BlockLineHeight" LineHeight="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">+<LineBreak/>++</TextBlock>
 				</ToggleButton>
 			</StackPanel>
-		</Border>
-		<Border Style="{StaticResource HoverContainerStyle}">
+		</local:ScrollableBorder>
+		<local:ScrollableBorder>
 			<ComboBox Style="{StaticResource ComboboxStyle}" Width="120" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
-		</Border>
-		<Border Style="{StaticResource HoverContainerStyle}">
+		</local:ScrollableBorder>
+		<local:ScrollableBorder>
 			<ItemsControl ItemsSource="{Binding SelectedMenu.Submenus}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
@@ -73,8 +73,8 @@
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
-		</Border>
-		<Border Style="{StaticResource HoverContainerStyle}">
+		</local:ScrollableBorder>
+		<local:ScrollableBorder>
 			<StackPanel Visibility="{Binding SelectedSubmenu, Converter={StaticResource ObjectToVis}}">
 				<ItemsControl ItemsSource="{Binding SelectedSubmenu.Items}">
 					<ItemsControl.ItemsPanel>
@@ -84,6 +84,6 @@
 					</ItemsControl.ItemsPanel>
 				</ItemsControl>
 			</StackPanel>
-		</Border>
+		</local:ScrollableBorder>
 	</StackPanel>
 </Window>
