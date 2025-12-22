@@ -162,11 +162,22 @@ namespace SpeedLR.Controls
 
 		private void Command_Scroll(int direction)
 		{
+			if (!ViewModel.IsConnected || ViewModel.SelectedAction == null)
+			{
+				return;
+			}
+
+			string[] steps = new string[] { "1%", "2%", "5%" };
+
+			var stepPercentage = steps[(int)ViewModel.StepSize];
+
 			if (direction > 0)
 			{
+				Connector.Instance.SendCommandAsync(ViewModel.SelectedAction.Command + "=+" + stepPercentage);
 			}
 			else
 			{
+				Connector.Instance.SendCommandAsync(ViewModel.SelectedAction.Command + "=-" + stepPercentage);
 			}
 		}
 	}
