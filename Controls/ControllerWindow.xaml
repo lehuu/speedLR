@@ -40,7 +40,7 @@
 				  IsChecked="{Binding IsPinned}"
 				  VerticalAlignment="Top"/>
 		</StackPanel>
-		<local:ScrollableBorder ScrollThreshold="360" ScrollStep="Stepper_Scroll" UpDown="Stepper_Scroll" LeftRight="Stepper_LeftRight" ResetKey="Step_Reset" MiddleClick="Step_Reset">
+		<local:ScrollableBorder ScrollThreshold="360" ScrollStep="Stepper_Scroll" LeftRight="Stepper_LeftRight" ResetKey="Step_Reset" MiddleClick="Step_Reset">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 				<ToggleButton Content="+" Style="{StaticResource SmallRoundToggleButtonStyle}" IsChecked="{Binding StepSize, Converter={StaticResource EnumToBool}, ConverterParameter=Single}" />
 				<Separator Width="6" Background="Transparent"/>
@@ -51,10 +51,10 @@
 				</ToggleButton>
 			</StackPanel>
 		</local:ScrollableBorder>
-		<local:ScrollableBorder ScrollThreshold="240" UpDown="Menu_Scroll" LeftRight="Submenu_LeftRight" ScrollStep="Menu_Scroll" ResetKey="Menu_Reset" MiddleClick="Menu_Reset">
+		<local:ScrollableBorder ScrollThreshold="240" LeftRight="Menu_LeftRight" ScrollStep="Menu_Scroll" ResetKey="Menu_Reset" MiddleClick="Menu_Reset">
 			<ComboBox Style="{StaticResource ComboboxStyle}" Width="120" ItemsSource="{Binding UserMenus}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedMenu, Mode=TwoWay}" />
 		</local:ScrollableBorder>
-		<local:ScrollableBorder ScrollThreshold="240" UpDown="Menu_Scroll" LeftRight="Submenu_LeftRight" ScrollStep="Submenu_Scroll" ResetKey="Submenu_Reset" MiddleClick="Submenu_Reset">
+		<local:ScrollableBorder ScrollThreshold="240" LeftRight="Submenu_LeftRight" ScrollStep="Submenu_Scroll" ResetKey="Submenu_Reset" MiddleClick="Submenu_Reset">
 			<ItemsControl Focusable="False" ItemsSource="{Binding SelectedMenu.Submenus}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>

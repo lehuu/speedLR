@@ -171,6 +171,11 @@ namespace SpeedLR.Controls
 			ViewModel.SelectedSubmenu = ViewModel.SelectedMenu.Submenus[currentIndex];
 		}
 
+		private void Menu_LeftRight(int direction)
+		{
+			Menu_Scroll(-1 * direction);
+		}
+
 		private void Submenu_LeftRight(int direction)
 		{
 			Submenu_Scroll(-1 * direction);
