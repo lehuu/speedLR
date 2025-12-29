@@ -30,7 +30,9 @@
 		</DataTemplate>
 	</Window.Resources>
 
-	<local:ScrollableBorder ScrollStep="Command_Scroll" MiddleClick="Command_Reset">
+	<local:ScrollableBorder CtrlLeftRight="Submenu_Scroll" CtrlUpDown="Menu_Scroll" AltLeftRight="Stepper_Scroll"
+							UpDown="Command_UpDown" LeftRight="Command_Scroll" ResetKey="Command_Reset" 
+							ScrollStep="Command_Scroll" MiddleClick="Command_Reset">
 		<StackPanel Margin="4">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 				<Button Content="≡" Style="{StaticResource SmallRoundButtonStyle}" VerticalAlignment="Top" PreviewMouseDown="DragButton_MouseDown" />

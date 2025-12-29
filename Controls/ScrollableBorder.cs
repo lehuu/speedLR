@@ -8,13 +8,115 @@ namespace SpeedLR.Controls
 	public class ScrollableBorder : Border
 	{
 		private int _scrollAccumulator = 0;
+		private bool _isHovered = false;
+		private LowLevelHotkey[] _hotkeys;
 
 		public static readonly DependencyProperty ScrollThresholdProperty =
 			DependencyProperty.Register(nameof(ScrollThreshold), typeof(int), typeof(ScrollableBorder), new PropertyMetadata(120));
 
 		public ScrollableBorder()
 		{
-			Focusable = true;
+			this.Loaded += (s, e) =>
+			{
+				Window parentWindow = Window.GetWindow(this);
+				if (parentWindow != null)
+				{
+					parentWindow.Closed += ParentWindow_Closed;
+				}
+			};
+
+			_hotkeys = new LowLevelHotkey[]
+			{
+					CreateHotkeyPress(Key.Back, (ref bool isHandled) =>
+					{
+						if(_isHovered && ResetKey != null) {
+							ResetKey.Invoke();
+							isHandled = true;
+						}
+					}),
+					CreateHotkeyPress(Key.Left, (ref bool isHandled) =>
+					{
+						if(_isHovered && LeftRight != null) {
+							LeftRight.Invoke(-1);
+							isHandled = true;
+						}
+					}),
+					CreateHotkeyPress(Key.Right, (ref bool isHandled) =>
+					{
+						if(_isHovered && LeftRight != null) {
+							LeftRight.Invoke(1);
+							isHandled = true;
+						}
+					}),
+					CreateHotkeyPress(Key.Up, (ref bool isHandled) =>
+					{
+						if(_isHovered && UpDown != null) {
+							UpDown.Invoke(1);
+							isHandled = true;
+						}
+					}),
+					CreateHotkeyPress(Key.Down, (ref bool isHandled) =>
+					{
+						if(_isHovered && UpDown != null) {
+							UpDown.Invoke(-1);
+							isHandled = true;
+						}
+					}),
+					CreateHotkeyPress(Key.Left, Key.LeftCtrl, (ref bool isHandled) =>
+					{
+						if(_isHovered && CtrlLeftRight != null) {
+							CtrlLeftRight.Invoke(-1);
+							isHandled = true;
+						}
+					}),
+					CreateHotkeyPress(Key.Right, Key.LeftCtrl, (ref bool isHandled) =>
+					{
+						if(_isHovered && CtrlLeftRight != null) {
+							CtrlLeftRight.Invoke(1);
+							isHandled = true;
+						}
+					}),
+					CreateHotkeyPress(Key.Up, Key.LeftCtrl, (ref bool isHandled) =>
+					{
+						if(_isHovered && CtrlUpDown != null) {
+							CtrlUpDown.Invoke(1);
+							isHandled = true;
+						}
+					}),
+					CreateHotkeyPress(Key.Down, Key.LeftCtrl, (ref bool isHandled) =>
+					{
+						if(_isHovered && CtrlUpDown != null) {
+							CtrlUpDown.Invoke(-1);
+							isHandled = true;
+						}
+					}),
+					CreateHotkeyPress(Key.Left, Key.LeftAlt, (ref bool isHandled) =>
+					{
+						if(_isHovered && AltLeftRight != null) {
+							AltLeftRight.Invoke(-1);
+							isHandled = true;
+						}
+					}),
+					CreateHotkeyPress(Key.Right, Key.LeftAlt, (ref bool isHandled) =>
+					{
+						if(_isHovered && AltLeftRight != null) {
+							AltLeftRight.Invoke(1);
+							isHandled = true;
+						}
+					}),
+			};
+		}
+
+		private LowLevelHotkey CreateHotkeyPress(Key key, Key modifier, ActionRef clickEvent)
+		{
+			var result = new LowLevelHotkey(key, modifier);
+			result.KeyPressed += clickEvent;
+			return result;
+		}
+
+		private LowLevelHotkey CreateHotkeyPress(Key key, ActionRef clickEvent)
+		{
+			return CreateHotkeyPress(key, Key.None, clickEvent);
 		}
 
 		public int ScrollThreshold
@@ -89,74 +191,33 @@ namespace SpeedLR.Controls
 		protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
 		{
 			base.OnMouseEnter(e);
-
-			if (Focusable)
-			{
-				this.Focus();
-			}
-		
+			_isHovered = true;
 		}
 
 		protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
 		{
 			base.OnMouseLeave(e);
-			if (Focusable)
-			{
-				Keyboard.ClearFocus();
-			}
+			_isHovered = false;
 		}
 
 		public event Action<int>? UpDown;
+		public event Action<int>? CtrlUpDown;
 		public event Action<int>? LeftRight;
+		public event Action<int>? CtrlLeftRight;
+		public event Action<int>? AltLeftRight;
 		public event Action? ResetKey;
 
-		protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
+		private void ParentWindow_Closed(object sender, EventArgs e)
 		{
-			switch (e.Key)
-			{
-				case Key.Up:
-					if (UpDown == null)
-					{
-						break;
-					}
-					UpDown?.Invoke(1);
-					e.Handled = true;
-					break;
-				case Key.Down:
-					if (UpDown == null)
-					{
-						break;
-					}
-					UpDown?.Invoke(-1);
-					e.Handled = true;
-					break;
-				case Key.Left:
-					if (LeftRight == null)
-					{
-						break;
-					}
-					LeftRight?.Invoke(-1);
-					e.Handled = true;
-					break;
-				case Key.Right:
-					if (LeftRight == null)
-					{
-						break;
-					}
-					LeftRight?.Invoke(1);
-					e.Handled = true;
-					break;
-				case Key.Back:
-					if (ResetKey == null)
-					{
-						break;
-					}
-					ResetKey?.Invoke();
-					e.Handled = true;
-					break;
-			}
+			if (sender is Window w) w.Closed -= ParentWindow_Closed;
 
-			base.OnKeyDown(e);
+			if (_hotkeys != null)
+			{
+				foreach (var key in _hotkeys)
+				{
+					key.Dispose();
+				}
+			}
 		}
 	}
 }

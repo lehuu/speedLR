@@ -6,6 +6,7 @@ using System.Windows.Interop;
 using System.Windows.Media.Animation; // Added for animations
 using SpeedLR.Model;
 using SpeedLR.Utils;
+using static SpeedLR.Controls.ControllerViewModel;
 using Point = System.Drawing.Point;
 using Timer = System.Timers.Timer;
 
@@ -175,51 +176,43 @@ namespace SpeedLR.Controls
 				ViewModel.SelectedAction = action;
 		}
 
-		//private void Stepper_Scroll(int direction)
-		//{
-		//	var values = (StepMode[])Enum.GetValues(typeof(StepMode));
-		//	int count = values.Length;
-		//	int currentIndex = (int)ViewModel.StepSize;
-		//	currentIndex = direction > 0 ? (currentIndex - 1 + count) % count : (currentIndex + 1) % count;
-		//	ViewModel.StepSize = (StepMode)currentIndex;
-		//}
+		private void Stepper_Scroll(int direction)
+		{
+			var values = (StepMode[])Enum.GetValues(typeof(StepMode));
+			int count = values.Length;
+			int currentIndex = (int)ViewModel.StepSize;
+			currentIndex = direction > 0 ? (currentIndex + 1) % count : (currentIndex - 1 + count) % count;
+			ViewModel.StepSize = (StepMode)currentIndex;
+		}
 
-		//private void Stepper_LeftRight(int direction) => Stepper_Scroll(-1 * direction);
+		private void Menu_Scroll(int direction)
+		{
+			int count = ViewModel.UserMenus.Count;
+			int currentIndex = ViewModel.SelectedMenu != null ? ViewModel.UserMenus.IndexOf(ViewModel.SelectedMenu) : -1;
+			currentIndex = direction > 0 ? (currentIndex - 1 + count) % count : (currentIndex + 1) % count;
+			ViewModel.SelectedMenu = ViewModel.UserMenus[currentIndex];
+		}
 
-		//private void Menu_Scroll(int direction)
-		//{
-		//	int count = ViewModel.UserMenus.Count;
-		//	int currentIndex = ViewModel.SelectedMenu != null ? ViewModel.UserMenus.IndexOf(ViewModel.SelectedMenu) : -1;
-		//	currentIndex = direction > 0 ? (currentIndex - 1 + count) % count : (currentIndex + 1) % count;
-		//	ViewModel.SelectedMenu = ViewModel.UserMenus[currentIndex];
-		//}
+		private void Submenu_Scroll(int direction)
+		{
+			int count = ViewModel.SelectedMenu?.Submenus.Count ?? 0;
+			if (count == 0 || ViewModel.SelectedMenu == null) return;
+			int currentIndex = ViewModel.SelectedSubmenu != null ? ViewModel.SelectedMenu.Submenus.IndexOf(ViewModel.SelectedSubmenu) : -1;
+			currentIndex = direction > 0 ? (currentIndex + 1) % count : (currentIndex - 1 + count) % count;
+			ViewModel.SelectedSubmenu = ViewModel.SelectedMenu.Submenus[currentIndex];
+		}
 
-		//private void Submenu_Scroll(int direction)
-		//{
-		//	int count = ViewModel.SelectedMenu?.Submenus.Count ?? 0;
-		//	if (count == 0 || ViewModel.SelectedMenu == null) return;
-		//	int currentIndex = ViewModel.SelectedSubmenu != null ? ViewModel.SelectedMenu.Submenus.IndexOf(ViewModel.SelectedSubmenu) : -1;
-		//	currentIndex = direction > 0 ? (currentIndex - 1 + count) % count : (currentIndex + 1) % count;
-		//	ViewModel.SelectedSubmenu = ViewModel.SelectedMenu.Submenus[currentIndex];
-		//}
-
-		//private void Menu_LeftRight(int direction) => Menu_Scroll(-1 * direction);
-		//private void Submenu_LeftRight(int direction) => Submenu_Scroll(-1 * direction);
-
-		//private void Command_UpDown(int direction)
-		//{
-		//	if (ViewModel.SelectedSubmenu == null) return;
-		//	var actionItems = ViewModel.SelectedSubmenu.Items.OfType<ActionElement>().ToList();
-		//	int count = actionItems?.Count ?? 0;
-		//	if (count == 0) return;
-		//	int currentIndex = ViewModel.SelectedAction != null ? actionItems.IndexOf(ViewModel.SelectedAction) : -1;
-		//	currentIndex = direction > 0 ? (currentIndex - 1 + count) % count : (currentIndex + 1) % count;
-		//	ViewModel.SelectedAction = actionItems[currentIndex];
-		//}
+		private void Command_UpDown(int direction)
+		{
+			if (ViewModel.SelectedSubmenu == null) return;
+			var actionItems = ViewModel.SelectedSubmenu.Items.OfType<ActionElement>().ToList();
+			int count = actionItems?.Count ?? 0;
+			if (count == 0) return;
+			int currentIndex = ViewModel.SelectedAction != null ? actionItems.IndexOf(ViewModel.SelectedAction) : -1;
+			currentIndex = direction > 0 ? (currentIndex - 1 + count) % count : (currentIndex + 1) % count;
+			ViewModel.SelectedAction = actionItems[currentIndex];
+		}
 
 		private void Command_Reset() => Connector.Instance.SendCommandAsync(ViewModel.SelectedAction.Command + "=reset");
-		//private void Step_Reset() => ViewModel.StepSize = 0;
-		//private void Menu_Reset() => ViewModel.SelectedMenu = ViewModel.UserMenus.FirstOrDefault();
-		//private void Submenu_Reset() => ViewModel.SelectedSubmenu = ViewModel.SelectedMenu?.Submenus.FirstOrDefault();
 	}
 }

@@ -7,7 +7,7 @@
 		<Setter Property="BorderThickness" Value="2"/>
 		<Setter Property="CornerRadius" Value="8"/>
 		<Style.Triggers>
-			<Trigger Property="IsKeyboardFocusWithin" Value="True">
+			<Trigger Property="IsMouseOver" Value="True">
 				<Setter Property="BorderBrush" Value="#007ACC"/>
 				<Setter Property="Background" Value="#10007ACC"/>
 			</Trigger>
