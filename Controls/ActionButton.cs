@@ -28,14 +28,5 @@ namespace SpeedLR.Controls
 				button.SetBinding(ContentProperty, new Binding(nameof(action.Name)) { Source = action });
 			}
 		}
-
-		protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
-		{
-			base.OnMouseEnter(e);
-			if (IsEnabled)
-			{
-				OnClick();
-			}
-		}
 	}
 }
