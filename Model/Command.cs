@@ -10,5 +10,8 @@ namespace SpeedLR.Model
         public string Short { get; set; }
         [JsonPropertyName("command")]
         public string CommandName { get; set; }
-    }
+
+		[JsonPropertyName("gradient")]
+		public List<string> Gradient { get; set; } = new List<string>();
+	}
 }

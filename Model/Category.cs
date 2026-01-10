@@ -8,5 +8,5 @@ namespace SpeedLR.Model
         public string Title { get; set; }
         [JsonPropertyName("commands")]
         public List<Command> Commands { get; set; } = new List<Command>();
-    }
+	}
 }

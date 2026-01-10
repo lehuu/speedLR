@@ -6,12 +6,14 @@
         {
           "title": "Temperature",
           "short": "T",
-          "command": "Temperature"
+          "command": "Temperature",
+          "gradient": ["#2A2C81", "#E3AF34"]
         },
         {
           "title": "Tint",
           "short": "T",
-          "command": "Tint"
+          "command": "Tint",
+          "gradient": ["#369434", "#B33AB3"]
         },
         {
           "title": "Exposure",
@@ -26,7 +28,8 @@
         {
           "title": "Shadows",
           "short": "S",
-          "command": "Shadows"
+          "command": "Shadows",
+          "gradient": ["#555555"]
         },
         {
           "title": "Brightness",
@@ -46,7 +49,8 @@
         {
           "title": "Blacks",
           "short": "B",
-          "command": "Blacks"
+          "command": "Blacks",
+          "gradient": ["#555555"]
         },
         {
           "title": "Texture",
@@ -161,122 +165,146 @@
         {
           "title": "Saturation Red",
           "short": "R",
-          "command": "SaturationAdjustmentRed"
+          "command": "SaturationAdjustmentRed",
+          "gradient": ["#555555","#a82626"]
         },
         {
           "title": "Saturation Orange",
           "short": "O",
-          "command": "SaturationAdjustmentOrange"
+          "command": "SaturationAdjustmentOrange",
+          "gradient": ["#555555","#c67127"]
         },
         {
           "title": "Saturation Yellow",
           "short": "Y",
-          "command": "SaturationAdjustmentYellow"
+          "command": "SaturationAdjustmentYellow",
+          "gradient": ["#555555","#ada637"]
         },
         {
           "title": "Saturation Green",
           "short": "G",
-          "command": "SaturationAdjustmentGreen"
+          "command": "SaturationAdjustmentGreen",
+          "gradient": ["#555555","#599830"]
         },
         {
           "title": "Saturation Aqua",
           "short": "A",
-          "command": "SaturationAdjustmentAqua"
+          "command": "SaturationAdjustmentAqua",
+          "gradient": ["#555555","#379c8b"]
         },
         {
           "title": "Saturation Blue",
           "short": "B",
-          "command": "SaturationAdjustmentBlue"
+          "command": "SaturationAdjustmentBlue",
+          "gradient": ["#555555","#36749f"]
         },
         {
           "title": "Saturation Purple",
           "short": "P",
-          "command": "SaturationAdjustmentPurple"
+          "command": "SaturationAdjustmentPurple",
+          "gradient": ["#555555","#8e4199"]
         },
         {
           "title": "Saturation Magenta",
           "short": "M",
-          "command": "SaturationAdjustmentMagenta"
+          "command": "SaturationAdjustmentMagenta",
+          "gradient": ["#555555","#93346a"]
         },
         {
           "title": "Hue Red",
           "short": "R",
-          "command": "HueAdjustmentRed"
+          "command": "HueAdjustmentRed",
+          "gradient": ["#9d5079", "#a88354"]
         },
         {
           "title": "Hue Orange",
           "short": "O",
-          "command": "HueAdjustmentOrange"
+          "command": "HueAdjustmentOrange",
+          "gradient": ["#953334", "#abaa39"]
         },
         {
           "title": "Hue Yellow",
           "short": "Y",
-          "command": "HueAdjustmentYellow"
+          "command": "HueAdjustmentYellow",
+          "gradient": ["#9f6239", "#6f9331"]
         },
         {
           "title": "Hue Green",
           "short": "G",
-          "command": "HueAdjustmentGreen"
+          "command": "HueAdjustmentGreen",
+          "gradient": ["#8a9a33", "#309085"]
         },
         {
           "title": "Hue Aqua",
           "short": "A",
-          "command": "HueAdjustmentAqua"
+          "command": "HueAdjustmentAqua",
+          "gradient": ["#4f8b2d", "#323793"]
         },
         {
           "title": "Hue Blue",
           "short": "B",
-          "command": "HueAdjustmentBlue"
+          "command": "HueAdjustmentBlue",
+          "gradient": ["#318e50", "#4e3398"]
         },
         {
           "title": "Hue Purple",
           "short": "P",
-          "command": "HueAdjustmentPurple"
+          "command": "HueAdjustmentPurple",
+          "gradient": ["#3d3198", "#913050"]
         },
         {
           "title": "Hue Magenta",
           "short": "M",
-          "command": "HueAdjustmentMagenta"
+          "command": "HueAdjustmentMagenta",
+          "gradient": ["#672b8b", "#9a3434"]
         },
         {
           "title": "Luminance Red",
           "short": "R",
-          "command": "LuminanceAdjustmentRed"
+          "command": "LuminanceAdjustmentRed",
+          "gradient": ["#000000","#a82626", "#e2e2e2"]
         },
         {
           "title": "Luminance Orange",
           "short": "O",
-          "command": "LuminanceAdjustmentOrange"
+          "command": "LuminanceAdjustmentOrange",
+          "gradient": ["#000000","#c67127", "#e2e2e2"]
         },
         {
           "title": "Luminance Yellow",
           "short": "Y",
-          "command": "LuminanceAdjustmentYellow"
+          "command": "LuminanceAdjustmentYellow",
+          "gradient": ["#000000","#ada637", "#e2e2e2"]
         },
         {
           "title": "Luminance Green",
           "short": "G",
-          "command": "LuminanceAdjustmentGreen"
+          "command": "LuminanceAdjustmentGreen",
+          "gradient": ["#000000","#599830", "#e2e2e2"]
         },
         {
           "title": "Luminance Aqua",
           "short": "A",
-          "command": "LuminanceAdjustmentAqua"
+          "command": "LuminanceAdjustmentAqua",
+          "gradient": ["#000000","#379c8b", "#e2e2e2"]
         },
         {
           "title": "Luminance Blue",
           "short": "B",
-          "command": "LuminanceAdjustmentBlue"
+          "command": "LuminanceAdjustmentBlue",
+          "gradient": ["#000000","#36749f", "#e2e2e2"]
         },
         {
           "title": "Luminance Purple",
           "short": "P",
-          "command": "LuminanceAdjustmentPurple"
+          "command": "LuminanceAdjustmentPurple",
+          "gradient": ["#000000","#8e4199", "#e2e2e2"]
         },
         {
           "title": "Luminance Magenta",
           "short": "M",
-          "command": "LuminanceAdjustmentMagenta"
+          "command": "LuminanceAdjustmentMagenta",
+          "gradient": ["#000000","#93346a", "#e2e2e2"]
         },
         {
           "title": "Point Colors",
@@ -336,7 +364,8 @@
         {
           "title": "Shadow Hue",
           "short": "SH",
-          "command": "SplitToningShadowHue"
+          "command": "SplitToningShadowHue",
+          "gradient": ["#ba2b15","#3c9f1b","#1e45cc","#ba2b15"]
         },
         {
           "title": "Shadow Saturation",
@@ -346,12 +375,14 @@
         {
           "title": "Shadow Lum",
           "short": "SL",
-          "command": "ColorGradeShadowLum"
+          "command": "ColorGradeShadowLum",
+          "gradient": ["#000000","#e2e2e2"]
         },
         {
           "title": "Highlight Hue",
           "short": "HH",
-          "command": "SplitToningHighlightHue"
+          "command": "SplitToningHighlightHue",
+          "gradient": ["#ba2b15","#3c9f1b","#1e45cc","#ba2b15"]
         },
         {
           "title": "Highlight Saturation",
@@ -361,12 +392,14 @@
         {
           "title": "Highlight Lum",
           "short": "HL",
-          "command": "ColorGradeHighlightLum"
+          "command": "ColorGradeHighlightLum",
+          "gradient": ["#000000","#e2e2e2"]
         },
         {
           "title": "Midtone Hue",
           "short": "MH",
-          "command": "ColorGradeMidtoneHue"
+          "command": "ColorGradeMidtoneHue",
+          "gradient": ["#ba2b15","#3c9f1b","#1e45cc","#ba2b15"]
         },
         {
           "title": "Midtone Sat",
@@ -376,12 +409,14 @@
         {
           "title": "Midtone Lum",
           "short": "ML",
-          "command": "ColorGradeMidtoneLum"
+          "command": "ColorGradeMidtoneLum",
+          "gradient": ["#000000","#e2e2e2"]
         },
         {
           "title": "Global Hue",
           "short": "GH",
-          "command": "ColorGradeGlobalHue"
+          "command": "ColorGradeGlobalHue",
+          "gradient": ["#ba2b15","#3c9f1b","#1e45cc","#ba2b15"]
         },
         {
           "title": "Global Sat",
@@ -391,7 +426,8 @@
         {
           "title": "Global Lum",
           "short": "GL",
-          "command": "ColorGradeGlobalLum"
+          "command": "ColorGradeGlobalLum",
+          "gradient": ["#000000","#e2e2e2"]
         },
         {
           "title": "Balance",
@@ -628,37 +664,44 @@
         {
           "title": "Shadow Tint",
           "short": "S",
-          "command": "ShadowTint"
+          "command": "ShadowTint",
+          "gradient": ["#369434", "#B33AB3"]
         },
         {
           "title": "Red Hue",
           "short": "R",
-          "command": "RedHue"
+          "command": "RedHue",
+          "gradient": ["#A83777", "#BD853F"]
         },
         {
           "title": "Red Saturation",
           "short": "R",
-          "command": "RedSaturation"
+          "command": "RedSaturation",
+          "gradient": ["#555555", "#993232"]
         },
         {
           "title": "Green Hue",
           "short": "G",
-          "command": "GreenHue"
+          "command": "GreenHue",
+          "gradient": ["#95A637", "#3AA897"]
         },
         {
           "title": "Green Saturation",
           "short": "G",
-          "command": "GreenSaturation"
+          "command": "GreenSaturation",
+          "gradient": ["#555555", "#66AB3B"]
         },
         {
           "title": "Blue Hue",
           "short": "B",
-          "command": "BlueHue"
+          "command": "BlueHue",
+          "gradient": ["#359E62", "#50359E"]
         },
         {
           "title": "Blue Saturation",
           "short": "B",
-          "command": "BlueSaturation"
+          "command": "BlueSaturation",
+          "gradient": ["#555555", "#3878A3"]
         }
       ]
     },
@@ -704,12 +747,14 @@
         {
           "title": "Local Temperature",
           "short": "T",
-          "command": "local_Temperature"
+          "command": "local_Temperature",
+          "gradient": ["#2A2C81", "#E3AF34"]
         },
         {
           "title": "Local Tint",
           "short": "T",
-          "command": "local_Tint"
+          "command": "local_Tint",
+          "gradient": ["#369434", "#B33AB3"]
         },
         {
           "title": "Local Exposure",
@@ -729,7 +774,8 @@
         {
           "title": "Local Shadows",
           "short": "S",
-          "command": "local_Shadows"
+          "command": "local_Shadows",
+          "gradient": ["#555555"]
         },
         {
           "title": "Local Clarity",
@@ -774,7 +820,8 @@
         {
           "title": "Local Blacks",
           "short": "B",
-          "command": "local_Blacks"
+          "command": "local_Blacks",
+          "gradient": ["#555555"]
         },
         {
           "title": "Local Whites",

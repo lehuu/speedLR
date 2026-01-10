@@ -44,26 +44,24 @@
 					<ControlTemplate.Triggers>
 						<!-- Normal hover/press behavior -->
 						<Trigger Property="IsMouseOver" Value="True">
-							<Setter TargetName="MainBorder" Property="Background" Value="White"/>
 							<Setter Property="Opacity" Value="0.85"/>
 							<Setter Property="Cursor" Value="Hand"/>
 						</Trigger>
 
 						<Trigger Property="IsPressed" Value="True">
-							<Setter TargetName="MainBorder" Property="Background" Value="#999999"/>
+							<Setter Property="Opacity" Value="0.5"/>
 						</Trigger>
 
 						<Trigger Property="IsChecked" Value="True">
-							<Setter TargetName="MainBorder" Property="Background" Value="White"/>
-							<Setter Property="Opacity" Value="1"/>
+							<Setter TargetName="MainBorder" Property="Opacity" Value="1"/>
 							<Setter Property="FontWeight" Value="Bold"/>
 							<Setter Property="FontSize" Value="16"/>
 						</Trigger>
 						<Trigger Property="IsChecked" Value="False">
-							<Setter Property="Opacity" Value="0.75"/>
+							<Setter TargetName="MainBorder" Property="Opacity" Value="0.6"/>
 						</Trigger>
 						<Trigger Property="IsEnabled" Value="False">
-							<Setter Property="Opacity" Value="0.1"/>
+							<Setter TargetName="MainBorder" Property="Opacity" Value="0.1"/>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

@@ -25,5 +25,10 @@ namespace SpeedLR.Model
 		public string Name => LocalData.Instance.AvailableCommands.Categories
 			.SelectMany(c => c.Commands)
 			.FirstOrDefault(c => c.CommandName == _command)?.Title ?? "";
+
+		[JsonIgnore]
+		public List<string> Gradient => LocalData.Instance.AvailableCommands.Categories
+			.SelectMany(c => c.Commands)
+			.FirstOrDefault(c => c.CommandName == _command)?.Gradient ?? new List<string>();
 	}
 }
