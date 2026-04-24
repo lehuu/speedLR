@@ -62,14 +62,19 @@ namespace SpeedLR.Controls
 			_hideTimer.Start();
 		}
 
+		private void Jump_Submenu(int idx)
+		{
+			int count = ViewModel.SelectedMenu?.Submenus.Count ?? 0;
+			if (count == 0 || idx >= count || ViewModel.SelectedMenu == null) return;
+			ViewModel.SelectedSubmenu = ViewModel.SelectedMenu.Submenus[idx];
+		}
+
 		private void Command_Scroll(int direction)
 		{
 			if (!ViewModel.IsConnected || ViewModel.SelectedAction == null)
 			{
 				return;
 			}
-
-
 
 			string[] steps = new string[] { "1%", "2%", "5%" };
 			var stepPercentage = steps[(int)ViewModel.StepSize];

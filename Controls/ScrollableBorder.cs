@@ -25,7 +25,28 @@ namespace SpeedLR.Controls
 				}
 			};
 
-			_hotkeys = new LowLevelHotkey[]
+			var numKeys = new Key[] {
+				Key.D1,
+				Key.D2,
+				Key.D3,
+				Key.D4,
+				Key.D5,
+				Key.D6,
+				Key.D7,
+				Key.D8,
+				Key.D9,
+			};
+
+			var numKeyShortcuts = numKeys.Select((key, idx) => CreateHotkeyPress(key, (ref bool isHandled) =>
+			{
+				if (_isHovered && NumKey != null)
+				{
+					NumKey.Invoke(idx);
+					isHandled = true;
+				}
+			})).ToArray();
+
+			var baseKeys = new LowLevelHotkey[]
 			{
 					CreateHotkeyPress(Key.Back, (ref bool isHandled) =>
 					{
@@ -105,6 +126,8 @@ namespace SpeedLR.Controls
 						}
 					}),
 			};
+
+			_hotkeys = baseKeys.Concat(numKeyShortcuts).ToArray();
 		}
 
 		private LowLevelHotkey CreateHotkeyPress(Key key, Key modifier, ActionRef clickEvent)
@@ -205,6 +228,7 @@ namespace SpeedLR.Controls
 		public event Action<int>? LeftRight;
 		public event Action<int>? CtrlLeftRight;
 		public event Action<int>? AltLeftRight;
+		public event Action<int>? NumKey;
 		public event Action? ResetKey;
 
 		private void ParentWindow_Closed(object sender, EventArgs e)

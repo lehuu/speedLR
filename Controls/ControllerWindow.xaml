@@ -30,7 +30,7 @@
 		</DataTemplate>
 	</Window.Resources>
 
-	<local:ScrollableBorder CtrlLeftRight="Submenu_Scroll" CtrlUpDown="Menu_Scroll" AltLeftRight="Stepper_Scroll"
+	<local:ScrollableBorder NumKey="Jump_Submenu" CtrlLeftRight="Submenu_Scroll" CtrlUpDown="Menu_Scroll" AltLeftRight="Stepper_Scroll"
 							UpDown="Command_UpDown" LeftRight="Command_Scroll" ResetKey="Command_Reset" 
 							ScrollStep="Command_Scroll" MiddleClick="Command_Reset">
 		<StackPanel Margin="4">
