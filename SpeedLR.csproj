@@ -44,5 +44,13 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
+	<Target Name="CopyDeployFiles" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<ItemGroup>
+			<FilesToCopy Include="$(TargetDir)**\*.*" />
+		</ItemGroup>
 
+		<Copy
+		  SourceFiles="@(FilesToCopy)"
+		  DestinationFiles="@(FilesToCopy->'$(AppData)\Adobe\Lightroom\Modules\SpeedLR\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
 </Project>
