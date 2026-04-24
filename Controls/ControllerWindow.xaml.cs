@@ -1,8 +1,10 @@
 ﻿using System.Runtime.InteropServices;
 using System.Timers;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Animation; // Added for animations
 using SpeedLR.Model;
 using SpeedLR.Utils;
@@ -46,6 +48,15 @@ namespace SpeedLR.Controls
 			int currentStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
 			SetWindowLong(hwnd, GWL_EXSTYLE, currentStyle | WS_EX_NOACTIVATE);
 		}
+
+		private void Root_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.OriginalSource is ScrollableBorder)
+			{
+				this.DragMove();
+			}
+		}
+
 
 		private void IncreaseOpacity()
 		{
@@ -163,11 +174,6 @@ namespace SpeedLR.Controls
 		}
 
 		private void HideButton_Click(object sender, RoutedEventArgs e) => Hide();
-
-		private void DragButton_MouseDown(object sender, MouseButtonEventArgs e)
-		{
-			if (e.ChangedButton == MouseButton.Left) this.DragMove();
-		}
 
 		private void SubmenuButton_Click(object sender, RoutedEventArgs e)
 		{

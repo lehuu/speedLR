@@ -30,13 +30,13 @@
 		</DataTemplate>
 	</Window.Resources>
 
-	<local:ScrollableBorder NumKey="Jump_Submenu" CtrlLeftRight="Submenu_Scroll" CtrlUpDown="Menu_Scroll" AltLeftRight="Stepper_Scroll"
+	<local:ScrollableBorder 
+    PreviewMouseLeftButtonDown="Root_PreviewMouseLeftButtonDown"
+	NumKey="Jump_Submenu" CtrlLeftRight="Submenu_Scroll" CtrlUpDown="Menu_Scroll" AltLeftRight="Stepper_Scroll"
 							UpDown="Command_UpDown" LeftRight="Command_Scroll" ResetKey="Command_Reset" 
 							ScrollStep="Command_Scroll" MiddleClick="Command_Reset">
 		<StackPanel Margin="4">
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-				<Button Content="≡" Style="{StaticResource SmallRoundButtonStyle}" VerticalAlignment="Top" PreviewMouseDown="DragButton_MouseDown" />
-				<Separator Width="10" Opacity="0" Background="Transparent"/>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="30 0 0 0">
 				<Button Content="X" Style="{StaticResource MediumRoundButtonStyle}" Click="HideButton_Click"/>
 				<Separator Width="10" Opacity="0" Background="Transparent"/>
 				<ToggleButton Style="{StaticResource SmallRoundToggleButtonStyle}" Content="▼" 

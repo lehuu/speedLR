@@ -46,9 +46,7 @@
 
 		<Separator Height="4" Opacity="0"/>
 
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-			<Button Style="{StaticResource SmallRoundButtonStyle}" IsEnabled="False" Content="≡" VerticalAlignment="Top"/>
-			<Separator Width="10" Opacity="0"/>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="30 0 0 0 ">
 			<Button Style="{StaticResource MediumRoundButtonStyle}" IsEnabled="False" Content="X"/>
 			<Separator Width="10" Opacity="0"/>
 			<Button Style="{StaticResource SmallRoundButtonStyle}" IsEnabled="False" Content="▼" VerticalAlignment="Top"/>
