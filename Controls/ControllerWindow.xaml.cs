@@ -118,27 +118,89 @@ namespace SpeedLR.Controls
 		}
 
 		// ... [Rest of your helper methods (Command_UpDown, Reset, etc.)] ...
+		private bool _showRelativeToLastHover;
+		private System.Windows.Point _mouseOffsetFromWindowTopLeft;
 
 		public void ToggleVisibility(bool isLightroomActive)
 		{
 			if (this.IsVisible)
 			{
+				RememberHidePosition();
 				this.Hide();
 				return;
 			}
+
 			if (!isLightroomActive) return;
+
 			if (ViewModel.IsPinned)
 			{
 				this.Show();
 				return;
 			}
-			PositionAtMouse();
+
+			if (_showRelativeToLastHover)
+				PositionRelativeToMouse(_mouseOffsetFromWindowTopLeft);
+			else
+				PositionAtMouse();
+
 			this.Show();
+		}
+
+		private void RememberHidePosition()
+		{
+			if (!IsVisible)
+				return;
+
+			if (IsMouseOver)
+			{
+				var mouseScreen = GetMouseScreenPosition();
+				_mouseOffsetFromWindowTopLeft = new System.Windows.Point(
+					mouseScreen.X - Left,
+					mouseScreen.Y - Top);
+
+				_showRelativeToLastHover = true;
+			}
+			else
+			{
+				_showRelativeToLastHover = false;
+			}
+		}
+
+		private System.Windows.Point GetMouseScreenPosition()
+		{
+			var p = System.Windows.Forms.Control.MousePosition;
+			var scale = DpiHelper.GetDpiScaleFactorForMousePosition();
+			return new System.Windows.Point(p.X / scale, p.Y / scale);
+		}
+
+		private void PositionRelativeToMouse(System.Windows.Point offset)
+		{
+			Point mousePosition = System.Windows.Forms.Control.MousePosition;
+			System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromPoint(mousePosition);
+			var scale = DpiHelper.GetDpiScaleFactorForMousePosition();
+
+			var formWidth = Width;
+			var formHeight = Height;
+
+			var topLeft = new System.Windows.Point(screen.WorkingArea.Left / scale, screen.WorkingArea.Top / scale);
+			var bottomRight = new System.Windows.Point(screen.WorkingArea.Right / scale, screen.WorkingArea.Bottom / scale);
+
+			var x = mousePosition.X / scale - offset.X;
+			var y = mousePosition.Y / scale - offset.Y;
+
+			x = Math.Max(topLeft.X, Math.Min(x, bottomRight.X - formWidth));
+			y = Math.Max(topLeft.Y, Math.Min(y, bottomRight.Y - formHeight));
+
+			_prevScale = scale;
+
+			Left = x;
+			Top = y;
 		}
 
 		private void ControllerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			e.Cancel = true;
+			RememberHidePosition();
 			Hide();
 		}
 
