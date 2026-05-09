@@ -46,11 +46,10 @@
 	</ItemGroup>
 	<Target Name="CopyDeployFiles" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
 		<ItemGroup>
-			<FilesToCopy Include="$(TargetDir)**\*.*" />
+			<!-- Use the Exclude attribute to filter out the .env file -->
+			<FilesToCopy Include="$(TargetDir)**\*.*" Exclude="$(TargetDir)**\env" />
 		</ItemGroup>
 
-		<Copy
-		  SourceFiles="@(FilesToCopy)"
-		  DestinationFiles="@(FilesToCopy->'$(AppData)\Adobe\Lightroom\Modules\SpeedLR\%(RecursiveDir)%(Filename)%(Extension)')" />
+		<Copy SourceFiles="@(FilesToCopy)" DestinationFiles="@(FilesToCopy->'$(AppData)\Adobe\Lightroom\Modules\SpeedLR\%(RecursiveDir)%(Filename)%(Extension)')" />
 	</Target>
 </Project>
